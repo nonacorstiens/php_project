@@ -6,20 +6,19 @@ include_once("helpers/Security.class.php");
 session_start();
 
 // Enkel deze pagina tonen als er een user ingelogged is
-if(isset ($_SESSION['userName']) ){
-    $loggeduser = $_SESSION['userName'];
+if(isset ($_SESSION['username']) ){
+    $loggeduser = $_SESSION['username'];
     echo "logged user is ".$loggeduser;
 } else {
-    header('Location: login.php');
+    header('Location: register.php');
 }
 
 // Alle gegevens van ingelogde user binnenhalen
 $db = Db::getInstance();
 $user = new User($db);
-$user->setUserName($_SESSION['userName']);
+$user->setUserName($_SESSION['username']);
 
 $userInfo = $user->getValues();
-
 
 
 // Wijzig profielfoto

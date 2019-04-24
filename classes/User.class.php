@@ -172,32 +172,6 @@
                 }
             }
 
-            public function login(){
-                session_start();
-                $_SESSION['username'] = $this->username;
-                header("Location: index.php");
-            }
-    
-            public function canIlogin($pw){
-                $conn = new PDO("mysql:host=localhost;dbname=PHPotato", "root", "root", null);
-                $stm = $conn->prepare("SELECT * FROM users WHERE userName = :userName");
-                $stm->bindParam(":userName", $this->username);
-                $result = $stm->execute();
-                $user = $stm->fetch(PDO::FETCH_ASSOC);
-                
-                if(!empty($user)){
-                    if(password_verify($pw, $user['password']) ){
-                        return true;
-                        
-                    } else {
-                        throw new Exception("Password is invalid. Please try again.");
-                    }
-    
-                } else {
-                    throw new Exception("Username is invalid. Please try again.");
-                }
-            }
-
             public function editText(){
                 $conn = new PDO("mysql:host=localhost;dbname=PHPotato", "root", "root", null);
                 $stm = $conn->prepare("UPDATE user SET description = :description WHERE userName = :username");

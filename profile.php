@@ -6,8 +6,8 @@ include_once("helpers/Security.class.php");
 session_start();
 
 // Enkel deze pagina tonen als er een user ingelogged is
-if(isset ($_SESSION['username']) ){
-    $loggeduser = $_SESSION['username'];
+if(isset ($_SESSION['userName']) ){
+    $loggeduser = $_SESSION['userName'];
     echo "logged user is ".$loggeduser;
 } else {
     header('Location: login.php');
@@ -16,7 +16,7 @@ if(isset ($_SESSION['username']) ){
 // Alle gegevens van ingelogde user binnenhalen
 $db = Db::getInstance();
 $user = new User($db);
-$user->setUsername($_SESSION['username']);
+$user->setUserName($_SESSION['userName']);
 
 $userInfo = $user->getValues();
 

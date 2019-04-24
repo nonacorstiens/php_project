@@ -5,10 +5,9 @@
         private $userName;
         private $email;
         private $password;
-        private $db;
         private $image;
         private $description;
-        
+
         /**
          * Get the value of firstName
          */ 
@@ -173,9 +172,35 @@
                 }
             }
 
+            public function login(){
+                session_start();
+                $_SESSION['username'] = $this->username;
+                header("Location: index.php");
+            }
+    
+            public function canIlogin($pw){
+                $conn = new PDO("mysql:host=localhost;dbname=PHPotato", "root", "root", null);
+                $stm = $conn->prepare("SELECT * FROM users WHERE userName = :userName");
+                $stm->bindParam(":userName", $this->username);
+                $result = $stm->execute();
+                $user = $stm->fetch(PDO::FETCH_ASSOC);
+                
+                if(!empty($user)){
+                    if(password_verify($pw, $user['password']) ){
+                        return true;
+                        
+                    } else {
+                        throw new Exception("Password is invalid. Please try again.");
+                    }
+    
+                } else {
+                    throw new Exception("Username is invalid. Please try again.");
+                }
+            }
 
             public function editText(){
-                $stm = $this->db->prepare("UPDATE user SET description = :description WHERE userName = :username");
+                $conn = new PDO("mysql:host=localhost;dbname=PHPotato", "root", "root", null);
+                $stm = $conn->prepare("UPDATE user SET description = :description WHERE userName = :username");
                 $stm->bindParam(":username", $this->username);
                 $stm->bindParam(":description", $this->description);
                 $result = $stm->execute();
@@ -184,7 +209,8 @@
             }
     
             public function editEmail(){
-                $stm = $this->db->prepare("UPDATE user SET email = :email WHERE userName = :username");
+                $conn = new PDO("mysql:host=localhost;dbname=PHPotato", "root", "root", null);
+                $stm = $conn->prepare("UPDATE user SET email = :email WHERE userName = :username");
                 $stm->bindParam(":username", $this->username);
                 $stm->bindParam(":email", $this->email);
                 $result = $stm->execute();
@@ -193,7 +219,8 @@
             }
     
             public function editPassword($hash){
-                $stm = $this->db->prepare("UPDATE user SET password = :password WHERE userName = :username");
+                $conn = new PDO("mysql:host=localhost;dbname=PHPotato", "root", "root", null);
+                $stm = $conn->prepare("UPDATE user SET password = :password WHERE userName = :username");
                 $stm->bindParam(":username", $this->username);
                 $stm->bindParam(":password", $hash);
                 $result = $stm->execute();
@@ -202,8 +229,8 @@
             }
     
             public function getValues(){
-                
-                $stm = $this->db->prepare("SELECT * from user WHERE userName = :username");
+                $conn = new PDO("mysql:host=localhost;dbname=PHPotato", "root", "root", null);
+                $stm = $conn->prepare("SELECT * from user WHERE userName = :username");
                 $stm->bindParam(":username", $this->username);
                 $stm->execute();
     
@@ -226,7 +253,8 @@
                 $myname = random_string(10).$this->image['name'];
                 move_uploaded_file($this->image['tmp_name'], $save_path.$myname);
     
-                $stm = $this->db->prepare("UPDATE user SET image = :image WHERE userName = :username");
+                $conn = new PDO("mysql:host=localhost;dbname=PHPotato", "root", "root", null);
+                $stm = $conn->prepare("UPDATE user SET image = :image WHERE userName = :username");
                 $stm->bindParam(":username", $this->username);
                 $stm->bindParam(":image", $myname);
                 $stm->execute();

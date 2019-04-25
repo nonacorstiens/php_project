@@ -155,19 +155,13 @@
                 $password = Security::hash($this->password);
     
                 try {
-
-                        
-                        
-                        
-                        
-    
-                        $conn = Db::getInstance();
+                    $conn = Db::getInstance();
                     $statement = $conn->prepare("INSERT INTO user(firstName, lastName, userName, email, password) values (:firstName, :lastName, :userName, :email, :password)");
                     $statement->bindParam(":firstName", $this->firstName);
-                        $statement->bindParam(":lastName", $this->lastName);
-                        $statement->bindParam(":userName", $this->userName);
-                        $statement->bindParam(":email", $this->email);
-                        $statement->bindParam(":password", $password);
+                    $statement->bindParam(":lastName", $this->lastName);
+                    $statement->bindParam(":userName", $this->userName);
+                    $statement->bindParam(":email", $this->email);
+                    $statement->bindParam(":password", $password);
                     $result = $statement->execute();
                     
     
@@ -176,6 +170,26 @@
                 } catch ( Throwable $t ) {
                     return false;
                 }
+            }
+
+            public function login(){
+                // email en password opvragen
+                $conn = Db::getInstance();
+                // userName zoeken in db
+                $statement = $conn->prepare("SELECT * from user where userName = :userName");
+                $statement->bindParam(":userName", $this->userName);
+                $result = $statement->execute();
+
+                $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+                if(password_verify($this->password, $user['password'])){
+                        session_start();
+                        $_SESSION['userid'] = $user ['id'];
+                        header('Location: index.php');
+                }
+
+
             }
 
             public function editText(){

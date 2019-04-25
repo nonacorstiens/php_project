@@ -189,6 +189,23 @@ require_once("functions.inc.php");
                 }
             }
 
+            public function login(){
+                // email en password opvragen
+                $conn = Db::getInstance();
+                // userName zoeken in db
+                $statement = $conn->prepare("SELECT * from user where userName = :userName");
+                $statement->bindParam(":userName", $this->userName);
+                $result = $statement->execute();
+
+                $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+                if(password_verify($this->password, $user['password'])){
+                        $_SESSION['userid'] = $user['id'];
+                        header('Location: index.php');
+                        
+                }
+            }
+
             public function editText(){
                 $conn = new PDO("mysql:host=localhost;dbname=PHPotato", "root", "root", null);
                 $stm = $conn->prepare("UPDATE user SET description = :description WHERE userName = :username");

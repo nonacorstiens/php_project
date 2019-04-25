@@ -1,6 +1,6 @@
 <?php
     require_once("bootstrap.php");
-    $conn = new PDO("mysql:host=localhost;dbname=PHPotato;", "root", "root", null);
+        $conn = Db::getInstance();
         $statement = $conn->prepare("SELECT imageName FROM post");
         $result = $statement->execute(); 
         $image = $statement->fetch(PDO::FETCH_ASSOC);

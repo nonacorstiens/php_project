@@ -9,7 +9,6 @@ require_once("functions.inc.php");
         private $passwordConfirmation;
         private $image;
         private $description;
-
         /**
          * Get the value of firstName
          */ 
@@ -17,7 +16,6 @@ require_once("functions.inc.php");
         {
                 return $this->firstName;
         }
-
         /**
          * Set the value of firstName
          *
@@ -26,10 +24,8 @@ require_once("functions.inc.php");
         public function setFirstName($firstName)
         {
                 $this->firstName = $firstName;
-
                 return $this;
         }
-
         /**
          * Get the value of lastName
          */ 
@@ -37,7 +33,6 @@ require_once("functions.inc.php");
         {
                 return $this->lastName;
         }
-
         /**
          * Set the value of lastName
          *
@@ -46,10 +41,8 @@ require_once("functions.inc.php");
         public function setLastName($lastName)
         {
                 $this->lastName = $lastName;
-
                 return $this;
         }
-
         /**
          * Get the value of userName
          */ 
@@ -57,7 +50,6 @@ require_once("functions.inc.php");
         {
                 return $this->userName;
         }
-
         /**
          * Set the value of userName
          *
@@ -66,10 +58,8 @@ require_once("functions.inc.php");
         public function setUserName($userName)
         {
                 $this->userName = $userName;
-
                 return $this;
         }
-
         /**
          * Get the value of email
          */ 
@@ -77,7 +67,6 @@ require_once("functions.inc.php");
         {
                 return $this->email;
         }
-
         /**
          * Set the value of email
          *
@@ -86,10 +75,8 @@ require_once("functions.inc.php");
         public function setEmail($email)
         {
                 $this->email = $email;
-
                 return $this;
         }
-
         /**
          * Get the value of password
          */ 
@@ -97,7 +84,6 @@ require_once("functions.inc.php");
         {
                 return $this->password;
         }
-
         /**
          * Set the value of password
          *
@@ -106,10 +92,8 @@ require_once("functions.inc.php");
         public function setPassword($password)
         {
                 $this->password = $password;
-
                 return $this;
         }
-
         /**
          * Get the value of passwordConfirmation
          */ 
@@ -117,7 +101,6 @@ require_once("functions.inc.php");
         {
                 return $this->passwordConfirmation;
         }
-
         /**
          * Set the value of passwordConfirmation
          *
@@ -126,7 +109,6 @@ require_once("functions.inc.php");
         public function setPasswordConfirmation($passwordConfirmation)
         {
                 $this->passwordConfirmation = $passwordConfirmation;
-
                 return $this;
         }
         
@@ -134,36 +116,26 @@ require_once("functions.inc.php");
         {
                 return $this->image;
         }
-
          
         public function setImage($image)
         {
                 $this->image = $image;
-
                 return $this;
         }
-
         
         public function getDescription()
         {
                 return $this->description;
         }
-
         
         public function setDescription($description)
         {
                 $this->description = $description;
-
                 return $this;
         }
-
-
         public function register() {
-
                 
-
                 $password = Security::hash($this->password);
-
                 if (canRegister($this->email, $this->password, $this->passwordConfirmation)){
     
                         try {
@@ -188,7 +160,18 @@ require_once("functions.inc.php");
                         
                 }
             }
+           public function login(){
+                // email en password opvragen
+                $conn = Db::getInstance();
+                // userName zoeken in db
+                $statement = $conn->prepare("SELECT * from user where userName = :userName");
+                $statement->bindParam(":userName", $this->userName);
+                $result = $statement->execute();
 
+                $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+<<<<<<< HEAD
             public function login(){
                 // email en password opvragen
                 $conn = Db::getInstance();
@@ -206,6 +189,16 @@ require_once("functions.inc.php");
                 }
             }
 
+=======
+                if(password_verify($this->password, $user['password'])){
+                        session_start();
+                        $_SESSION['userid'] = $user ['id'];
+                        header('Location: index.php');
+                }
+
+
+            }
+>>>>>>> 8872bb675c5682951f1771b94531c2026dd2f406
             public function editText(){
                 $conn = new PDO("mysql:host=localhost;dbname=PHPotato", "root", "root", null);
                 $stm = $conn->prepare("UPDATE user SET description = :description WHERE userName = :username");
@@ -268,13 +261,9 @@ require_once("functions.inc.php");
                 $stm->execute();
             }
         
-
         
-
         
     }
-
   
-    
-
+       
 ?>

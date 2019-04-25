@@ -4,7 +4,10 @@
 
     if(!empty($_POST)){
         $user = new User();
+<<<<<<< HEAD
         session_start();
+=======
+>>>>>>> 8872bb675c5682951f1771b94531c2026dd2f406
         $user->setUserName($_POST['userName']);
         $user->setPassword($_POST['password']);
         $user->login();
@@ -45,9 +48,12 @@
                 <div class="form__field">
                     <input type="submit" value="Log in"> 
                 </div>
+<<<<<<< HEAD
                 <div class="form__field">
                     <a href="register.php">Register</a>
                 </div>
+=======
+>>>>>>> 8872bb675c5682951f1771b94531c2026dd2f406
             </form>
 
     

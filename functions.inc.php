@@ -1,7 +1,5 @@
 <?php 
 
-session_start();
-
 function isPasswordStrongEnough($password){
     if(strlen($password) < 8) {
         return false;

@@ -160,9 +160,11 @@ require_once("functions.inc.php");
 
         public function register() {
 
+                
+
                 $password = Security::hash($this->password);
 
-                
+                if (canRegister($this->email, $this->password, $this->passwordConfirmation)){
     
                         try {
         
@@ -181,7 +183,10 @@ require_once("functions.inc.php");
                         } catch ( Throwable $t ) {
                         return false;
                         }
-               
+                        
+                } else {
+                        
+                }
             }
 
             public function editText(){

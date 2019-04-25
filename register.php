@@ -18,7 +18,7 @@ if(!empty($_POST) ) {
 
     if ( $user->register() ) {
         $_SESSION['user'] = $user->getEmail();
-        header('location: index.php');
+        //header('location: index.php');
     }
 }
 

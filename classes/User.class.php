@@ -161,7 +161,7 @@ require_once("functions.inc.php");
                 }
             }
             public function login(){
-                // email en password opvragen
+                // username en password opvragen
                 $conn = Db::getInstance();
                 // userName zoeken in db
                 $statement = $conn->prepare("SELECT * from user where userName = :userName");

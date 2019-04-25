@@ -113,15 +113,21 @@
                 $password = Security::hash($this->password);
     
                 try {
+
+                        
+                        
+                        
+                        
     
-                    $conn = new PDO("mysql:host=localhost;dbname=PHPotato", "root", "root", null);
-                    $statement = $conn->prepare("INSERT INTO user(firstName, lastName, userName, email, password) values(:firstName, :lastName, :userName, :email, :password)");
+                        $conn = Db::getInstance();
+                    $statement = $conn->prepare("INSERT INTO user(firstName, lastName, userName, email, password) values (:firstName, :lastName, :userName, :email, :password)");
                     $statement->bindParam(":firstName", $this->firstName);
                         $statement->bindParam(":lastName", $this->lastName);
                         $statement->bindParam(":userName", $this->userName);
                         $statement->bindParam(":email", $this->email);
                         $statement->bindParam(":password", $password);
                     $result = $statement->execute();
+                    
     
                     return $result;
                     

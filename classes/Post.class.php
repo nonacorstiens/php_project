@@ -55,7 +55,7 @@
         }
 
         public function uploadImage(){
-            if(!empty($this->image)){
+            if(!empty($this->image && $this->imageDescription)){
                 $conn = new PDO("mysql:host=localhost;dbname=PHPotato;", "root", "root", null);
                 $statement = $conn->prepare("INSERT INTO post(imageName,imageDescription) values(:image, :imageDescription)");
                 $statement->bindParam(":image", $this->image);

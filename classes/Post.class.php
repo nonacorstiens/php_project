@@ -1,11 +1,12 @@
 <?php
     class Post{
-        private $upload; 
-        private $uploadDescription; 
+        private $image; 
+        private $imageDescription; 
+        private $imageCrop;
         
-        public function getUploadDescription()
+        public function getImageDescription()
         {
-                return $this->uploadDescription;
+                return $this->imageDescription;
         }
 
         /**
@@ -13,19 +14,16 @@
          *
          * @return  self
          */ 
-        public function setUploadDescription($uploadDescription)
+        public function setImageDescription($imageDescription)
         {
-                $this->uploadDescription = $uploadDescription;
+                $this->imageDescription = $imageDescription;
 
                 return $this;
         }
 
-        /**
-         * Get the value of upload
-         */ 
-        public function getUpload()
+        public function getImage()
         {
-                return $this->upload;
+                return $this->image;
         }
 
         /**
@@ -33,40 +31,44 @@
          *
          * @return  self
          */ 
-        public function setUpload($upload)
+        public function setImage($image)
         {
-                $this->upload = $upload;
+                $this->image = $image;
+
+                return $this;
+        }
+        public function getImageCrop()
+        {
+                return $this->imageCrop;
+        }
+
+        /**
+         * Set the value of uploadCrop
+         *
+         * @return  self
+         */ 
+        public function setImageCrop($imageCrop)
+        {
+                $this->imageCrop = $imageCrop;
 
                 return $this;
         }
 
-        public function uploadFile(){
-            if(!empty($this->upload)){
+        public function uploadImage(){
+            if(!empty($this->image && $this->imageDescription)){
                 $conn = new PDO("mysql:host=localhost;dbname=PHPotato;", "root", "root", null);
-                $statement = $conn->prepare("INSERT INTO post(image,description) values(:upload, :uploadDescription)");
-                $statement->bindParam(":upload", $this->upload);
-                $statement->bindParam(":uploadDescription", $this->uploadDescription);
+                $statement = $conn->prepare("INSERT INTO post(imageName,imageDescription) values(:image, :imageDescription)");
+                $statement->bindParam(":image", $this->image);
+                $statement->bindParam(":imageDescription", $this->imageDescription);
                 $result = $statement->execute(); 
                 return true;
-                //$uploadCheck = true;
-                //return $uploadCheck;
-                //if(!empty($_POST['uploadDescription'])){
-                    //$descriptionCheck = true;
-                    //$result = $statement->execute();
-                    //return $result;
-                    //return $descriptionCheck;
                 }
                 else{
                     echo "error";
-                    //$descriptionCheck = false;
-                    //return $descriptionCheck;
                 }
-            //}
-            //else{
-                //$uploadCheck = false;
-                //return $uploadCheck;
-            //}*/
+       
         }
+       
     }
 
   

@@ -1,17 +1,27 @@
 <?php
     require_once("bootstrap.php");
+    $conn = new PDO("mysql:host=localhost;dbname=PHPotato;", "root", "root", null);
+        $statement = $conn->prepare("SELECT imageName FROM post");
+        $result = $statement->execute(); 
+        $image = $statement->fetch(PDO::FETCH_ASSOC);
 
     
     $errorDescription="0";
     $errorUpload="0";
 
-    if(isset($_POST['submit'])){
+    if(isset($_POST['submit'])){ // wanneer de submit button ingedrukt is
+        $target_dir = "uploads/"; // de directory waar de file wordt geplaats
+        $target_file = $target_dir . basename($_FILES['image']["name"]); // path of the file
+
         $post = new Post();
-        $post->setUploadDescription($_POST['uploadDescription']);
-        $post->setUpload(addslashes(file_get_contents($_FILES['upload']['tmp_name'])));
-        $post->uploadFile();
-        $errorUpload=addslashes(file_get_contents($_FILES['upload']['tmp_name']));
-        $errorDescription = $_POST['uploadDescription'];
+        $post->setImageDescription($_POST['imageDescription']);
+        $post->setImage($_FILES['image']['name']);
+        $post->uploadImage();
+        $im = imagecreatefromjpeg($_FILES['image']['tmp_name']);
+        $imageCrop = imagecrop($im, ['x' => 0, 'y' => 0, "width"=>150, "height" =>150]);
+        move_uploaded_file($_FILES['image']['tmp_name'],$target_file);
+        $errorUpload= $post->getImage();
+        $errorDescription = $post->getImageDescription();
     }
 ?>
 <!DOCTYPE html>
@@ -33,7 +43,7 @@
                 echo "errorMessage";
             }
         ?>>Please select an image</p>
-        <input type="file" name="upload" id="upload">
+        <input type="file" name="image" id="upload">
         <br/>
         <p id ="errorDescription" class=<?php
             if($errorDescription != ""){
@@ -43,10 +53,13 @@
                 echo "errorMessage";
             }
         ?>>Please write a description</p>
-        <input type="text" name="uploadDescription" id="uploadDescription" placeholder="What is this photo about?">
+        <input type="text" cols='40' name="imageDescription" id="uploadDescription" placeholder="Say something about this image">
         <br/>
         <input type="submit" name="submit" id="submit" value="upload">
     </form>
+
+    <img src="<?php echo "uploads/" . $image["imageName"];?>">
+
 
 
     <script

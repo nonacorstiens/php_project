@@ -1,10 +1,12 @@
 <?php
+require_once("functions.inc.php");
     class User{
         private $firstName; 
         private $lastName; 
         private $userName;
         private $email;
         private $password;
+        private $passwordConfirmation;
         private $image;
         private $description;
 
@@ -107,6 +109,26 @@
 
                 return $this;
         }
+
+        /**
+         * Get the value of passwordConfirmation
+         */ 
+        public function getPasswordConfirmation()
+        {
+                return $this->passwordConfirmation;
+        }
+
+        /**
+         * Set the value of passwordConfirmation
+         *
+         * @return  self
+         */ 
+        public function setPasswordConfirmation($passwordConfirmation)
+        {
+                $this->passwordConfirmation = $passwordConfirmation;
+
+                return $this;
+        }
         
         public function getImage()
         {
@@ -135,47 +157,31 @@
                 return $this;
         }
 
-        public function canIregister(){
-            $conn = new PDO("mysql:host=localhost;dbname=PHPotato", "root", "root", null);
-            $stm = $conn->prepare("SELECT * FROM users WHERE (username=:username or email=:email)");
-            $stm->bindParam(":username", $this->username);
-            $stm->bindParam(":email", $this->email);
-            $result = $stm->execute();
-            $user = $stm->fetch(PDO::FETCH_ASSOC);
-            
-            if($user['username'] == $this->username){
-                throw new Exception('Username already exists. Please choose a different username.');
-            } else if($this->email == $user['email']) {
-                throw new Exception('Email already exists. Please choose a different username.');
-            }
-        }
 
         public function register() {
 
                 $password = Security::hash($this->password);
-    
-                try {
 
-                        
-                        
-                        
-                        
+                
     
-                        $conn = Db::getInstance();
-                    $statement = $conn->prepare("INSERT INTO user(firstName, lastName, userName, email, password) values (:firstName, :lastName, :userName, :email, :password)");
-                    $statement->bindParam(":firstName", $this->firstName);
-                        $statement->bindParam(":lastName", $this->lastName);
-                        $statement->bindParam(":userName", $this->userName);
-                        $statement->bindParam(":email", $this->email);
-                        $statement->bindParam(":password", $password);
-                    $result = $statement->execute();
-                    
-    
-                    return $result;
-                    
-                } catch ( Throwable $t ) {
-                    return false;
-                }
+                        try {
+        
+                                $conn = Db::getInstance();
+                                $statement = $conn->prepare("INSERT INTO user(firstName, lastName, userName, email, password) values (:firstName, :lastName, :userName, :email, :password)");
+                                $statement->bindParam(":firstName", $this->firstName);
+                                $statement->bindParam(":lastName", $this->lastName);
+                                $statement->bindParam(":userName", $this->userName);
+                                $statement->bindParam(":email", $this->email);
+                                $statement->bindParam(":password", $password);
+                                $result = $statement->execute();
+                        
+        
+                        return $result;
+                        
+                        } catch ( Throwable $t ) {
+                        return false;
+                        }
+               
             }
 
             public function editText(){
@@ -239,6 +245,8 @@
                 $stm->bindParam(":image", $myname);
                 $stm->execute();
             }
+        
+
         
 
         

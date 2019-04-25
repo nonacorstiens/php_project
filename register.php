@@ -13,6 +13,8 @@ if(!empty($_POST) ) {
     $user->setUserName($_POST['userName']);
     $user->setEmail($_POST['email']);
     $user->setPassword($_POST['password']);
+    $user->setPasswordConfirmation($_POST['passwordConfirmation']);
+
 
     if ( $user->register() ) {
         $_SESSION['user'] = $user->getEmail();
@@ -65,8 +67,8 @@ if(!empty($_POST) ) {
                 </div>
  
                 <div class="form__field">
-                    <label for="password_confirmation">Confirm your password</label>
-                    <input type="password" id="password_confirmation" name="password_confirmation">
+                    <label for="passwordConfirmation">Confirm your password</label>
+                    <input type="password" id="passwordConfirmation" name="passwordConfirmation">
                 </div>
  
                 <div class="form__field">

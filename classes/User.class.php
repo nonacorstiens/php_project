@@ -1,13 +1,14 @@
 <?php
+require_once("functions.inc.php");
     class User{
         private $firstName; 
         private $lastName; 
         private $userName;
         private $email;
         private $password;
+        private $passwordConfirmation;
         private $image;
         private $description;
-
         /**
          * Get the value of firstName
          */ 
@@ -15,7 +16,6 @@
         {
                 return $this->firstName;
         }
-
         /**
          * Set the value of firstName
          *
@@ -24,10 +24,8 @@
         public function setFirstName($firstName)
         {
                 $this->firstName = $firstName;
-
                 return $this;
         }
-
         /**
          * Get the value of lastName
          */ 
@@ -35,7 +33,6 @@
         {
                 return $this->lastName;
         }
-
         /**
          * Set the value of lastName
          *
@@ -44,10 +41,8 @@
         public function setLastName($lastName)
         {
                 $this->lastName = $lastName;
-
                 return $this;
         }
-
         /**
          * Get the value of userName
          */ 
@@ -55,7 +50,6 @@
         {
                 return $this->userName;
         }
-
         /**
          * Set the value of userName
          *
@@ -64,10 +58,8 @@
         public function setUserName($userName)
         {
                 $this->userName = $userName;
-
                 return $this;
         }
-
         /**
          * Get the value of email
          */ 
@@ -75,7 +67,6 @@
         {
                 return $this->email;
         }
-
         /**
          * Set the value of email
          *
@@ -84,10 +75,8 @@
         public function setEmail($email)
         {
                 $this->email = $email;
-
                 return $this;
         }
-
         /**
          * Get the value of password
          */ 
@@ -95,7 +84,6 @@
         {
                 return $this->password;
         }
-
         /**
          * Set the value of password
          *
@@ -104,7 +92,23 @@
         public function setPassword($password)
         {
                 $this->password = $password;
-
+                return $this;
+        }
+        /**
+         * Get the value of passwordConfirmation
+         */ 
+        public function getPasswordConfirmation()
+        {
+                return $this->passwordConfirmation;
+        }
+        /**
+         * Set the value of passwordConfirmation
+         *
+         * @return  self
+         */ 
+        public function setPasswordConfirmation($passwordConfirmation)
+        {
+                $this->passwordConfirmation = $passwordConfirmation;
                 return $this;
         }
         
@@ -112,67 +116,51 @@
         {
                 return $this->image;
         }
-
          
         public function setImage($image)
         {
                 $this->image = $image;
-
                 return $this;
         }
-
         
         public function getDescription()
         {
                 return $this->description;
         }
-
         
         public function setDescription($description)
         {
                 $this->description = $description;
-
                 return $this;
         }
-
-        public function canIregister(){
-            $conn = new PDO("mysql:host=localhost;dbname=PHPotato", "root", "root", null);
-            $stm = $conn->prepare("SELECT * FROM users WHERE (username=:username or email=:email)");
-            $stm->bindParam(":username", $this->username);
-            $stm->bindParam(":email", $this->email);
-            $result = $stm->execute();
-            $user = $stm->fetch(PDO::FETCH_ASSOC);
-            
-            if($user['username'] == $this->username){
-                throw new Exception('Username already exists. Please choose a different username.');
-            } else if($this->email == $user['email']) {
-                throw new Exception('Email already exists. Please choose a different username.');
-            }
-        }
-
         public function register() {
-
+                
                 $password = Security::hash($this->password);
+                if (canRegister($this->email, $this->password, $this->passwordConfirmation)){
     
-                try {
-                    $conn = Db::getInstance();
-                    $statement = $conn->prepare("INSERT INTO user(firstName, lastName, userName, email, password) values (:firstName, :lastName, :userName, :email, :password)");
-                    $statement->bindParam(":firstName", $this->firstName);
-                    $statement->bindParam(":lastName", $this->lastName);
-                    $statement->bindParam(":userName", $this->userName);
-                    $statement->bindParam(":email", $this->email);
-                    $statement->bindParam(":password", $password);
-                    $result = $statement->execute();
-                    
-    
-                    return $result;
-                    
-                } catch ( Throwable $t ) {
-                    return false;
+                        try {
+        
+                                $conn = Db::getInstance();
+                                $statement = $conn->prepare("INSERT INTO user(firstName, lastName, userName, email, password) values (:firstName, :lastName, :userName, :email, :password)");
+                                $statement->bindParam(":firstName", $this->firstName);
+                                $statement->bindParam(":lastName", $this->lastName);
+                                $statement->bindParam(":userName", $this->userName);
+                                $statement->bindParam(":email", $this->email);
+                                $statement->bindParam(":password", $password);
+                                $result = $statement->execute();
+                        
+        
+                        return $result;
+                        
+                        } catch ( Throwable $t ) {
+                        return false;
+                        }
+                        
+                } else {
+                        
                 }
             }
-
-            public function login(){
+           public function login(){
                 // email en password opvragen
                 $conn = Db::getInstance();
                 // userName zoeken in db
@@ -191,7 +179,6 @@
 
 
             }
-
             public function editText(){
                 $conn = new PDO("mysql:host=localhost;dbname=PHPotato", "root", "root", null);
                 $stm = $conn->prepare("UPDATE user SET description = :description WHERE userName = :username");
@@ -254,11 +241,9 @@
                 $stm->execute();
             }
         
-
+        
         
     }
-
   
-    
-
+       
 ?>

@@ -167,14 +167,21 @@ require_once("functions.inc.php");
                 $statement = $conn->prepare("SELECT * from user where userName = :userName");
                 $statement->bindParam(":userName", $this->userName);
                 $result = $statement->execute();
-
                 $user = $statement->fetch(PDO::FETCH_ASSOC);
-
-                if(password_verify($this->password, $user['password'])){
-                        $_SESSION['userid'] = $user['id'];
-                        header('Location: index.php');
+                
+                if($user != false){
+                        if(password_verify($this->password, $user['password'])){
+                                return true;     
+                        }
+                        else{
+                                return false;        
+                        }
+                }
+                else{
+                        return false;
                         
                 }
+              
             }
             
             public function editText(){

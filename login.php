@@ -1,13 +1,19 @@
 <?php
     require_once("bootstrap.php");
-
-
+    $message = "";
     if(!empty($_POST)){
         $user = new User();
-        session_start();
         $user->setUserName($_POST['userName']);
         $user->setPassword($_POST['password']);
         $user->login();
+        if($user->login() != true){
+            $message = "You entered a wrong username or password";
+        }
+        else{
+            header('Location: index.php');
+            $_SESSION['userid'] = $user['id'];  
+        }
+    
     }
 
 ?>
@@ -28,9 +34,9 @@
 <form action="" method="post">
                 <h2 form__title>Log in to your account</h2>
  
-                <div class="form__error hidden">
+                <div class="form__error">
                     <p>
-                        Some error here
+                        <?php echo $message; ?>
                     </p>
                 </div>
                 <div class="form__field">
@@ -44,9 +50,6 @@
  
                 <div class="form__field">
                     <input type="submit" value="Log in"> 
-                </div>
-                <div class="form__field">
-                    <a href="register.php">Register</a>
                 </div>
             </form>
 

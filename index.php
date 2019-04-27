@@ -1,6 +1,10 @@
 <?php
 session_start();
-var_dump($_SESSION['userid']);
+if (isset( $_SESSION['userid'])){
+
+} else {
+  header("Location: login.php");
+}
 
 ?>
 <!DOCTYPE html>

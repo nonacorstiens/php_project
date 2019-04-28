@@ -10,20 +10,25 @@
     $errorUpload="0";
 
     if(isset($_POST['submit'])){ // wanneer de submit button ingedrukt is
-        $target_dir = "uploads/"; // de directory waar de file wordt geplaats
+        $target_dir = "uploads/full/";
+        $target_dir_crop = "uploads/cropped/"; // de directory waar de file wordt geplaats
         $target_file = $target_dir . basename($_FILES['image']["name"]); // path of the file
+        $target_file_cropped = $target_dir_crop . basename($_FILES['image']["name"]);
 
         $post = new Post();
         $post->setImageDescription($_POST['imageDescription']);
         $post->setImage($_FILES['image']['name']);
         $post->uploadImage();
-        $im = imagecreatefromjpeg($_FILES['image']['tmp_name']);
-        $imageCrop = imagecrop($im, ['x' => 0, 'y' => 0, "width"=>150, "height" =>150]);
-        move_uploaded_file($_FILES['image']['tmp_name'],$target_file);
+        move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
+        $im = imagecreatefromjpeg("uploads/full/foto3.jpg");
+        $imageCrop = imagecrop($im, ['x' => 0, 'y' => 0, 'width' => 400, 'height' => 400]);
+    
+        
         $errorUpload= $post->getImage();
         $errorDescription = $post->getImageDescription();
     }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,7 +63,7 @@
         <input type="submit" name="submit" id="submit" value="upload">
     </form>
 
-    <img src="<?php echo "uploads/" . $image["imageName"];?>">
+    <img src="<?php echo $im;?>">
 
 
 

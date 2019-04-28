@@ -49,10 +49,10 @@
                         $fileLocation = $target_dir . $newFileName;
                         move_uploaded_file($imageFile["tmp_name"], $fileLocation); // 'tmp' checkt of het een valabele file is upgeload via POST mechanisme. 
                         return $fileLocation;
+                        
                     }
-                catch(Throwable $t){
-                    return $t;
-                    var_dump($t->getMessage());
+                catch(Exception $e){
+                    return $e;               
                 }
         }
 

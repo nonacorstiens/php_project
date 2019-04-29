@@ -1,14 +1,21 @@
 <?php
  require_once("bootstrap.php");
-
-if(isset($_POST['submit'])){
-    $post = new Post();
-    $post->setImageDescription($_POST['imageDescription']);
-    $im = $post->uploadImage($_FILES['image']);
-    $post->setImage($im);
-    $post->uploadDB();
-}
-
+ $result = "";
+ 
+    if(isset($_POST['submit'])){
+        if(!empty($_FILES['image']) && !empty($_POST['imageDescription'])){
+            $post = new Post();
+            $post->setImageDescription($_POST['imageDescription']);
+            $im = $post->uploadImage($_FILES['image']);
+            $post->setImage($im);
+            $post->uploadDB(); 
+            $result = $im->getMessage();
+        }
+        else{
+            $result = "OOPS, make sure you choose a picture and don't forget to write a description";
+        }
+    }
+   
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,11 +24,12 @@ if(isset($_POST['submit'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css">
-    <title>Document</title>
+    <title>Upload page</title>
 </head>
 <body>
+    <h1>Upload your picture here</h1>
     <form action="" method="POST" enctype="multipart/form-data" id="uploadForm">
-        <p id ="errorUpload" class="hidden">Please select an image</p>
+        <p id ="errorUpload" class="errorMessage"><?php echo $result; ?></p>
         <input type="file" name="image" id="upload">
         <br/>
         <p id ="errorDescription" class="hidden">Please write a description</p>

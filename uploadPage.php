@@ -9,7 +9,14 @@
             $im = $post->uploadImage($_FILES['image']);
             $post->setImage($im);
             $post->uploadDB(); 
+            if(is_string($im)){
+                $result = $im;
+                $post->cropImage($result);
+            }
+            else{
             $result = $im->getMessage();
+            }
+            
         }
         else{
             $result = "OOPS, make sure you choose a picture and don't forget to write a description";
@@ -24,12 +31,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <title>Upload page</title>
 </head>
 <body>
     <h1>Upload your picture here</h1>
     <form action="" method="POST" enctype="multipart/form-data" id="uploadForm">
         <p id ="errorUpload" class="errorMessage"><?php echo $result; ?></p>
+        <img src="" id="imagePreview" width="400px">
         <input type="file" name="image" id="upload">
         <br/>
         <p id ="errorDescription" class="hidden">Please write a description</p>
@@ -45,7 +54,17 @@
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
 	<script>
-        
+        function readURL(input){ 
+            var reader = new FileReader();
+
+            reader.onload = function(e){
+                $('#imagePreview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+        $("#upload").change(function(){
+            readURL(this); // functie aanroepen wanneer uploadform wijzigt
+        });
     </script>
 </body>
 </html>

@@ -48,11 +48,9 @@
                         $newFileName = uniqid('', true) . "." . $fileType; //uniqid creeert nieuwe naam timebased. lege prefix zorgt voor 13 karakters lang. True voor extra annex.
                         $fileLocation = $target_dir . $newFileName;
                         move_uploaded_file($imageFile["tmp_name"], $fileLocation); // 'tmp' checkt of het een valabele file is upgeload via POST mechanisme. 
-                        return $fileLocation;
-                        
+                        return $fileLocation;  
                     }
                 catch(Exception $e){
-                    echo $e->getMessage();
                     return $e;               
                 }
         }
@@ -84,11 +82,56 @@
                 $result = $statement->execute(); 
                 return true;
                 }
-                else{
-                    echo "error";
-                }
+               
        
         }
+
+        public function cropImage($imageLink){
+                try{
+                        $image = Post::createImageByType($imageLink);//image aanmaken van de geuploade file
+
+                        $centerX = imagesx($image)/2;
+                        $centerY = imagesy($image)/2; //centerpunt bepalen
+
+                        $size = 2000; //grootte crop bepalen
+
+                        $x = $centerX -($size / 2);
+                        $y = $centerY -($size / 2); // crop in het midden plaatsen
+
+                        $rect = ['x' => $x, 'y' => $y, 'width' => $size, 'height' => $size];
+
+                        $imageCrop = imagecrop($image, $rect);
+
+                        $newFileName = uniqid('', true) . ".jpeg"; 
+
+                        $fileLocation = "uploads/cropped/" . $newFileName;
+
+                        imagejpeg($imageCrop, $fileLocation);
+
+                        imagedestroy($imageCrop);
+
+                        return $fileLocation;
+
+                }
+                catch(Exception $e){
+
+                }
+        }
+
+        private static function createImageByType($imageFile){
+                $fileAnnex = explode(".", $imageFile);
+                $fileType = strtolower(end($fileAnnex));
+                switch($fileType){
+                    case "png":
+                        return imagecreatefrompng($imageFile);
+                        break;
+                    case "gif":
+                        return imagecreatefromgif($imageFile);
+                        break;
+                    default:
+                        return imagecreatefromjpeg($imageFile);
+                }
+            }
        
     }
 

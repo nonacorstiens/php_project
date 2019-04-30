@@ -27,6 +27,10 @@ if (isset( $_SESSION['userid'])){
                 <p class="postDescription">KIDS</p>
                 <img class="postImage" src="uploads/cropped/5cc87a1cc3a460.02144669.jpeg">
                 <br>
+
+                <a>Like</a>
+                <br>
+                
                 <input type="text" placeholder="Say something about this picture" id="postComment" name="postComment" />
                 <input id="btnSubmit" type="submit" value="Comment" />
 

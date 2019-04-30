@@ -2,6 +2,7 @@
     class Post{
         private $image; 
         private $imageDescription; 
+        private $imageCrop;
         
         public function getImageDescription()
         {
@@ -33,6 +34,26 @@
         public function setImage($image)
         {
                 $this->image = $image;
+                return $this;
+        }
+
+                /**
+         * Get the value of imageCrop
+         */ 
+        public function getImageCrop()
+        {
+                return $this->imageCrop;
+        }
+
+        /**
+         * Set the value of imageCrop
+         *
+         * @return  self
+         */ 
+        public function setImageCrop($imageCrop)
+        {
+                $this->imageCrop = $imageCrop;
+
                 return $this;
         }
 
@@ -76,8 +97,9 @@
         public function uploadDB(){
             if(!empty($this->image && $this->imageDescription)){
                 $conn = Db::getInstance();
-                $statement = $conn->prepare("INSERT INTO post(imageName,imageDescription) values(:image, :imageDescription)");
+                $statement = $conn->prepare("INSERT INTO post(imageName,imageDescription, imageCrop) values(:image, :imageDescription, :imageCrop)");
                 $statement->bindParam(":image", $this->image);
+                $statement->bindParam(":imageCrop", $this->imageCrop);
                 $statement->bindParam(":imageDescription", $this->imageDescription);
                 $result = $statement->execute(); 
                 return true;
@@ -133,6 +155,8 @@
                 }
             }
        
+
+
     }
 
   

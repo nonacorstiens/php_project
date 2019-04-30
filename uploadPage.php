@@ -7,11 +7,12 @@
             $post = new Post();
             $post->setImageDescription($_POST['imageDescription']);
             $im = $post->uploadImage($_FILES['image']);
-            $post->setImage($im);
-            $post->uploadDB(); 
+            $post->setImage($im); 
             if(is_string($im)){
                 $result = $im;
-                $post->cropImage($result);
+                $croppedImage = $post->cropImage($result);
+                $post->setImageCrop($croppedImage);
+                $post->uploadDB();
             }
             else{
             $result = $im->getMessage();

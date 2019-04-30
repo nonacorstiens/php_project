@@ -37,3 +37,10 @@
 .hidden{
     display: none;
 }
+
+.picture_grid{
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+}

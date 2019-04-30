@@ -154,6 +154,13 @@
                         return imagecreatefromjpeg($imageFile);
                 }
             }
+
+        public static function getAll(){
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("select * from post order by uploadDate desc");
+            $result = $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_CLASS, __CLASS__);  
+        }
        
 
 

@@ -1,7 +1,8 @@
 <?php
  require_once("bootstrap.php");
  $result = "";
- 
+ session_start();
+
     if(isset($_POST['submit'])){
         if(!empty($_FILES['image']) && !empty($_POST['imageDescription'])){
             $post = new Post();
@@ -12,7 +13,8 @@
                 $result = $im;
                 $croppedImage = $post->cropImage($result);
                 $post->setImageCrop($croppedImage);
-                $post->uploadDB();
+                $post->uploadDB();  
+                header('Location: index.php');
             }
             else{
             $result = $im->getMessage();

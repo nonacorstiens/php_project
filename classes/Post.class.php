@@ -115,7 +115,7 @@
                         $centerX = imagesx($image)/2;
                         $centerY = imagesy($image)/2; //centerpunt bepalen
 
-                        $size = 2000; //grootte crop bepalen
+                        $size = 500; //grootte crop bepalen
 
                         $x = $centerX -($size / 2);
                         $y = $centerY -($size / 2); // crop in het midden plaatsen

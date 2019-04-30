@@ -9,6 +9,8 @@ require_once("functions.inc.php");
         private $passwordConfirmation;
         private $image;
         private $description;
+        private $id;
+
         /**
          * Get the value of firstName
          */ 
@@ -133,6 +135,26 @@ require_once("functions.inc.php");
                 $this->description = $description;
                 return $this;
         }
+
+          /**
+         * Get the value of id
+         */ 
+        public function getId()
+        {
+                return $this->id;
+        }
+
+        /**
+         * Set the value of id
+         *
+         * @return  self
+         */ 
+        public function setId($id)
+        {
+                $this->id = $id;
+
+                return $this;
+        }
         public function register() {
                 
                 $password = Security::hash($this->password);
@@ -160,6 +182,8 @@ require_once("functions.inc.php");
                         
                 }
             }
+            
+
             public function login(){
                 // username en password opvragen
                 $conn = Db::getInstance();
@@ -171,6 +195,7 @@ require_once("functions.inc.php");
                 
                 if($user != false){
                         if(password_verify($this->password, $user['password'])){
+                                $this->id = $user['id'];
                                 return true;     
                         }
                         else{
@@ -248,6 +273,8 @@ require_once("functions.inc.php");
         
         
         
+
+      
     }
   
        

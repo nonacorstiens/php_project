@@ -1,6 +1,8 @@
 <?php
     require_once("bootstrap.php");
     $message = "";
+    session_start();
+
     if(!empty($_POST)){
         $user = new User();
         $user->setUserName($_POST['userName']);
@@ -10,8 +12,9 @@
             $message = "You entered a wrong username or password";
         }
         else{
+            $id = $user->getId();
+            $_SESSION['userid'] = $id;  
             header('Location: index.php');
-            $_SESSION['userid'] = $user['id'];  
         }
     
     }

@@ -44,7 +44,7 @@
                         $fileSize = $imageFile["size"];
                         Post::checkSize($fileSize);
         
-                        $target_dir = "uploads/full";
+                        $target_dir = "uploads/full/";
                         $newFileName = uniqid('', true) . "." . $fileType; //uniqid creeert nieuwe naam timebased. lege prefix zorgt voor 13 karakters lang. True voor extra annex.
                         $fileLocation = $target_dir . $newFileName;
                         move_uploaded_file($imageFile["tmp_name"], $fileLocation); // 'tmp' checkt of het een valabele file is upgeload via POST mechanisme. 

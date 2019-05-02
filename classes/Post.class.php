@@ -5,6 +5,7 @@
         private $imageDescription;
         private $imageCrop;
         private $userId;
+        private $location;
 
         public function getImageDescription()
         {
@@ -76,6 +77,26 @@
         public function setUserId($userId)
         {
             $this->userId = $userId;
+
+            return $this;
+        }
+
+        /**
+         * Get the value of location.
+         */
+        public function getLocation()
+        {
+            return $this->location;
+        }
+
+        /**
+         * Set the value of location.
+         *
+         * @return self
+         */
+        public function setLocation($location)
+        {
+            $this->location = $location;
 
             return $this;
         }

@@ -45,12 +45,11 @@ if (isset($_SESSION['userid'])) {
                     <br>
                     <a>Like</a>
                     <br>
-                    <input type="text" placeholder="Say something about this picture" id="postComment" name="postComment" />
-                    <br>
-                    <input id="btnSubmit" type="submit" value="Comment" />
+                    <input type="text" placeholder="Say something about this picture" class="postComment" name="postComment" />
+                    <input type="submit" class="btnSubmit" name="postComment" value="Comment" data-input=".postComment" />
 
-                    <ul id="post_comment_updates">
-
+                    <ul class="post_comment_updates">
+              
                     </ul>
                 </div>
 
@@ -59,5 +58,33 @@ if (isset($_SESSION['userid'])) {
             <?php
 } ?>
     </div>
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+    <script>
+        $(".btnSubmit").on('click', function(e){
+            var comment = $(this).prev().val();
+            console.log(comment);
+            $.ajax({
+					method: "POST",
+					url: "ajax/postcomment.php",
+					data: { comment: comment},
+					dataType: "json" // belangrijk!
+					})
+                    .done(function( response ) { // dit is de json die je hebt teruggestuurd (success of error)
+						if(response.status == 'success'){
+							var li = "<li>" + comment + "</li>";
+                            console.log(li);
+							$(".post_comment_updates").append(li); 
+							//$(".postComment").val("").focus();
+							$(".post_comment_updates li").last().slideDown();
+						}
+					});
+
+            e.preventDefault();
+        });
+        
+    </script>
 </body>
 </html>

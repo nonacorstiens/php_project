@@ -11,10 +11,7 @@ require_once 'functions.inc.php';
         private $passwordConfirmation;
         private $image;
         private $description;
-<<<<<<< HEAD
-=======
         private $id;
->>>>>>> 81fad7bf8fa1badca703546d9783c7cc41dd66d8
 
         /**
          * Get the value of firstName.
@@ -155,8 +152,27 @@ require_once 'functions.inc.php';
 
         public function setDescription($description)
         {
-<<<<<<< HEAD
             $this->description = $description;
+
+            return $this;
+        }
+
+        /**
+         * Get the value of id.
+         */
+        public function getId()
+        {
+            return $this->id;
+        }
+
+        /**
+         * Set the value of id.
+         *
+         * @return self
+         */
+        public function setId($id)
+        {
+            $this->id = $id;
 
             return $this;
         }
@@ -180,170 +196,29 @@ require_once 'functions.inc.php';
                     return false;
                 }
             } else {
-=======
-                $this->description = $description;
-                return $this;
-        }
-
-          /**
-         * Get the value of id
-         */ 
-        public function getId()
-        {
-                return $this->id;
-        }
-
-        /**
-         * Set the value of id
-         *
-         * @return  self
-         */ 
-        public function setId($id)
-        {
-                $this->id = $id;
-
-                return $this;
-        }
-        public function register() {
-                
-                $password = Security::hash($this->password);
-                if (canRegister($this->email, $this->password, $this->passwordConfirmation)){
-    
-                        try {
-        
-                                $conn = Db::getInstance();
-                                $statement = $conn->prepare("INSERT INTO user(firstName, lastName, userName, email, password) values (:firstName, :lastName, :userName, :email, :password)");
-                                $statement->bindParam(":firstName", $this->firstName);
-                                $statement->bindParam(":lastName", $this->lastName);
-                                $statement->bindParam(":userName", $this->userName);
-                                $statement->bindParam(":email", $this->email);
-                                $statement->bindParam(":password", $password);
-                                $result = $statement->execute();
-                        
-        
-                        return $result;
-                        
-                        } catch ( Throwable $t ) {
-                        return false;
-                        }
-                        
-                } else {
-                        
-                }
-            }
-            
-
-            public function login(){
-                // username en password opvragen
-                $conn = Db::getInstance();
-                // userName zoeken in db
-                $statement = $conn->prepare("SELECT * from user where userName = :userName");
-                $statement->bindParam(":userName", $this->userName);
-                $result = $statement->execute();
-                $user = $statement->fetch(PDO::FETCH_ASSOC);
-                
-                if($user != false){
-                        if(password_verify($this->password, $user['password'])){
-                                $this->id = $user['id'];
-                                return true;     
-                        }
-                        else{
-                                return false;        
-                        }
-                }
-                else{
-                        return false;
-                        
-                }
-              
->>>>>>> 81fad7bf8fa1badca703546d9783c7cc41dd66d8
             }
         }
 
         public function login()
         {
-            // email en password opvragen
+            // username en password opvragen
             $conn = Db::getInstance();
             // userName zoeken in db
             $statement = $conn->prepare('SELECT * from user where userName = :userName');
             $statement->bindParam(':userName', $this->userName);
             $result = $statement->execute();
-
             $user = $statement->fetch(PDO::FETCH_ASSOC);
 
-            if (password_verify($this->password, $user['password'])) {
-                $_SESSION['userid'] = $user['id'];
-                header('Location: index.php');
-            }
-        }
+            if ($user != false) {
+                if (password_verify($this->password, $user['password'])) {
+                    $this->id = $user['id'];
 
-        public function editText()
-        {
-            $conn = new PDO('mysql:host=localhost;dbname=PHPotato', 'root', 'root', null);
-            $stm = $conn->prepare('UPDATE user SET description = :description WHERE userName = :username');
-            $stm->bindParam(':username', $this->username);
-            $stm->bindParam(':description', $this->description);
-            $result = $stm->execute();
-        }
-
-        public function editEmail()
-        {
-            $conn = new PDO('mysql:host=localhost;dbname=PHPotato', 'root', 'root', null);
-            $stm = $conn->prepare('UPDATE user SET email = :email WHERE userName = :username');
-            $stm->bindParam(':username', $this->username);
-            $stm->bindParam(':email', $this->email);
-            $result = $stm->execute();
-        }
-
-        public function editPassword($hash)
-        {
-            $conn = new PDO('mysql:host=localhost;dbname=PHPotato', 'root', 'root', null);
-            $stm = $conn->prepare('UPDATE user SET password = :password WHERE userName = :username');
-            $stm->bindParam(':username', $this->username);
-            $stm->bindParam(':password', $hash);
-            $result = $stm->execute();
-        }
-
-        public function getValues()
-        {
-            $conn = new PDO('mysql:host=localhost;dbname=PHPotato', 'root', 'root', null);
-            $stm = $conn->prepare('SELECT * from user WHERE userName = :username');
-            $stm->bindParam(':username', $this->username);
-            $stm->execute();
-
-            return $stm->fetch(PDO::FETCH_ASSOC);
-        }
-
-        public function editPicture()
-        {
-            function random_string($length)
-            {
-                $key = '';
-                $keys = array_merge(range(0, 9), range('a', 'z'));
-
-                for ($i = 0; $i < $length; ++$i) {
-                    $key .= $keys[array_rand($keys)];
+                    return true;
+                } else {
+                    return false;
                 }
-
-                return $key;
+            } else {
+                return false;
             }
-<<<<<<< HEAD
-
-            $save_path = dirname(__FILE__).'\..\user_images\ ';
-            $myname = random_string(10).$this->image['name'];
-            move_uploaded_file($this->image['tmp_name'], $save_path.$myname);
-
-            $conn = new PDO('mysql:host=localhost;dbname=PHPotato', 'root', 'root', null);
-            $stm = $conn->prepare('UPDATE user SET image = :image WHERE userName = :username');
-            $stm->bindParam(':username', $this->username);
-            $stm->bindParam(':image', $myname);
-            $stm->execute();
         }
-=======
-        
-        
-        
-
-      
->>>>>>> 81fad7bf8fa1badca703546d9783c7cc41dd66d8
     }

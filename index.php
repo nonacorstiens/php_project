@@ -1,11 +1,13 @@
 <?php
-require_once("bootstrap.php");
+require_once 'bootstrap.php';
 session_start();
-if (isset( $_SESSION['userid'])){
-   $posts = Post::getAll();
-
+if (isset($_SESSION['userid'])) {
+    $posts = Post::getAll();
+    if (isset($_POST['search'])) {
+        var_dump($_POST['search']);
+    }
 } else {
-  header("Location: login.php");
+    header('Location: login.php');
 }
 
 ?>
@@ -22,18 +24,22 @@ if (isset( $_SESSION['userid'])){
     <h1>Welcome</h1>
     <a href="uploadpage.php">Upload picture</a>
     <nav>
-
+        <form action='search.php' method="post">
+            <input type='text' name='searchReq'>
+            <input type='submit' name="search" value="Search...">
+        </form>
         <a href="logout.php">logout</a>
 
     </nav>
 
     <div class="picture_grid">
-            <?php for($i = 0; $i <=19; $i++){?>
+            <?php for ($i = 0; $i <= 19; ++$i) {
+    ?>
             <div class="post">
             <form method="post" action="">
                 <div class="post_form">
-                    <p class="postDescription"><?php echo $posts[$i]->getImageDescription();?></p>
-                    <img class="postImage" src="<?php echo $posts[$i]->getImageCrop();?>" width="350px">
+                    <p class="postDescription"><?php echo $posts[$i]->getImageDescription(); ?></p>
+                    <img class="postImage" src="<?php echo $posts[$i]->getImageCrop(); ?>" width="350px">
                     <br>
                     <a>Like</a>
                     <br>
@@ -48,7 +54,8 @@ if (isset( $_SESSION['userid'])){
 
             </form>
             </div>
-            <?php }; ?>
+            <?php
+} ?>
     </div>
 </body>
 </html>

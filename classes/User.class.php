@@ -11,6 +11,10 @@ require_once 'functions.inc.php';
         private $passwordConfirmation;
         private $image;
         private $description;
+<<<<<<< HEAD
+=======
+        private $id;
+>>>>>>> 81fad7bf8fa1badca703546d9783c7cc41dd66d8
 
         /**
          * Get the value of firstName.
@@ -151,6 +155,7 @@ require_once 'functions.inc.php';
 
         public function setDescription($description)
         {
+<<<<<<< HEAD
             $this->description = $description;
 
             return $this;
@@ -175,6 +180,83 @@ require_once 'functions.inc.php';
                     return false;
                 }
             } else {
+=======
+                $this->description = $description;
+                return $this;
+        }
+
+          /**
+         * Get the value of id
+         */ 
+        public function getId()
+        {
+                return $this->id;
+        }
+
+        /**
+         * Set the value of id
+         *
+         * @return  self
+         */ 
+        public function setId($id)
+        {
+                $this->id = $id;
+
+                return $this;
+        }
+        public function register() {
+                
+                $password = Security::hash($this->password);
+                if (canRegister($this->email, $this->password, $this->passwordConfirmation)){
+    
+                        try {
+        
+                                $conn = Db::getInstance();
+                                $statement = $conn->prepare("INSERT INTO user(firstName, lastName, userName, email, password) values (:firstName, :lastName, :userName, :email, :password)");
+                                $statement->bindParam(":firstName", $this->firstName);
+                                $statement->bindParam(":lastName", $this->lastName);
+                                $statement->bindParam(":userName", $this->userName);
+                                $statement->bindParam(":email", $this->email);
+                                $statement->bindParam(":password", $password);
+                                $result = $statement->execute();
+                        
+        
+                        return $result;
+                        
+                        } catch ( Throwable $t ) {
+                        return false;
+                        }
+                        
+                } else {
+                        
+                }
+            }
+            
+
+            public function login(){
+                // username en password opvragen
+                $conn = Db::getInstance();
+                // userName zoeken in db
+                $statement = $conn->prepare("SELECT * from user where userName = :userName");
+                $statement->bindParam(":userName", $this->userName);
+                $result = $statement->execute();
+                $user = $statement->fetch(PDO::FETCH_ASSOC);
+                
+                if($user != false){
+                        if(password_verify($this->password, $user['password'])){
+                                $this->id = $user['id'];
+                                return true;     
+                        }
+                        else{
+                                return false;        
+                        }
+                }
+                else{
+                        return false;
+                        
+                }
+              
+>>>>>>> 81fad7bf8fa1badca703546d9783c7cc41dd66d8
             }
         }
 
@@ -245,6 +327,7 @@ require_once 'functions.inc.php';
 
                 return $key;
             }
+<<<<<<< HEAD
 
             $save_path = dirname(__FILE__).'\..\user_images\ ';
             $myname = random_string(10).$this->image['name'];
@@ -256,4 +339,11 @@ require_once 'functions.inc.php';
             $stm->bindParam(':image', $myname);
             $stm->execute();
         }
+=======
+        
+        
+        
+
+      
+>>>>>>> 81fad7bf8fa1badca703546d9783c7cc41dd66d8
     }

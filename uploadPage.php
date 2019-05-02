@@ -1,31 +1,33 @@
 <?php
- require_once("bootstrap.php");
- $result = "";
+ require_once 'bootstrap.php';
+ $result = '';
  session_start();
 
-    if(isset($_POST['submit'])){
-        if(!empty($_FILES['image']) && !empty($_POST['imageDescription'])){
+if (isset($_SESSION['userid'])) {
+    if (isset($_POST['submit'])) {
+        if (!empty($_FILES['image']) && !empty($_POST['imageDescription'])) {
             $post = new Post();
             $post->setImageDescription($_POST['imageDescription']);
             $im = $post->uploadImage($_FILES['image']);
-            $post->setImage($im); 
-            if(is_string($im)){
+            $post->setImage($im);
+            $post->setUserId($_SESSION['userid']);
+            if (is_string($im)) {
                 $result = $im;
                 $croppedImage = $post->cropImage($result);
                 $post->setImageCrop($croppedImage);
-                $post->uploadDB();  
+                $post->uploadDB();
                 header('Location: index.php');
+            } else {
+                $result = $im->getMessage();
             }
-            else{
-            $result = $im->getMessage();
-            }
-            
-        }
-        else{
+        } else {
             $result = "OOPS, make sure you choose a picture and don't forget to write a description";
         }
     }
-   
+} else {
+    header('Location: login.php');
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

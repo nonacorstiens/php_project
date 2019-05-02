@@ -4,6 +4,7 @@
         private $image;
         private $imageDescription;
         private $imageCrop;
+        private $userId;
 
         public function getImageDescription()
         {
@@ -59,6 +60,26 @@
             return $this;
         }
 
+        /**
+         * Get the value of userId.
+         */
+        public function getUserId()
+        {
+            return $this->userId;
+        }
+
+        /**
+         * Set the value of userId.
+         *
+         * @return self
+         */
+        public function setUserId($userId)
+        {
+            $this->userId = $userId;
+
+            return $this;
+        }
+
         public function uploadImage($imageFile)
         {
             try {
@@ -102,10 +123,11 @@
         {
             if (!empty($this->image && $this->imageDescription)) {
                 $conn = Db::getInstance();
-                $statement = $conn->prepare('INSERT INTO post(imageName,imageDescription, imageCrop) values(:image, :imageDescription, :imageCrop)');
+                $statement = $conn->prepare('INSERT INTO post(imageName,imageDescription, imageCrop, userId) values(:image, :imageDescription, :imageCrop, :userId)');
                 $statement->bindParam(':image', $this->image);
                 $statement->bindParam(':imageCrop', $this->imageCrop);
                 $statement->bindParam(':imageDescription', $this->imageDescription);
+                $statement->bindParam(':userId', $this->userId);
                 $result = $statement->execute();
 
                 return true;

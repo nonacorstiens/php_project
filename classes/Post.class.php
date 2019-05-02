@@ -167,12 +167,13 @@
             return $statement->fetchAll(PDO::FETCH_CLASS, __CLASS__);
         }
 
-        public function searchTags($term)
+        public static function searchTags($term)
         {
             $conn = Db::getInstance();
-            $statement = $conn->prepare('select description from post');
+            $statement = $conn->prepare("select * from post where imageDescription LIKE '%$term%'");
             $result = $statement->execute();
+            $searchResults = $statement->fetchAll(PDO::FETCH_CLASS, __CLASS__);
 
-            var_dump($result);
+            return $searchResults;
         }
     }

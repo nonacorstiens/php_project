@@ -1,10 +1,12 @@
 <?php
 require_once 'bootstrap.php';
 session_start();
+
 if (isset($_SESSION['userid'])) {
     $posts = Post::getAll();
     if (isset($_POST['search'])) {
-        var_dump($_POST['search']);
+        $_SESSION['searchReq'] = $_POST['searchReq'];
+        header('Location: search.php');
     }
 } else {
     header('Location: login.php');
@@ -24,7 +26,7 @@ if (isset($_SESSION['userid'])) {
     <h1>Welcome</h1>
     <a href="uploadpage.php">Upload picture</a>
     <nav>
-        <form action='search.php' method="post">
+        <form action="" method="post">
             <input type='text' name='searchReq'>
             <input type='submit' name="search" value="Search...">
         </form>

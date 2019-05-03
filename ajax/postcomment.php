@@ -1,15 +1,18 @@
 <?php
-    require_once '../bootstrap.php';
 
-    if (!empty($_POST)) {
-        // comment tekst uitlezen
-        $comment = $_POST['comment']; // komt uit ajax injectie data{text: text} --> de eerste
-        var_dump($comment);
+require_once '../bootstrap.php';
+
+session_start();
+
+if (!empty($_POST)) {
+    // comment tekst uitlezen
+        $text = $_POST['text']; // komt uit ajax injectie data{text: text} --> de eerste
         // comment opslaan in databank
         try {
-            $comment = new \php_project\Comment();
+            $comment = new Comment();
+            $comment->setDescription($text);
             $comment->setUserId($_SESSION['userid']);
-            $comment->setDescription($comment);
+            $comment->setImageId($_POST['id']);
             $comment->uploadComment();
 
             $result = [
@@ -23,5 +26,5 @@
             ];
         }
 
-        echo json_encode($result);
-    }
+    echo json_encode($result);
+}

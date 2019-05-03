@@ -38,19 +38,23 @@ if (isset($_SESSION['userid'])) {
             <?php foreach (array_slice($posts, 0, 20) as $post => $item):
     ?>
             <div class="post">
+            <a class="post_link" href="detailpage.php?id=<?php echo $item['id']; ?>">
+                <img class="postImage" src="<?php echo $item['imageCrop']; ?>" width="350px">
+            </a>
+            <p class="postDescription"><?php echo $item['imageDescription']; ?></p>
             <form method="post" action="">
                 <div class="post_form">
-                    <a class="post_link" href="detailpage.php?id=<?php echo $item['id']; ?>">
-                        <img class="postImage" src="<?php echo $item['imageCrop']; ?>" width="350px">
-                    </a>
-                    <p class="postDescription"><?php echo $item['imageDescription']; ?></p>
                     <a>Like</a>
                     <br>
                     <input type="text" placeholder="Say something about this picture" class="postComment" name="postComment" />
                     <input type="submit" class="btnSubmit" name="postComment" value="Comment" data-input=".postComment" />
-
+                    <?php
+                    $comments = Comment::getAll($item['id']);
+                    ?>
                     <ul class="post_comment_updates">
-              
+                    <?php foreach ($comments as $comment):?>
+                    <li><?php echo $comment['comment']; ?></li>
+<?php endforeach; ?>   
                     </ul>
                 </div>
 
@@ -59,33 +63,6 @@ if (isset($_SESSION['userid'])) {
             <?php
 endforeach; ?>
     </div>
-    <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
-    <script>
-        $(".btnSubmit").on('click', function(e){
-            var comment = $(this).prev().val();
-            console.log(comment);
-            $.ajax({
-					method: "POST",
-					url: "ajax/postcomment.php",
-					data: { comment: comment},
-					dataType: "json" // belangrijk!
-					})
-                    .done(function( response ) { // dit is de json die je hebt teruggestuurd (success of error)
-						if(response.status == 'success'){
-							var li = "<li>" + comment + "</li>";
-                            console.log(li);
-							$(".post_comment_updates").append(li); 
-							//$(".postComment").val("").focus();
-							$(".post_comment_updates li").last().slideDown();
-						}
-					});
-
-            e.preventDefault();
-        });
-        
-    </script>
+    
 </body>
 </html>

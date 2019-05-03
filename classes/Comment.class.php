@@ -1,7 +1,5 @@
 <?php
 
-namespace php_project;
-
 class Comment
 {
     private $description;
@@ -68,24 +66,26 @@ class Comment
         return $this;
     }
 
-    public function getAll()
+    public static function getAll($id)
     {
         $conn = Db::getInstance();
-        $result = $conn->prepare('select * from postComment order by id asc');
+        $statement = $conn->prepare('select * from postComment where imageId = :id order by id asc');
+        $statement->bindParam(':id', $id);
+        $result = $statement->execute();
 
         // fetch all records from the database and return them as objects of this __CLASS__ (Post)
-        return $result->fetchAll(PDO::FETCH_CLASS, __CLASS__);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function uploadComment()
     {
-        $conn = Db::getInstance();
-        $statement = $conn->prepare('insert into postComment(comment, userId, imageId) values(:description, :userId, :imageId)');
-        $statement->bindValue(':description', $this->description);
-        $statement->bindValue(':userId', $this->userId);
-        $statement->bindValue(':imageId', $this->imageId);
+        $conn = new PDO('mysql:host=localhost;dbname=PHPotato;charset=utf8mb4', 'root', 'root');
+        $statement = $conn->prepare('insert into postComment(comment, imageId, userId) values(:description, :imageId, :userId)');
+        $statement->bindValue(':description', $this->getDescription());
+        $statement->bindValue(':userId', $this->getUserId());
+        $statement->bindValue(':imageId', $this->getImageId());
 
-        $result = $statement->execute();
+        return $statement->execute();
     }
 }
 ?>  

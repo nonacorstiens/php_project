@@ -46,12 +46,12 @@ if (isset($_SESSION['userid'])) {
                 <div class="post_form">
                     <a>Like</a>
                     <br>
-                    <input type="text" placeholder="Say something about this picture" class="postComment" name="postComment" />
-                    <input type="submit" class="btnSubmit" name="postComment" value="Comment" data-input=".postComment" />
+                    <input type="text" placeholder="Say something about this picture" id="postComment<?php echo $item['id']; ?>" name="postComment" />
+                    <input type="submit" id="btnSubmit<?php echo $item['id']; ?>" name="postComment" value="Comment" data-input=".postComment" />
                     <?php
                     $comments = Comment::getAll($item['id']);
                     ?>
-                    <ul class="post_comment_updates">
+                    <ul id="post_comment_updates<?php echo $item['id']; ?>">
                     <?php foreach ($comments as $comment):?>
                     <li><?php echo $comment['comment']; ?></li>
 <?php endforeach; ?>   
@@ -60,7 +60,34 @@ if (isset($_SESSION['userid'])) {
 
             </form>
             </div>
-            <?php
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+    <script>
+        	$("#btnSubmit<?php echo $item['id']; ?>").on("click", function(e){
+		  	var text = $("#postComment<?php echo $item['id']; ?>").val();
+            var id = '<?php echo $item['id']; ?>';
+			
+			  $.ajax({
+					method: "POST",
+					url: "ajax/postcomment.php",
+					data: { text: text, id: id },
+					dataType: "json" // belangrijk!
+					})
+					.done(function( response ) { // dit is de json die je hebt teruggestuurd (success of error)
+						if(response.status == 'success'){
+							var li = "<li>" + text + "</li>";
+							$("#post_comment_updates<?php echo $item['id']; ?>").append(li); 
+							$("#comment").val("").focus();
+							$("#post_comment_updates<?php echo $item['id']; ?> li").last().slideDown();
+						}
+					});
+			e.preventDefault();
+	  });
+        
+    </script>
+                <?php
 endforeach; ?>
     </div>
     

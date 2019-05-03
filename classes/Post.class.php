@@ -219,4 +219,19 @@
 
             return $searchResults;
         }
+
+        public static function getPostById($id)
+        {
+            try {
+                $conn = Db::getInstance();
+                $statement = $conn->prepare('select * from post where id = :id ');
+                $statement->bindParam(':id', $id);
+                $result = $statement->execute();
+
+                $post = $statement->fetch(PDO::FETCH_ASSOC);
+
+                return $post;
+            } catch (Exception $e) {
+            }
+        }
     }

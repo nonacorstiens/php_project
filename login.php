@@ -1,22 +1,20 @@
 <?php
-    require_once("bootstrap.php");
-    $message = "";
+    require_once 'bootstrap.php';
+    $message = '';
     session_start();
 
-    if(!empty($_POST)){
+    if (!empty($_POST)) {
         $user = new User();
         $user->setUserName($_POST['userName']);
         $user->setPassword($_POST['password']);
         $user->login();
-        if($user->login() != true){
-            $message = "You entered a wrong username or password";
-        }
-        else{
+        if ($user->login() != true) {
+            $message = 'You entered a wrong username or password';
+        } else {
             $id = $user->getId();
-            $_SESSION['userid'] = $id;  
+            $_SESSION['userid'] = $id;
             header('Location: index.php');
         }
-    
     }
 
 ?>
@@ -52,7 +50,8 @@
                 <div class="form__field">
                     <input type="submit" value="Log in"> 
                 </div>
-            </form>
+</form>
+<a href="register.php">Register</a>
 
     
     

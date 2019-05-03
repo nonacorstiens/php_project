@@ -35,14 +35,15 @@ if (isset($_SESSION['userid'])) {
     </nav>
 
     <div class="picture_grid">
-            <?php for ($i = 0; $i <= 19; ++$i) {
+            <?php foreach (array_slice($posts, 0, 20) as $post => $item):
     ?>
             <div class="post">
             <form method="post" action="">
                 <div class="post_form">
-                    <p class="postDescription"><?php echo $posts[$i]->getImageDescription(); ?></p>
-                    <img class="postImage" src="<?php echo $posts[$i]->getImageCrop(); ?>" width="350px">
-                    <br>
+                    <a class="post_link" href="detailpage.php?id=<?php echo $item['id']; ?>">
+                        <img class="postImage" src="<?php echo $item['imageCrop']; ?>" width="350px">
+                    </a>
+                    <p class="postDescription"><?php echo $item['imageDescription']; ?></p>
                     <a>Like</a>
                     <br>
                     <input type="text" placeholder="Say something about this picture" class="postComment" name="postComment" />
@@ -56,7 +57,7 @@ if (isset($_SESSION['userid'])) {
             </form>
             </div>
             <?php
-} ?>
+endforeach; ?>
     </div>
     <script
         src="https://code.jquery.com/jquery-3.4.1.min.js"

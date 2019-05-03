@@ -207,7 +207,7 @@
             $statement = $conn->prepare('select * from post order by uploadDate desc');
             $result = $statement->execute();
 
-            return $statement->fetchAll(PDO::FETCH_CLASS, __CLASS__);
+            return $statement->fetchAll();
         }
 
         public static function searchTags($term)

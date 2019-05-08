@@ -12,8 +12,6 @@ if (isset($_SESSION['userid'])) {
     header('Location: login.php');
 }
 
-var_dump($_SESSION['userid']);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +23,7 @@ var_dump($_SESSION['userid']);
     <title>Document</title>
 </head>
 <body>
-    <h1>Welcome <?php echo $_SESSION['userid']; ?></h1>
+    <h1>Welcome <?php echo $_SESSION['firstname']; ?></h1>
     <a href="uploadpage.php">Upload picture</a>
     <nav>
         <form action="" method="post">

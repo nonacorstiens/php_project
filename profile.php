@@ -1,14 +1,13 @@
 <?php
-include_once("classes/Db.class.php");
-include_once("classes/User.class.php");
-include_once("helpers/Security.class.php");
-
 session_start();
+include_once 'classes/Db.class.php';
+include_once 'classes/User.class.php';
+include_once 'classes/Security.class.php';
 
 // Enkel deze pagina tonen als er een user ingelogged is
-if(isset ($_SESSION['username']) ){
+if (isset($_SESSION['username'])) {
     $loggeduser = $_SESSION['username'];
-    echo "logged user is ".$loggeduser;
+    echo 'logged user is '.$loggeduser;
 } else {
     header('Location: register.php');
 }
@@ -20,11 +19,9 @@ $user->setUserName($_SESSION['username']);
 
 $userInfo = $user->getValues();
 
-
 // Wijzig profielfoto
-if(isset($_POST["btnprofilePicture"]) ){
-    if($_FILES['post_image']['name']){
-        
+if (isset($_POST['btnprofilePicture'])) {
+    if ($_FILES['post_image']['name']) {
         $user_picture = $_FILES['post_image'];
         $user->setImage($user_picture);
         $user->editPicture();
@@ -32,34 +29,30 @@ if(isset($_POST["btnprofilePicture"]) ){
 }
 
 // Wijzig password
-if(isset($_POST["btnPassword"]) ){
-    try{
+if (isset($_POST['btnPassword'])) {
+    try {
         $user->canIlogin($_POST['password']);
 
         $security = new Security();
         $security->password = $_POST['password_new'];
         $security->passwordConfirmation = $_POST['password_confirmation'];
 
-        try{
+        try {
             $security->passwordsAreSecure();
             $hash = password_hash($_POST['password_new'], PASSWORD_DEFAULT);
-                    
-            try{
+
+            try {
                 $user->editPassword($hash);
-            
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $error = $e->getMessage();
             }
-
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $error = $e->getMessage();
         }
-        
-    } catch(Exception $e){
+    } catch (Exception $e) {
         $error = $e->getMessage();
     }
 }
-
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -76,12 +69,12 @@ if(isset($_POST["btnPassword"]) ){
     <main class="main">
     <h2 class="h2">Profiel bewerken</h2>
         <div class="profile">
-        <?php if(isset($error) ): ?>
-            <?php echo $error ?>
+        <?php if (isset($error)): ?>
+            <?php echo $error; ?>
         <?php endif; ?>
             <div>
                 <h3>Profielfoto</h3>
-                <div id="posted_image" style='background-image:url("user_images/ <?php echo $userInfo['user_picture'] ?>")'></div>
+                <div id="posted_image" style='background-image:url("user_images/ <?php echo $userInfo['user_picture']; ?>")'></div>
                 
                 <div id="formEditPic" class="hidden">
                     <form method="post" enctype="multipart/form-data">
@@ -102,7 +95,7 @@ if(isset($_POST["btnPassword"]) ){
                 <p id="valueEditText" class="visible"><?php echo $userInfo['description']; ?></p>
                 <div id="formEditText" class="hidden">
                     <form method="post">
-                        <input class="profile__form inputfield" type="text" name="profileText" value="<?php echo $userInfo['description'] ?>"><br>
+                        <input class="profile__form inputfield" type="text" name="profileText" value="<?php echo $userInfo['description']; ?>"><br>
                         <input class="profile__form button" type="submit" name="btnprofileText" value="Bevestig">
                     </form>
                 </div>
@@ -116,7 +109,7 @@ if(isset($_POST["btnPassword"]) ){
                 
                 <div id="formEditEmail" class="hidden">
                     <form method="post">
-                        <input class="profile__form inputfield" type="text" name="email" value="<?php echo $userInfo['email'] ?>"><br>
+                        <input class="profile__form inputfield" type="text" name="email" value="<?php echo $userInfo['email']; ?>"><br>
                         <input class="profile__form button" type="submit" name="btnEmail" value="Bevestig">
                     </form>
                 </div>

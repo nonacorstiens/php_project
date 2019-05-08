@@ -81,5 +81,3 @@ function canRegister($firstName, $lastName, $userName, $email, $password1, $pass
         return true;
     }
 }
-?>
-

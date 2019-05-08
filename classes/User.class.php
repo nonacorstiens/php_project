@@ -209,6 +209,7 @@ require_once 'functions.inc.php';
             if ($user != false) {
                 if (password_verify($this->password, $user['password'])) {
                     $this->id = $user['id'];
+                    $this->firstName = $user['firstName'];
 
                     return true;
                 } else {

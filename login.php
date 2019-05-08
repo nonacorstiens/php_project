@@ -12,7 +12,9 @@
             $message = 'You entered a wrong username or password';
         } else {
             $id = $user->getId();
+            $name = $user->getFirstName();
             $_SESSION['userid'] = $id;
+            $_SESSION['firstname'] = $name;
             header('Location: index.php');
         }
     }

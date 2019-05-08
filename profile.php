@@ -1,67 +1,33 @@
 <?php
-include_once("classes/Db.class.php");
-include_once("classes/User.class.php");
-include_once("helpers/Security.class.php");
+
+include_once 'bootstrap.php';
 
 session_start();
 
-// Enkel deze pagina tonen als er een user ingelogged is
-if(isset ($_SESSION['username']) ){
-    $loggeduser = $_SESSION['username'];
-    echo "logged user is ".$loggeduser;
+if (!isset($_SESSION['userid'])) {
+    header('Location: login.php');
 } else {
-    header('Location: register.php');
 }
 
-// Alle gegevens van ingelogde user binnenhalen
 $db = Db::getInstance();
 $user = new User($db);
-$user->setUserName($_SESSION['username']);
+$user->setId($_SESSION['userid']);
 
 $userInfo = $user->getValues();
 
-
-// Wijzig profielfoto
-if(isset($_POST["btnprofilePicture"]) ){
-    if($_FILES['post_image']['name']){
-        
-        $user_picture = $_FILES['post_image'];
-        $user->setImage($user_picture);
-        $user->editPicture();
-    }
+if (!empty($_POST['email'])) {
+    $user = new User(); // userklasse aanspreken
+    $user->setEmail($_POST['email']); //variabele email naar userklasse doorgeven
+    $user->setId($_SESSION['userid']); //id via session id doorgeven aan userklasse
+    $user->changeEmail(); // functie aanroepen die zich in userklasse bevindt
 }
 
-// Wijzig password
-if(isset($_POST["btnPassword"]) ){
-    try{
-        $user->canIlogin($_POST['password']);
-
-        $security = new Security();
-        $security->password = $_POST['password_new'];
-        $security->passwordConfirmation = $_POST['password_confirmation'];
-
-        try{
-            $security->passwordsAreSecure();
-            $hash = password_hash($_POST['password_new'], PASSWORD_DEFAULT);
-                    
-            try{
-                $user->editPassword($hash);
-            
-            } catch(Exception $e) {
-                $error = $e->getMessage();
-            }
-
-        } catch(Exception $e) {
-            $error = $e->getMessage();
-        }
-        
-    } catch(Exception $e){
-        $error = $e->getMessage();
-    }
+if (!empty($_POST['contact-submit'])) {
+    //do something here;
 }
 
-
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -74,62 +40,45 @@ if(isset($_POST["btnPassword"]) ){
 
 
     <main class="main">
-    <h2 class="h2">Profiel bewerken</h2>
+    <h2 class="h2">Profiel bewerken <?php echo $userInfo['firstName']; ?></h2>
         <div class="profile">
-        <?php if(isset($error) ): ?>
-            <?php echo $error ?>
+        <?php if (isset($error)): ?>
+            <?php echo $error; ?>
         <?php endif; ?>
             <div>
                 <h3>Profielfoto</h3>
-                <div id="posted_image" style='background-image:url("user_images/ <?php echo $userInfo['user_picture'] ?>")'></div>
+                <div id="posted_image" style='background-image:url("user_images/ <?php echo $userInfo['userName']; ?>")'></div>
                 
-                <div id="formEditPic" class="hidden">
-                    <form method="post" enctype="multipart/form-data">
+                <div id="formEditPic" >
+                    <form method="post" enctype="multipart/form-data" name="imageUpload">
                         <label for="post_image" class="file_upload">Upload an image</label>
                         <input type="file" name="post_image" id="post_image"><br>
 
-                        <input class="profile__form button" type="submit" name="btnprofilePicture" value="Bevestig">
+                        <input class="profile__form button" type="submit" name="btnprofilePicture" value="Wijzig">
 
                         
                     </form>
-                </div>
-                <div class="editProfileButton">
-                    <a href="#" id="editPic" class="btnedit">Wijzig profielfoto</a>
-                </div>
+                
             </div>
-            <div>
-                <h3>Biografie</h3>
-                <p id="valueEditText" class="visible"><?php echo $userInfo['description']; ?></p>
-                <div id="formEditText" class="hidden">
-                    <form method="post">
-                        <input class="profile__form inputfield" type="text" name="profileText" value="<?php echo $userInfo['description'] ?>"><br>
-                        <input class="profile__form button" type="submit" name="btnprofileText" value="Bevestig">
-                    </form>
-                </div>
-                <div class="editProfileButton">
-                    <a href="#" id="editProfileText" class="btnedit">Wijzig biografie</a>
-                </div>      
-            </div>
+            
             <div>
                 <h3>Email</h3>
-                <p id="valueEditEmail" class="visible"><?php echo $userInfo['email']; ?></p>
+                <p ><?php echo $userInfo['email']; ?></p>
                 
-                <div id="formEditEmail" class="hidden">
-                    <form method="post">
-                        <input class="profile__form inputfield" type="text" name="email" value="<?php echo $userInfo['email'] ?>"><br>
-                        <input class="profile__form button" type="submit" name="btnEmail" value="Bevestig">
+                <div id="formEditEmail" >
+                    <form method="post" name="emailChange">
+                        <input class="profile__form inputfield" type="text" name="email" value="<?php echo $userInfo['email']; ?>"><br>
+                        <input class="profile__form button" type="submit" name="btnEmail" value="Wijzig">
                     </form>
                 </div>
-                <div class="editProfileButton">
-                <a href="#" id="editEmail" class="btnedit">Wijzig email</a>
-                </div>
+                
             </div>
 
             <div>
             <h3>Wachtwoord</h3>
                 
-                <div id="formEditPassword" class="hidden">
-                    <form method="post">
+                <div id="formEditPassword">
+                    <form method="post" name="passwordChange">
                         <label for="passord" class="formEdit__label">Huidig wachtwoord</label><br>
                         <input class="profile__form inputfield" type="password" name="password"><br>
 
@@ -138,12 +87,10 @@ if(isset($_POST["btnPassword"]) ){
 
                         <label for="passord" class="formEdit__label">Bevestig nieuw wachtwoord</label><br>
                         <input class="profile__form inputfield" type="password" name="password" ><br>
-                        <input class="profile__form button" type="submit" name="btnPassword" value="Bevestig">
+                        <input class="profile__form button" type="submit" name="btnPassword" value="Wijzig">
                     </form>
                 </div>
-                <div class="editProfileButton">
-                <a href="#" id="editPassword" class="btnedit">Wijzig wachtwoord</a>
-                </div>
+                
             </div>
 
         </div>

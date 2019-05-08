@@ -1,11 +1,10 @@
 <?php
 
-require_once("bootstrap.php");
-
+require_once 'bootstrap.php';
 
 session_start();
 
-if(!empty($_POST) ) { 
+if (!empty($_POST)) {
     $user = new User();
 
     $user->setFirstName($_POST['firstName']);
@@ -15,13 +14,11 @@ if(!empty($_POST) ) {
     $user->setPassword($_POST['password']);
     $user->setPasswordConfirmation($_POST['passwordConfirmation']);
 
-
-    if ( $user->register() ) {
+    if ($user->register()) {
         $_SESSION['user'] = $user->getEmail();
         //header('location: index.php');
     }
 }
-
 
 ?>
 

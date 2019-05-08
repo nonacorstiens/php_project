@@ -22,6 +22,8 @@ $comments = Comment::getAll($id);
          <div class="post_form">
                 <a>Like</a>
                 <br>
+                <a>Mark as inappropriate</a>
+                <br>
                 <input type="text" id="postComment" name="postComment" placeholder="Say something about this picture"  />
                 <input type="submit" id="btnSubmit" name="postComment" value="Comment" />
 

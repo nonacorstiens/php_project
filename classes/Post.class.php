@@ -204,7 +204,7 @@
         public static function getAll()
         {
             $conn = Db::getInstance();
-            $statement = $conn->prepare('select * from post order by uploadDate desc');
+            $statement = $conn->prepare('select * from post where active = "1" order by uploadDate desc');
             $result = $statement->execute();
 
             return $statement->fetchAll();
@@ -233,5 +233,13 @@
                 return $post;
             } catch (Exception $e) {
             }
+        }
+
+        public static function setInactive($imageId)
+        {
+            $conn = new PDO('mysql:host=localhost;dbname=PHPotato;charset=utf8mb4', 'root', 'root');
+            $statement = $conn->prepare('UPDATE post SET active = "0" WHERE id = :imageId');
+            $statement->bindParam(':imageId', $imageId);
+            $statement->execute();
         }
     }

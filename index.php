@@ -46,8 +46,10 @@ if (isset($_SESSION['userid'])) {
                 <div class="post_form">
                     <a>Like</a>
                     <br>
+                    <a id="inappropriateLink<?php echo $item['id']; ?>" href="">Mark as inappropriate</a>
+                    <br>
                     <input type="text" placeholder="Say something about this picture" id="postComment<?php echo $item['id']; ?>" name="postComment" />
-                    <input type="submit" id="btnSubmit<?php echo $item['id']; ?>" name="postComment" value="Comment" data-input=".postComment" />
+                    <input type="submit" id="btnSubmit<?php echo $item['id']; ?>" name="postComment" value="Comment" />
                     <?php
                     $comments = Comment::getAll($item['id']);
                     ?>
@@ -85,6 +87,19 @@ if (isset($_SESSION['userid'])) {
 					});
 			e.preventDefault();
 	  });
+
+            $("#inappropriateLink<?php echo $item['id']; ?>").on("click", function(e){
+            var imageId = '<?php echo $item['id']; ?>';
+                $.ajax({
+                    method: "POST",
+                    url: "ajax/reportpost.php",
+                    data: {imageId: imageId},
+                    dataType: "json"
+                })
+                .done(function(){
+                });
+                e.preventDefault();
+            });
         
     </script>
                 <?php

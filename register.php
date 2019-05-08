@@ -16,7 +16,8 @@ if (!empty($_POST)) {
 
     if ($user->register()) {
         $_SESSION['user'] = $user->getEmail();
-        //header('location: index.php');
+        header('location: index.php');
+    } else {
     }
 }
 
@@ -37,11 +38,16 @@ if (!empty($_POST)) {
 <form action="" method="post">
                 <h2 form__title>Sign up for an account</h2>
  
-                <div class="form__error hidden">
-                    <p>
-                        Some error here
-                    </p>
-                </div>
+                
+                    
+                      <?php if (!empty($_SESSION['errors'])) {
+    foreach ($_SESSION['errors'] as $key => $value) {
+        // and print out the values
+        echo '<h5 class="alert alert-danger">Error: '.$value.' <br /></h5>';
+    }
+}?>
+                    
+                
                 <div class="form__field">
                     <label for="firstName">First Name</label>
                     <input type="text" id="firstName" name="firstName">

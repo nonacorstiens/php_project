@@ -180,22 +180,19 @@ require_once 'functions.inc.php';
         public function register()
         {
             $password = Security::hash($this->password);
-            if (canRegister($this->email, $this->password, $this->passwordConfirmation)) {
-                try {
-                    $conn = Db::getInstance();
-                    $statement = $conn->prepare('INSERT INTO user(firstName, lastName, userName, email, password) values (:firstName, :lastName, :userName, :email, :password)');
-                    $statement->bindParam(':firstName', $this->firstName);
-                    $statement->bindParam(':lastName', $this->lastName);
-                    $statement->bindParam(':userName', $this->userName);
-                    $statement->bindParam(':email', $this->email);
-                    $statement->bindParam(':password', $password);
-                    $result = $statement->execute();
+            if (canRegister($this->firstName, $this->lastName, $this->userName, $this->email, $this->password, $this->passwordConfirmation)) {
+                $conn = Db::getInstance();
+                $statement = $conn->prepare('INSERT INTO user(firstName, lastName, userName, email, password) values (:firstName, :lastName, :userName, :email, :password)');
+                $statement->bindParam(':firstName', $this->firstName);
+                $statement->bindParam(':lastName', $this->lastName);
+                $statement->bindParam(':userName', $this->userName);
+                $statement->bindParam(':email', $this->email);
+                $statement->bindParam(':password', $password);
+                $result = $statement->execute();
 
-                    return $result;
-                } catch (Throwable $t) {
-                    return false;
-                }
-            } else {
+                return $result;
+
+                unset($_SESSION['errors']);
             }
         }
 
@@ -220,5 +217,25 @@ require_once 'functions.inc.php';
             } else {
                 return false;
             }
+        }
+
+        public function getValues()
+        {
+            $conn = new PDO('mysql:host=localhost;dbname=PHPotato', 'root', 'root', null);
+            $stm = $conn->prepare('SELECT * from user WHERE id = :id');
+            $stm->bindParam(':id', $this->id);
+            $stm->execute();
+            $userValues = $stm->fetch(PDO::FETCH_ASSOC);
+
+            return $userValues;
+        }
+
+        public function changeEmail()
+        {
+            $conn = Db::getInstance();
+            $stm = $conn->prepare('UPDATE user SET email = :email WHERE id = :id');
+            $stm->bindParam(':id', $this->id);
+            $stm->bindParam(':email', $this->email);
+            $result = $stm->execute();
         }
     }

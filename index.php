@@ -12,6 +12,8 @@ if (isset($_SESSION['userid'])) {
     header('Location: login.php');
 }
 
+var_dump($_SESSION['userid']);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +25,7 @@ if (isset($_SESSION['userid'])) {
     <title>Document</title>
 </head>
 <body>
-    <h1>Welcome</h1>
+    <h1>Welcome <?php echo $_SESSION['userid']; ?></h1>
     <a href="uploadpage.php">Upload picture</a>
     <nav>
         <form action="" method="post">
@@ -31,6 +33,7 @@ if (isset($_SESSION['userid'])) {
             <input type='submit' name="search" value="Search...">
         </form>
         <a href="logout.php">logout</a>
+        <a href="profile.php">profile</a>
 
     </nav>
 

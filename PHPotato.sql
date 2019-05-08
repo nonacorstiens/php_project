@@ -11,13 +11,13 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Database: `PHPotato`
+-- Database: PHPotato
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `followUser`
+-- Table structure for table followUser
 --
 
 CREATE TABLE `followUser` (
@@ -29,7 +29,7 @@ CREATE TABLE `followUser` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `post`
+-- Table structure for table post
 --
 
 CREATE TABLE `post` (
@@ -73,7 +73,7 @@ INSERT INTO `post` (`id`, `imageName`, `imageDescription`, `userId`, `imageCrop`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `postComment`
+-- Table structure for table postComment
 --
 
 CREATE TABLE `postComment` (
@@ -86,7 +86,7 @@ CREATE TABLE `postComment` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `postLike`
+-- Table structure for table postLike
 --
 
 CREATE TABLE `postLike` (
@@ -98,7 +98,7 @@ CREATE TABLE `postLike` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Table structure for table user
 --
 
 CREATE TABLE `user` (
@@ -129,65 +129,65 @@ INSERT INTO `user` (`id`, `firstName`, `lastName`, `userName`, `email`, `passwor
 --
 
 --
--- Indexes for table `followUser`
+-- Indexes for table followUser
 --
-ALTER TABLE `followUser`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE followUser
+  ADD PRIMARY KEY (id);
 
 --
--- Indexes for table `post`
+-- Indexes for table post
 --
-ALTER TABLE `post`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE post
+  ADD PRIMARY KEY (id);
 
 --
--- Indexes for table `postComment`
+-- Indexes for table postComment
 --
-ALTER TABLE `postComment`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE postComment
+  ADD PRIMARY KEY (id);
 
 --
--- Indexes for table `postLike`
+-- Indexes for table postLike
 --
-ALTER TABLE `postLike`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE postLike
+  ADD PRIMARY KEY (id);
 
 --
--- Indexes for table `user`
+-- Indexes for table user
 --
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`) USING BTREE;
+ALTER TABLE user
+  ADD PRIMARY KEY (id) USING BTREE;
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `followUser`
+-- AUTO_INCREMENT for table followUser
 --
-ALTER TABLE `followUser`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE followUser
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `post`
+-- AUTO_INCREMENT for table post
 --
 ALTER TABLE `post`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
 
 --
--- AUTO_INCREMENT for table `postComment`
+-- AUTO_INCREMENT for table postComment
 --
-ALTER TABLE `postComment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE postComment
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `postLike`
+-- AUTO_INCREMENT for table postLike
 --
-ALTER TABLE `postLike`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE postLike
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT for table user
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;

@@ -12,9 +12,7 @@ if (isset($_SESSION['username'])) {
     header('Location: register.php');
 }
 
-<li class="nav-item">
-<a href="logout.php">logout</a>
-</li>
+
 
 // Alle gegevens van ingelogde user binnenhalen
 $db = Db::getInstance();

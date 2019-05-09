@@ -61,8 +61,8 @@ h6{
 
 .btn-sm{
     font-size: 12px;
-    width: 100px;
-    height: 25px;
+    width: 80px;
+    height: 30px;
 }
 
 .help-block{
@@ -93,30 +93,55 @@ h6{
 }
 
 .profile-link{
-    display: inline-block;
+    display: grid;
+    grid-template-columns: 2;
+    grid-column-gap: 20px;
+    position: absolute;
+    left: 50px;
+    top: 25px;
+}
 
+.profile-name{
+    color: white;
+    grid-column: 1;
+}
+
+.profile-icon{
+    grid-column: 2;
+}
+
+.logout-link{
+    position: absolute;
+    right: 50px;
+    top: 25px;
+    color: white;
 }
 
 .index-container{
-    background-color: hsl(240, 18%, 87%); 
+    background-color: hsl(0, 0%, 91%); 
 }
 
 .glyphicon{
     color: white;
 }
 
-
 .form-search{
-    width: 500px;
-    padding-top: 8em;
+    width: 100%;
+    height: 60px;
     margin: auto;
+    position: fixed;
+    top: 70px;
+    padding: 1em;
+    background-color: hsl(0, 0%, 33%);
 }
 
 .form-search-control{
     border-radius: 5px;
     border: none;
-    height: 25px;
-    background-color: hsla(0, 1%, 63%, 0.623);
+    width: 400px;
+    height: 30px;
+    padding: 1em;
+    background-color: hsla(0, 27%, 98%, 0.767);
 }
 
 .form-search-container{
@@ -125,6 +150,7 @@ h6{
 
 .picture-grid{
     width: 100%;
+    padding-top: 150px;
 }
 
 .picture-row{
@@ -137,9 +163,84 @@ h6{
     width: 350px;
     margin: auto;
     margin-bottom: 2em;
-    background-color: hsl(240, 7%, 22%);;
+    background-color: hsla(0, 27%, 98%, 0.966);
+}
+.post-info{
+    width: 100%;
+    padding: 1em;
+}
+.like-link{
+    width: 350px;
+    display: block;
+    background-color: hsl(0, 0%, 15%); 
+    padding:0.5em 2em;
+    text-align: right;
+}
+.glyphicon-heart{
+    font-size: 25px;
+    z-index: 0;
+}
+.upload-link{
+    line-height: 70px;
+    height: 70px;
+    width: 70px;
+    background-color: hsl(240, 71%, 60%);
+    border-radius: 50%;
+    text-align: center;
+    margin: auto;
+    position: fixed;
+    bottom: 10px;
+    z-index: 100;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, 0);
+    
+}
+.upload-link a{
+    position: absolute;
+    transform: translate(-50%, 10%);
 }
 
+.glyphicon-camera{
+   font-size: 30px;
+}
+
+.bar-down{
+    height: 35px;
+    width: 100%;
+    background-color: hsl(0, 0%, 15%);
+    position: fixed;
+    bottom: 0;
+}
+
+.post-comments-list{
+    list-style: none;
+    padding-left: 0;
+}
+.comment-input{
+    border-radius: 5px;
+    border: none;
+    width: 230px;
+    height: 30px;
+    padding: 1em;
+    background-color: hsla(0, 27%, 98%, 0.767);
+    font-size: 10px;
+}
+
+.inappropriateLink{
+    font-size: 11px;
+    display: inline-block;
+    padding-top: 2em;
+    left: 50%;
+    right: 50%;
+    transform: translate(100%, 0);
+}
+
+.comment-box{
+    background-color: hsl(0, 1%, 62%);
+    padding: 0.5em 0.2em;
+    border-radius: 5px;
+}
 @media(min-width: 800px){
     .picture-grid{
         display: grid;

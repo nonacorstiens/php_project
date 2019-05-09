@@ -14,7 +14,7 @@
             $id = $user->getId();
             $name = $user->getFirstName();
             $_SESSION['userid'] = $id;
-            $_SESSION['firstname'] = $name;
+            $_SESSION['username'] = $name;
             header('Location: index.php');
         }
     }

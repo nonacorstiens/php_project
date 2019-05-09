@@ -22,8 +22,38 @@ if (!empty($_POST['email'])) {
     $user->changeEmail(); // functie aanroepen die zich in userklasse bevindt
 }
 
-if (!empty($_POST['contact-submit'])) {
-    //do something here;
+if (!empty($_POST['passwordOld']) && !empty($_POST['passwordNew']) && !empty($_POST['passwordConfirmation'])) {
+    $user = new User(); // userklasse aanspreken
+    $user->setPassword($_POST['passwordNew']); //variabele email naar userklasse doorgeven
+    $user->setPasswordConfirmation($_POST['passwordConfirmation']);
+    $user->setPasswordOld($_POST['passwordOld']);
+    $user->setId($_SESSION['userid']); //id via session id doorgeven aan userklasse
+    $user->changePassword(); // functie aanroepen die zich in userklasse bevindt
+} else {
+    $errorMsg = 'All fields must be filled in';
+}
+
+$result = '';
+
+if (isset($_POST['btnProfilePicture'])) {
+    if (!empty($_FILES['image']) && !empty($_POST['description'])) {
+        $post = new User();
+        $post->setDescription($_POST['description']);
+        $user->setId($_SESSION['userid']);
+        $im = $post->uploadImageImg($_FILES['image']);
+        $post->setImage($im);
+        if (is_string($im)) {
+            $result = $im;
+            $croppedImage = $post->cropImageImg($result);
+            $post->setImageCrop($croppedImage);
+            $post->uploadDBImg($_SESSION['userid']);
+            header('Location: profile.php');
+        } else {
+            $result = $im->getMessage();
+        }
+    } else {
+        $result = "OOPS, make sure you choose a picture and don't forget to write a description";
+    }
 }
 
 ?>
@@ -33,6 +63,7 @@ if (!empty($_POST['contact-submit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
     <title>PHPotato</title>
 </head>
@@ -42,22 +73,30 @@ if (!empty($_POST['contact-submit'])) {
     <main class="main">
     <h2 class="h2">Profiel bewerken <?php echo $userInfo['firstName']; ?></h2>
         <div class="profile">
-        <?php if (isset($error)): ?>
-            <?php echo $error; ?>
-        <?php endif; ?>
+        <?php if (!empty($_SESSION['errors'])) {
+    foreach ($_SESSION['errors'] as $key => $value) {
+        // and print out the values
+        echo '<h5 class="alert alert-danger">Error: '.$value.' <br /></h5>';
+
+        if (isset($errorMsg)) {
+            echo '<h5 class="alert alert-danger">Error: '.$errorMsg.'</h5>';
+        }
+    }
+}?>
             <div>
                 <h3>Profielfoto</h3>
                 <div id="posted_image" style='background-image:url("user_images/ <?php echo $userInfo['userName']; ?>")'></div>
                 
-                <div id="formEditPic" >
-                    <form method="post" enctype="multipart/form-data" name="imageUpload">
-                        <label for="post_image" class="file_upload">Upload an image</label>
-                        <input type="file" name="post_image" id="post_image"><br>
-
-                        <input class="profile__form button" type="submit" name="btnprofilePicture" value="Wijzig">
-
-                        
-                    </form>
+                <form action="" method="POST" enctype="multipart/form-data" id="uploadForm">
+        <p id ="errorUpload" class="errorMessage"><?php echo $result; ?></p>
+        <img src=""  width="400px">
+        <input type="file" name="image" >
+        <br/>
+        <p id ="errorDescription" class="hidden">Please write a description</p>
+        <input type="text" cols='40' name="description"  placeholder="Say something about this image">
+        <br/>
+        <input type="submit" name="btnProfilePicture" id="submit" value="upload">
+    </form>
                 
             </div>
             
@@ -79,14 +118,14 @@ if (!empty($_POST['contact-submit'])) {
                 
                 <div id="formEditPassword">
                     <form method="post" name="passwordChange">
-                        <label for="passord" class="formEdit__label">Huidig wachtwoord</label><br>
-                        <input class="profile__form inputfield" type="password" name="password"><br>
+                        <label for="password" class="formEdit__label">Huidig wachtwoord</label><br>
+                        <input class="profile__form inputfield" type="password" name="passwordOld"><br>
 
-                        <label for="passord" class="formEdit__label">Nieuw wachtwoord</label><br>
-                        <input class="profile__form inputfield" type="password" name="password"><br>
+                        <label for="password" class="formEdit__label">Nieuw wachtwoord</label><br>
+                        <input class="profile__form inputfield" type="password" name="passwordNew"><br>
 
-                        <label for="passord" class="formEdit__label">Bevestig nieuw wachtwoord</label><br>
-                        <input class="profile__form inputfield" type="password" name="password" ><br>
+                        <label for="password" class="formEdit__label">Bevestig nieuw wachtwoord</label><br>
+                        <input class="profile__form inputfield" type="password" name="passwordConfirmation" ><br>
                         <input class="profile__form button" type="submit" name="btnPassword" value="Wijzig">
                     </form>
                 </div>

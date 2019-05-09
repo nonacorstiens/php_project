@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)http://localhost:8888/php_project/register.php -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./Registration_files/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./Registration_files/style.css">
+    <link href="./Registration_files/css" rel="stylesheet">
+    <title>Registration</title>
+
+</head>
+<body class="hero_container">
+    <div class="form-container">
+    <h1 form__title="">Sign up for an account</h1>
+    <form action="http://localhost:8888/php_project/register.php" method="post" class="form-inputs">
+                                    <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" class="form-control" name="firstName">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" class="form-control" name="lastName">
+                </div>
+                <div class="form-group">
+                    <label for="userName">User Name</label>
+                    <input type="text" id="userName" class="form-control" name="userName">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" class="form-control" name="email">
+                    
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" name="password">
+                    <span id="helpBlock" class="help-block">Your password needs to contain minimum 1 number and 1 capital.</span>
+                </div>
+ 
+                <div class="form-group">
+                    <label for="passwordConfirmation">Confirm your password</label>
+                    <input type="password" id="passwordConfirmation" class="form-control" name="passwordConfirmation">
+                    <span id="helpBlock" class="help-block">Make sure your passwords match.</span>
+                </div>
+ 
+                <div class="form-group">
+                    <input class="btn btn-primary" type="submit" value="Sign me up!"> 
+                </div>
+            </form>
+
+    
+    </div>
+
+</body></html>

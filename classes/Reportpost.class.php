@@ -12,7 +12,8 @@ class reportPost
 
     public function setInappropriate($imageId, $userId)
     {
-        $conn = new PDO('mysql:host=localhost;dbname=PHPotato;charset=utf8mb4', 'root', 'root');
+        $conn = Db::getInstance();
+        //$conn = new PDO('mysql:host=localhost;dbname=PHPotato;charset=utf8mb4', 'root', 'root');
         $statement = $conn->prepare('SELECT * from reportedPost where imageId = :imageId');
         $statement->bindParam(':imageId', $imageId);
         $result = $statement->execute();

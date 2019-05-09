@@ -8,8 +8,6 @@ if (isset($_SESSION['userid'])) {
     header('Location: login.php');
 }
 
-var_dump($_SESSION['userid']);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

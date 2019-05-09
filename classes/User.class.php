@@ -270,6 +270,20 @@ require_once 'functions.inc.php';
             }
         }
 
+        public function changeDescription()
+        {
+            if (validDescription($this->description)) {
+                $conn = Db::getInstance();
+                $statement = $conn->prepare('UPDATE user SET description = :description WHERE id = :id');
+                $statement->bindParam(':id', $this->id);
+                $statement->bindParam(':description', $this->description);
+                $result = $statement->execute();
+
+                return $result;
+                unset($_SESSION['errors']);
+            }
+        }
+
         /////////////////////// PROFILE IMAGE UPLOADEN ////////////////////////////////
 
         public function uploadImageImg($imageFile)
@@ -311,14 +325,13 @@ require_once 'functions.inc.php';
             }
         }
 
-        public function uploadDBImg($idTest)
+        public function uploadDBImg($id)
         {
-            if (!empty($this->image && $this->description)) {
+            if (!empty($this->image)) {
                 $conn = Db::getInstance();
-                $statement = $conn->prepare('UPDATE user SET profileImage = :imageCrop, description = :description WHERE id = :id');
+                $statement = $conn->prepare('UPDATE user SET profileImage = :imageCrop WHERE id = :id');
                 $statement->bindParam(':imageCrop', $this->imageCrop);
-                $statement->bindParam(':description', $this->description);
-                $statement->bindParam(':id', $idTest);
+                $statement->bindParam(':id', $id);
                 var_dump($userId);
                 $result = $statement->execute();
 

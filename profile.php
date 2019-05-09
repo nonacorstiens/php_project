@@ -15,6 +15,13 @@ $user->setId($_SESSION['userid']);
 
 $userInfo = $user->getValues();
 
+if (!empty($_POST['description'])) {
+    $user = new User(); // userklasse aanspreken
+    $user->setDescription($_POST['description']); //variabele email naar userklasse doorgeven
+    $user->setId($_SESSION['userid']); //id via session id doorgeven aan userklasse
+    $user->changeDescription(); // functie aanroepen die zich in userklasse bevindt
+}
+
 if (!empty($_POST['email'])) {
     $user = new User(); // userklasse aanspreken
     $user->setEmail($_POST['email']); //variabele email naar userklasse doorgeven
@@ -36,7 +43,7 @@ if (!empty($_POST['passwordOld']) && !empty($_POST['passwordNew']) && !empty($_P
 $result = '';
 
 if (isset($_POST['btnProfilePicture'])) {
-    if (!empty($_FILES['image']) && !empty($_POST['description'])) {
+    if (!empty($_FILES['image'])) {
         $post = new User();
         $post->setDescription($_POST['description']);
         $user->setId($_SESSION['userid']);
@@ -52,7 +59,7 @@ if (isset($_POST['btnProfilePicture'])) {
             $result = $im->getMessage();
         }
     } else {
-        $result = "OOPS, make sure you choose a picture and don't forget to write a description";
+        $result = 'OOPS, make sure you choose a picture';
     }
 }
 
@@ -85,18 +92,27 @@ if (isset($_POST['btnProfilePicture'])) {
 }?>
             <div>
                 <h3>Profielfoto</h3>
-                <div id="posted_image" style='background-image:url("user_images/ <?php echo $userInfo['userName']; ?>")'></div>
-                
-                <form action="" method="POST" enctype="multipart/form-data" id="uploadForm">
-        <p id ="errorUpload" class="errorMessage"><?php echo $result; ?></p>
-        <img src=""  width="400px">
+                <img src="<?php echo $userInfo['profileImage']; ?>" alt="Profile Picture">
+                <form action="" method="POST" enctype="multipart/form-data">
+        <p class="errorMessage"><?php echo $result; ?></p>
         <input type="file" name="image" >
         <br/>
-        <p id ="errorDescription" class="hidden">Please write a description</p>
-        <input type="text" cols='40' name="description"  placeholder="Say something about this image">
-        <br/>
+        
         <input type="submit" name="btnProfilePicture" id="submit" value="upload">
     </form>
+                
+            </div>
+
+            <div>
+                <h3>Bio</h3>
+                <p ><?php echo $userInfo['description']; ?></p>
+                
+                <div >
+                    <form method="post" name="description">
+                        <input class="profile__form inputfield" type="text" name="description" value="<?php echo $userInfo['description']; ?>"><br>
+                        <input class="profile__form button" type="submit" name="btnDescription" value="Wijzig">
+                    </form>
+                </div>
                 
             </div>
             

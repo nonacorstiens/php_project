@@ -230,7 +230,7 @@ h6{
 .inappropriateLink{
     font-size: 11px;
     display: inline-block;
-    padding-top: 2em;
+    margin-top: 2em;
     left: 50%;
     right: 50%;
     transform: translate(100%, 0);
@@ -240,6 +240,10 @@ h6{
     background-color: hsl(0, 1%, 62%);
     padding: 0.5em 0.2em;
     border-radius: 5px;
+}
+
+.glyphicon-ok{
+    color: black;
 }
 @media(min-width: 800px){
     .picture-grid{

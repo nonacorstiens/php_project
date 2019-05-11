@@ -110,14 +110,25 @@ if (isset($_SESSION['userid'])) {
 	  });
 
             $("#inappropriateLink<?php echo $item['id']; ?>").on("click", function(e){
-            var imageId = '<?php echo $item['id']; ?>';
+            var imageId = '<?php echo $item['id']; ?>';            
                 $.ajax({
                     method: "POST",
                     url: "ajax/reportpost.php",
                     data: {imageId: imageId},
                     dataType: "json"
                 })
-                .done(function(){
+                .done(function(response){
+                    if(response.status == "success"){
+                        $("#inappropriateLink<?php echo $item['id']; ?>").html("<span class='glyphicon glyphicon-ok'> Marked as inappropriate</span>");
+                    }
+                    if(response.status == "fail"){
+                        $("#inappropriateLink<?php echo $item['id']; ?>").css("color", "red");
+                        $("#inappropriateLink<?php echo $item['id']; ?>").html("<p>You already marked this post as inappropriate</p>").css("text-decoration", "none");
+                    }
+                    if(response.status == "delete"){
+                        $("#inappropriateLink<?php echo $item['id']; ?>").css("color", "red");
+                        $("#inappropriateLink<?php echo $item['id']; ?>").html("<p>This post will be deleted because it was marked as inappropriate by 3 users</p>").css("text-decoration", "none");
+                    }
                 });
                 e.preventDefault();
             });

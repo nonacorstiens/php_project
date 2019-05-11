@@ -81,26 +81,6 @@
             return $this;
         }
 
-        /**
-         * Get the value of location.
-         */
-        public function getLocation()
-        {
-            return $this->location;
-        }
-
-        /**
-         * Set the value of location.
-         *
-         * @return self
-         */
-        public function setLocation($location)
-        {
-            $this->location = $location;
-
-            return $this;
-        }
-
         public function uploadImage($imageFile)
         {
             try {
@@ -144,11 +124,12 @@
         {
             if (!empty($this->image && $this->imageDescription)) {
                 $conn = Db::getInstance();
-                $statement = $conn->prepare('INSERT INTO post(imageName,imageDescription, imageCrop, userId) values(:image, :imageDescription, :imageCrop, :userId)');
+                $statement = $conn->prepare('INSERT INTO post(imageName,imageDescription, imageCrop, userId, location) values(:image, :imageDescription, :imageCrop, :userId, :location)');
                 $statement->bindParam(':image', $this->image);
                 $statement->bindParam(':imageCrop', $this->imageCrop);
                 $statement->bindParam(':imageDescription', $this->imageDescription);
                 $statement->bindParam(':userId', $this->userId);
+                $statement->bindParam(':location', $this->location);
                 $result = $statement->execute();
 
                 return true;
@@ -285,5 +266,25 @@
                 }
             } catch (Exception $e) {
             }
+        }
+
+        /**
+         * Get the value of location.
+         */
+        public function getLocation()
+        {
+            return $this->location;
+        }
+
+        /**
+         * Set the value of location.
+         *
+         * @return self
+         */
+        public function setLocation($location)
+        {
+            $this->location = $location;
+
+            return $this;
         }
     }

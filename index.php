@@ -34,7 +34,6 @@ if (isset($_SESSION['userid'])) {
             <a href="logout.php" class="logout-link">logout</a>
     
         </nav>
-
         <form action="" method="post" class="form-search">
             <div class="form-search-container">  
                 <input type='text' name='searchReq' class="form-search-control" placeholder="Look for locations, tags,...">
@@ -75,7 +74,7 @@ if (isset($_SESSION['userid'])) {
                                 <input type="text" class="comment-input" placeholder="Say something about this picture" id="postComment<?php echo $item['id']; ?>" name="postComment" />
                                 <input type="submit" class= "btn btn-default btn-sm" id="btnSubmit<?php echo $item['id']; ?>" name="postComment" value="Comment" />
                             </div>
-                            <a class="inappropriateLink"id="inappropriateLink<?php echo $item['id']; ?>" href="">Mark as inappropriate</a>
+                            <a class="inappropriateLink btn btn-default btn-xs btn-block" id="inappropriateLink<?php echo $item['id']; ?>" href="">Mark as inappropriate</a>
                         </div>
 
                     </form>
@@ -102,7 +101,7 @@ if (isset($_SESSION['userid'])) {
 						if(response.status == 'success'){
 							var li = "<li>" + text + "</li>";
 							$("#post_comment_updates<?php echo $item['id']; ?>").append(li); 
-							$("#comment").val("").focus();
+							$("#postComment<?php echo $item['id']; ?>").val("").focus();
 							$("#post_comment_updates<?php echo $item['id']; ?> li").last().slideDown();
 						}
 					});
@@ -119,11 +118,12 @@ if (isset($_SESSION['userid'])) {
                 })
                 .done(function(response){
                     if(response.status == "success"){
-                        $("#inappropriateLink<?php echo $item['id']; ?>").html("<span class='glyphicon glyphicon-ok'> Marked as inappropriate</span>");
+                        $("#inappropriateLink<?php echo $item['id']; ?>").html("<p class='inappropriateLink btn-xs'><span class='glyphicon glyphicon-ok'></span>  Marked as inappropriate</p>");
+                        $(".glyphicon-ok").css("color", "green");
                     }
                     if(response.status == "fail"){
                         $("#inappropriateLink<?php echo $item['id']; ?>").css("color", "red");
-                        $("#inappropriateLink<?php echo $item['id']; ?>").html("<p>You already marked this post as inappropriate</p>").css("text-decoration", "none");
+                        $("#inappropriateLink<?php echo $item['id']; ?>").html("<p class='alert alert-danger'>You already marked this post as inappropriate</p>").css("text-decoration", "none");
                     }
                     if(response.status == "delete"){
                         $("#inappropriateLink<?php echo $item['id']; ?>").css("color", "red");

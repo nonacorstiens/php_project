@@ -6,15 +6,16 @@
 
         public static function getInstance()
         {
-            //var_dump(__DIR__.'/../');
-            //var_dump($_SERVER['DOCUMENT_ROOT']);
-            $config = parse_ini_file(__DIR__.'/../'.'config/config.ini'); //ini file uitlezen en array teruggeven
+
+            $config = parse_ini_file('config/config.ini'); //ini file uitlezen en array teruggeven
+
             //var_dump($config);
             //$this kan hier niet want er zijn geen huidige objecten meer
             if (self::$conn != null) {
                 return self::$conn;
             } else {
-                self::$conn = new PDO('mysql:host=localhost;dbname='.$config['db_name'], $config['db_user'], $config['db_password'], null);
+
+                self::$conn = new PDO('mysql:host=localhost;dbname='.$config['db_name'].';charset=utf8mb4', $config['db_user'], $config['db_password'], null);
 
                 return self::$conn;
             }

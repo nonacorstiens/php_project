@@ -294,6 +294,9 @@ h6{
     color: black;
 }
 
+
+
+
 @media(min-width: 800px){
     .picture-grid{
         display: grid;

@@ -249,11 +249,13 @@ require_once 'functions.inc.php';
 
         public function changeEmail()
         {
-            $conn = Db::getInstance();
-            $stm = $conn->prepare('UPDATE user SET email = :email WHERE id = :id');
-            $stm->bindParam(':id', $this->id);
-            $stm->bindParam(':email', $this->email);
-            $result = $stm->execute();
+            if (canChangeEmail($this->email)) {
+                $conn = Db::getInstance();
+                $stm = $conn->prepare('UPDATE user SET email = :email WHERE id = :id');
+                $stm->bindParam(':id', $this->id);
+                $stm->bindParam(':email', $this->email);
+                $result = $stm->execute();
+            }
         }
 
         public function changePassword()

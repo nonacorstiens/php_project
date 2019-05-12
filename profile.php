@@ -20,6 +20,7 @@ if (!empty($_POST['description'])) {
     $user->setDescription($_POST['description']); //variabele email naar userklasse doorgeven
     $user->setId($_SESSION['userid']); //id via session id doorgeven aan userklasse
     $user->changeDescription(); // functie aanroepen die zich in userklasse bevindt
+    $userInfo = $user->getValues();
 }
 
 if (!empty($_POST['email'])) {
@@ -27,6 +28,7 @@ if (!empty($_POST['email'])) {
     $user->setEmail($_POST['email']); //variabele email naar userklasse doorgeven
     $user->setId($_SESSION['userid']); //id via session id doorgeven aan userklasse
     $user->changeEmail(); // functie aanroepen die zich in userklasse bevindt
+    $userInfo = $user->getValues();
 }
 
 if (!empty($_POST['passwordOld']) && !empty($_POST['passwordNew']) && !empty($_POST['passwordConfirmation'])) {

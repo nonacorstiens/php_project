@@ -1,19 +1,28 @@
 <?php
 
+
 include_once 'bootstrap.php';
 
+
 session_start();
+include_once 'classes/Db.class.php';
+include_once 'classes/User.class.php';
+include_once 'classes/Security.class.php';
+
 
 if (!isset($_SESSION['userid'])) {
     header('Location: login.php');
+
 } else {
 }
+
 
 $db = Db::getInstance();
 $user = new User($db);
 $user->setId($_SESSION['userid']);
 
 $userInfo = $user->getValues();
+
 
 if (!empty($_POST['description'])) {
     $user = new User(); // userklasse aanspreken
@@ -67,6 +76,7 @@ if (isset($_POST['btnProfilePicture'])) {
 
 ?>
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -82,6 +92,7 @@ if (isset($_POST['btnProfilePicture'])) {
     <main class="main">
     <h2 class="h2">Profiel bewerken <?php echo $userInfo['firstName']; ?></h2>
         <div class="profile">
+
         <?php if (!empty($_SESSION['errors'])) {
     foreach ($_SESSION['errors'] as $key => $value) {
         // and print out the values
@@ -102,10 +113,12 @@ if (isset($_POST['btnProfilePicture'])) {
         
         <input type="submit" name="btnProfilePicture" id="submit" value="upload">
     </form>
+
                 
             </div>
 
             <div>
+
                 <h3>Bio</h3>
                 <p ><?php echo $userInfo['description']; ?></p>
                 
@@ -113,6 +126,7 @@ if (isset($_POST['btnProfilePicture'])) {
                     <form method="post" name="description">
                         <input class="profile__form inputfield" type="text" name="description" value="<?php echo $userInfo['description']; ?>"><br>
                         <input class="profile__form button" type="submit" name="btnDescription" value="Wijzig">
+
                     </form>
                 </div>
                 
@@ -122,10 +136,12 @@ if (isset($_POST['btnProfilePicture'])) {
                 <h3>Email</h3>
                 <p ><?php echo $userInfo['email']; ?></p>
                 
+
                 <div id="formEditEmail" >
                     <form method="post" name="emailChange">
                         <input class="profile__form inputfield" type="text" name="email" value="<?php echo $userInfo['email']; ?>"><br>
                         <input class="profile__form button" type="submit" name="btnEmail" value="Wijzig">
+
                     </form>
                 </div>
                 

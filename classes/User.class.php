@@ -225,6 +225,7 @@ require_once 'functions.inc.php';
             if ($user != false) {
                 if (password_verify($this->password, $user['password'])) {
                     $this->id = $user['id'];
+                    $this->firstName = $user['firstName'];
 
                     return true;
                 } else {
@@ -237,7 +238,7 @@ require_once 'functions.inc.php';
 
         public function getValues()
         {
-            $conn = new PDO('mysql:host=localhost;dbname=PHPotato', 'root', 'root', null);
+            $conn = Db::getInstance();
             $stm = $conn->prepare('SELECT * from user WHERE id = :id');
             $stm->bindParam(':id', $this->id);
             $stm->execute();

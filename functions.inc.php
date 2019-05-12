@@ -59,6 +59,7 @@ function canChangePassword($password1, $password2)
     }
 }
 
+
 function validDescription($description)
 {
     if (!preg_match('/^[a-zA-Z0-9\s]+$/', $description)) {
@@ -69,4 +70,5 @@ function validDescription($description)
 }
 
 ?>
+
 

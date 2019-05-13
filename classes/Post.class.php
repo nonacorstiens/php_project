@@ -196,7 +196,7 @@
             $conn = Db::getInstance();
             $statement = $conn->prepare("select * from post where imageDescription LIKE '%$term%'");
             $result = $statement->execute();
-            $searchResults = $statement->fetchAll(PDO::FETCH_CLASS, __CLASS__);
+            $searchResults = $statement->fetchAll();
 
             return $searchResults;
         }

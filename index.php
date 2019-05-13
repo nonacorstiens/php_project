@@ -118,6 +118,7 @@ if (isset($_SESSION['userid'])) {
                         dataType: "json"
                     })
                     .done(function(response){
+                        console.log(response);
                         if(response.status == "success"){
                             $("#inappropriateLink<?php echo $item['id']; ?>").html("<p class='inappropriateLink btn-xs'><span class='glyphicon glyphicon-ok'></span>  Marked as inappropriate</p>");
                             $(".glyphicon-ok").css("color", "green");

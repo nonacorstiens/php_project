@@ -25,9 +25,12 @@ session_start();
                  <a href="profile.php" class="profile-icon"><span class="glyphicon glyphicon-user"></span></a>  
             </div>
             <form action="" method="post" class="form-search">
-            <div class="form-search-container">  
-                <input type='text' name='searchReq' class="form-search-control" placeholder="Look for locations, tags,...">
-                <input type='submit' name="search"  class="btn-default btn-sm" value= "Search">
+            <div class="form-search-container"> 
+                <div class="back-link">
+                    <a href="index.php"><span class="glyphicon glyphicon-arrow-left"></span></a> 
+                </div>
+                <input type='text' name='searchReq' id="searchReq" class="form-search-control" placeholder="<?php echo $_SESSION['searchReq']; ?>">
+                <input type='submit' name="search" id="search-button" class="btn-default btn-sm" value= "Search">
             </div>
         </form>
             <a href="logout.php" class="logout-link">logout</a>
@@ -36,10 +39,8 @@ session_start();
              <a href="uploadpage.php"><span class="glyphicon glyphicon-camera"></span></a>
     </div>
     <div class="bar-down"></div>
+    <h2 id=title-search>Posts that match your search...</h2>
     <div class="picture-grid">
-            <a href="index.php">BACK</a>
-            <h2>Posts that match your search...</h2>
-
             <?php foreach ($searchResults as $result): ?>
             <div class="picture-row">
                 <div class="post-div">
@@ -51,7 +52,7 @@ session_start();
                 </div>
                 <div class="post-info">
                     <form method="post" action="">
-                        <div class="post_form">
+                        <div class="post-form">
                             <h3 class="postDescription"><?php echo $result['imageDescription']; ?></h3>
                             <?php
                             $comments = Comment::getAll($result['id']);
@@ -65,7 +66,9 @@ session_start();
                                 <input type="text" class="comment-input" placeholder="Say something about this picture" id="postComment<?php echo $result['id']; ?>" name="postComment" />
                                 <input type="submit" class= "btn btn-default btn-sm" id="btnSubmit<?php echo $result['id']; ?>" name="postComment" value="Comment" />
                             </div>
-                            <a class="inappropriateLink btn btn-default btn-xs btn-block" id="inappropriateLink<?php echo $result['id']; ?>" href="">Mark as inappropriate</a>
+                            <div class="inappropriate-form">
+                                <a class="inappropriateLink btn btn-default btn-xs" id="inappropriateLink<?php echo $result['id']; ?>" href="">Mark as inappropriate</a>
+                            </div>
                         </div>
 
                     </form>

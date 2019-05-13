@@ -36,107 +36,108 @@ if (isset($_SESSION['userid'])) {
         </nav>
         <form action="" method="post" class="form-search">
             <div class="form-search-container">  
-                <input type='text' name='searchReq' class="form-search-control" placeholder="Look for locations, tags,...">
-                <input type='submit' name="search"  class="btn-default btn-sm" value= "Search">
+                <input type='text' name='searchReq' id="searchReq" class="form-search-control" placeholder="Look for locations, tags,...">
+                <input type='submit' name="search" id="search-button" class="btn-default btn-sm" value= "Search">
             </div>
         </form>
         <div class="upload-link">
              <a href="uploadpage.php"><span class="glyphicon glyphicon-camera"></span></a>
         </div>
         <div class="bar-down"></div>
-        
-
-
-    <div class="picture-grid">
-            <?php foreach (array_slice($posts, 0, 20) as $post => $item):
-    ?>
-        <div class="picture-row">
-            <div class="post-div">
-                <a class="post_link" href="detailpage.php?id=<?php echo $item['id']; ?>">
-                    <img class="postImage" src="<?php echo $item['imageCrop']; ?>" width="350px">
-                </a>
-                <div class="like-link">
-                                <a><span class="glyphicon glyphicon-heart"></span></a>
-                </div>
-                <div class="post-info">
-                    <form method="post" action="">
-                        <div class="post_form">
-                            <h3 class="postDescription"><?php echo $item['imageDescription']; ?></h3>
-                            <?php
-                            $comments = Comment::getAll($item['id']);
-                            ?>
-                            <ul id="post_comment_updates<?php echo $item['id']; ?>" class="post-comments-list">
-                            <?php foreach ($comments as $comment):?>
-                            <li><?php echo $comment['comment']; ?></li>
-        <?php endforeach; ?>   
-                            </ul>
-                            <div class="comment-box">
-                                <input type="text" class="comment-input" placeholder="Say something about this picture" id="postComment<?php echo $item['id']; ?>" name="postComment" />
-                                <input type="submit" class= "btn btn-default btn-sm" id="btnSubmit<?php echo $item['id']; ?>" name="postComment" value="Comment" />
-                            </div>
-                            <a class="inappropriateLink btn btn-default btn-xs btn-block" id="inappropriateLink<?php echo $item['id']; ?>" href="">Mark as inappropriate</a>
-                        </div>
-
-                    </form>
-                </div>
-
-            </div>
+        <div class="space">
         </div>
-    <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
-    <script>
-        	$("#btnSubmit<?php echo $item['id']; ?>").on("click", function(e){
-		  	var text = $("#postComment<?php echo $item['id']; ?>").val();
-            var id = '<?php echo $item['id']; ?>';
-			
-			  $.ajax({
-					method: "POST",
-					url: "ajax/postcomment.php",
-					data: { text: text, id: id },
-					dataType: "json" // belangrijk!
-					})
-					.done(function( response ) { // dit is de json die je hebt teruggestuurd (success of error)
-						if(response.status == 'success'){
-							var li = "<li>" + text + "</li>";
-							$("#post_comment_updates<?php echo $item['id']; ?>").append(li); 
-							$("#postComment<?php echo $item['id']; ?>").val("").focus();
-							$("#post_comment_updates<?php echo $item['id']; ?> li").last().slideDown();
-						}
-					});
-			e.preventDefault();
-	  });
+        <div class="picture-grid">
+                <?php foreach (array_slice($posts, 0, 20) as $post => $item):
+        ?>
+            <div class="picture-row">
+                <div class="post-div">
+                    <a class="post_link" href="detailpage.php?id=<?php echo $item['id']; ?>">
+                        <img class="postImage" src="<?php echo $item['imageCrop']; ?>" width="350px">
+                    </a>
+                    <div class="like-link">
+                                    <a><span class="glyphicon glyphicon-heart"></span></a>
+                    </div>
+                    <div class="post-info">
+                        <form method="post" action="">
+                            <div class="post-form">
+                                <h3 class="postDescription"><?php echo $item['imageDescription']; ?></h3>
+                                <?php
+                                $comments = Comment::getAll($item['id']);
+                                ?>
+                                <ul id="post_comment_updates<?php echo $item['id']; ?>" class="post-comments-list">
+                                <?php foreach ($comments as $comment):?>
+                                <li><?php echo $comment['comment']; ?></li>
+            <?php endforeach; ?>   
+                                </ul>
+                                <div class="comment-box">
+                                    <input type="text" class="comment-input" placeholder="Say something about this picture" id="postComment<?php echo $item['id']; ?>" name="postComment" />
+                                    <input type="submit" class= "btn btn-default btn-sm" id="btnSubmit<?php echo $item['id']; ?>" name="postComment" value="Comment" />
+                                </div>
+                                <div class="inappropriate-form">
+                                    <a class="inappropriateLink btn btn-default btn-xs" id="inappropriateLink<?php echo $result['id']; ?>" href="">Mark as inappropriate</a>
+                                </div>
+                            </div>
 
-            $("#inappropriateLink<?php echo $item['id']; ?>").on("click", function(e){
-            var imageId = '<?php echo $item['id']; ?>';            
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+        <script>
+                $("#btnSubmit<?php echo $item['id']; ?>").on("click", function(e){
+                var text = $("#postComment<?php echo $item['id']; ?>").val();
+                var id = '<?php echo $item['id']; ?>';
+                
                 $.ajax({
-                    method: "POST",
-                    url: "ajax/reportpost.php",
-                    data: {imageId: imageId},
-                    dataType: "json"
-                })
-                .done(function(response){
-                    if(response.status == "success"){
-                        $("#inappropriateLink<?php echo $item['id']; ?>").html("<p class='inappropriateLink btn-xs'><span class='glyphicon glyphicon-ok'></span>  Marked as inappropriate</p>");
-                        $(".glyphicon-ok").css("color", "green");
-                    }
-                    if(response.status == "fail"){
-                        $("#inappropriateLink<?php echo $item['id']; ?>").css("color", "red");
-                        $("#inappropriateLink<?php echo $item['id']; ?>").html("<p class='alert alert-danger'>You already marked this post as inappropriate</p>").css("text-decoration", "none");
-                    }
-                    if(response.status == "delete"){
-                        $("#inappropriateLink<?php echo $item['id']; ?>").css("color", "red");
-                        $("#inappropriateLink<?php echo $item['id']; ?>").html("<p>This post will be deleted because it was marked as inappropriate by 3 users</p>").css("text-decoration", "none");
-                    }
-                });
+                        method: "POST",
+                        url: "ajax/postcomment.php",
+                        data: { text: text, id: id },
+                        dataType: "json" // belangrijk!
+                        })
+                        .done(function( response ) { // dit is de json die je hebt teruggestuurd (success of error)
+                            if(response.status == 'success'){
+                                var li = "<li>" + text + "</li>";
+                                $("#post_comment_updates<?php echo $item['id']; ?>").append(li); 
+                                $("#postComment<?php echo $item['id']; ?>").val("").focus();
+                                $("#post_comment_updates<?php echo $item['id']; ?> li").last().slideDown();
+                            }
+                        });
                 e.preventDefault();
-            });
-        
-    </script>
-                <?php
-endforeach; ?>
+        });
+
+                $("#inappropriateLink<?php echo $item['id']; ?>").on("click", function(e){
+                var imageId = '<?php echo $item['id']; ?>';            
+                    $.ajax({
+                        method: "POST",
+                        url: "ajax/reportpost.php",
+                        data: {imageId: imageId},
+                        dataType: "json"
+                    })
+                    .done(function(response){
+                        if(response.status == "success"){
+                            $("#inappropriateLink<?php echo $item['id']; ?>").html("<p class='inappropriateLink btn-xs'><span class='glyphicon glyphicon-ok'></span>  Marked as inappropriate</p>");
+                            $(".glyphicon-ok").css("color", "green");
+                        }
+                        if(response.status == "fail"){
+                            $("#inappropriateLink<?php echo $item['id']; ?>").css("color", "red");
+                            $("#inappropriateLink<?php echo $item['id']; ?>").html("<p class='alert alert-danger'>You already marked this post as inappropriate</p>").css("text-decoration", "none");
+                        }
+                        if(response.status == "delete"){
+                            $("#inappropriateLink<?php echo $item['id']; ?>").css("color", "red");
+                            $("#inappropriateLink<?php echo $item['id']; ?>").html("<p>This post will be deleted because it was marked as inappropriate by 3 users</p>").css("text-decoration", "none");
+                        }
+                    });
+                    e.preventDefault();
+                });
+            
+        </script>
+                    <?php
+    endforeach; ?>
+        </div>
     </div>
- </div>
 </body>
 </html>

@@ -12,29 +12,51 @@ $comments = Comment::getAll($id);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=yes">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <title>Detailpage</title>
 </head>
 <body>
-    <h1 class="postDescription"><?php echo $post['imageDescription']; ?></h1>
-    <img class="postImage" src="<?php echo $post['imageName']; ?>" width="350px">
-
-    <form method="post" action="">
-         <div class="post_form">
-                <a>Like</a>
-                <br>
-                <a>Mark as inappropriate</a>
-                <br>
-                <input type="text" id="postComment" name="postComment" placeholder="Say something about this picture"  />
-                <input type="submit" id="btnSubmit" name="postComment" value="Comment" />
-
-                <ul id="post_comment_updates">
+    <nav class="nav">
+            <a href="index.php" class="nav-logo"><h2>GRAFFITIC</h2></a>
+            <div class="profile-link">
+                 <p class="profile-name"><?php echo 'Hi, '.$_SESSION['username']; ?></p>
+                 <a href="profile.php" class="profile-icon"><span class="glyphicon glyphicon-user"></span></a>  
+            </div>
+            <a href="logout.php" class="logout-link">logout</a>
+            <div class="form-search">
+                <div class="back-link" id="detail-back-link">
+                    <a href="index.php"><span class="glyphicon glyphicon-arrow-left"></span></a> 
+                </div>
+            </div>
+    </nav>
+    <div class="detail-grid">
+        <img id="post-image" class="postImage" src="<?php echo $post['imageName']; ?>">
+        <div class="post-info" id="detail-post-info">
+            <form class="detail-post-form" method="post" action="">
+                <div class="post-form">
+                    <h3 class="postDescription"><?php echo $post['imageDescription']; ?></h3>
+                    <?php
+                    $comments = Comment::getAll($post['id']);
+                    ?>
+                    <ul id="post_comment_updates<?php echo $post['id']; ?>" class="post-comments-list">
                     <?php foreach ($comments as $comment):?>
                     <li><?php echo $comment['comment']; ?></li>
-<?php endforeach; ?>   
-                </ul>
-        </div>
-    </form>
+                <?php endforeach; ?>   
+                    </ul>
+                    <div class="comment-box">
+                        <input type="text" class="comment-input" placeholder="Say something about this picture" id="postComment<?php echo $result['id']; ?>" name="postComment" />
+                        <input type="submit" class= "btn btn-default btn-sm" id="btnSubmit<?php echo $result['id']; ?>" name="postComment" value="Comment" />
+                    </div>
+                    <div class="inappropriate-form">
+                        <a class="inappropriateLink btn btn-default btn-xs" id="inappropriateLink<?php echo $result['id']; ?>" href="">Mark as inappropriate</a>
+                    </div>
+                </div>
 
+            </form>
+        </div>
+    </div>
     <script
         src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="

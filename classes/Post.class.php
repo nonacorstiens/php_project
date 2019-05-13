@@ -218,7 +218,7 @@
 
         public static function setInactive($imageId)
         {
-            $conn = new PDO('mysql:host=localhost;dbname=PHPotato;charset=utf8mb4', 'root', 'root');
+            $conn = Db::getInstance();
             $statement = $conn->prepare('UPDATE post SET active = "0" WHERE id = :imageId');
             $statement->bindParam(':imageId', $imageId);
             $statement->execute();
@@ -226,7 +226,7 @@
 
         public static function uploadReportToDB($imageId, $userId)
         {
-            $conn = new PDO('mysql:host=localhost;dbname=PHPotato;charset=utf8mb4', 'root', 'root');
+            $conn = Db::getInstance();
             $statement = $conn->prepare('INSERT INTO reportedPost(imageId, userId) values(:imageId, :userId)');
             $statement->bindParam(':imageId', $imageId);
             $statement->bindParam(':userId', $userId);

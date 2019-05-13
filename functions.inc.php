@@ -127,7 +127,3 @@ function canChangeEmail($email)
         return true;
     }
 }
-
-?>
-
-

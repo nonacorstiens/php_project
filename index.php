@@ -74,7 +74,7 @@ if (isset($_SESSION['userid'])) {
                                     <input type="submit" class= "btn btn-default btn-sm" id="btnSubmit<?php echo $item['id']; ?>" name="postComment" value="Comment" />
                                 </div>
                                 <div class="inappropriate-form">
-                                    <a class="inappropriateLink btn btn-default btn-xs" id="inappropriateLink<?php echo $result['id']; ?>" href="">Mark as inappropriate</a>
+                                    <a class="inappropriateLink btn btn-default btn-xs" id="inappropriateLink<?php echo $item['id']; ?>" href="">Mark as inappropriate</a>
                                 </div>
                             </div>
 
@@ -110,7 +110,7 @@ if (isset($_SESSION['userid'])) {
         });
 
                 $("#inappropriateLink<?php echo $item['id']; ?>").on("click", function(e){
-                var imageId = '<?php echo $item['id']; ?>';            
+                var imageId = '<?php echo $item['id']; ?>';         
                     $.ajax({
                         method: "POST",
                         url: "ajax/reportpost.php",

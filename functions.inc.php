@@ -98,7 +98,7 @@ function canRegister($firstName, $lastName, $userName, $email, $password1, $pass
 
 function validDescription($description)
 {
-    $errorMessages = array();
+    /*$errorMessages = array();
     $ok = true;
     if (!preg_match('/^[a-zA-Z0-9\s]+$/', $description)) {
         array_push($errorMessages, 'Description can only contain letters, numbers and white spaces');
@@ -109,7 +109,8 @@ function validDescription($description)
 
     if ($ok === true) {
         return true;
-    }
+    }*/
+    return trim(htmlspecialchars($description));
 }
 
 function canChangeEmail($email)

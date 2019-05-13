@@ -117,8 +117,9 @@ if (isset($_POST['btnProfilePicture'])) {
                 <p ><?php echo $userInfo['description']; ?></p>
                 
                 <div >
-                    <form class="" method="post" name="description">
-                        <input class="form-control" type="text" name="description" value="<?php echo $userInfo['description']; ?>"><br>
+                    <form class="" method="post" name="description" enctype="multipart/form-data">
+                    <textarea type="text" class="form-control" rows="5" name="description" id="uploadDescription" placeholder="Say something about yourself"></textarea>
+                       
                         <input class="btn btn-default" type="submit" name="btnDescription" value="Wijzig">
 
                     </form>

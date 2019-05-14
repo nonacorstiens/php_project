@@ -61,15 +61,17 @@ if (isset($_SESSION['userid'])) {
     echo "<h5 class='alert alert-danger'> $result</h5>";
 }?>
                 <div class="image-preview">
-                    <img src="" id="imagePreview" width="400px">
+                    <img src="" id="imagePreview">
                 </div>
                 <div class="location">
-                    <input type="text" name="location" id="location-field" class="form-control">
+                    <label class="hidden" for="location"></label>
+                    <input type="text" name="location" id="location-field" class="form-control hidden">
                 </div>
                 <div class="form-group">
+                    <label for="image"></label>
                     <input type="file" name="image" id="exampleInputFile" class="form-control">
                 </div>
-
+                <label for="imageDescription"></label>
                 <textarea type="text" class="form-control" rows="5" name="imageDescription" id="uploadDescription" placeholder="Say something about this image"></textarea>
 
                 <input type="submit" class="btn btn-primary" name="submit" id="submit" value="upload">

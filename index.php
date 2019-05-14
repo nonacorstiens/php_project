@@ -54,8 +54,11 @@ if (isset($_SESSION['userid'])) {
                     <a class="post_link" href="detailpage.php?id=<?php echo $item['id']; ?>">
                         <img class="postImage" src="<?php echo $item['imageCrop']; ?>" width="350px">
                     </a>
-                    <div class="like-link">
-                                    <a><span class="glyphicon glyphicon-heart"></span></a>
+                    <div class="action-form">
+                                    <a id="like-heart"><span class="glyphicon glyphicon-heart"></span></a>
+                                    <div class="inappropriate-form">
+                                        <a class="inappropriateLink" id="inappropriateLink<?php echo $item['id']; ?>" href="">Mark as inappropriate</a>
+                                    </div>
                     </div>
                     <div class="post-info">
                         <form method="post" action="">
@@ -73,9 +76,7 @@ if (isset($_SESSION['userid'])) {
                                     <input type="text" class="comment-input" placeholder="Say something about this picture" id="postComment<?php echo $item['id']; ?>" name="postComment" />
                                     <input type="submit" class= "btn btn-default btn-sm" id="btnSubmit<?php echo $item['id']; ?>" name="postComment" value="Comment" />
                                 </div>
-                                <div class="inappropriate-form">
-                                    <a class="inappropriateLink btn btn-default btn-xs" id="inappropriateLink<?php echo $item['id']; ?>" href="">Mark as inappropriate</a>
-                                </div>
+                                
                             </div>
 
                         </form>
@@ -120,12 +121,12 @@ if (isset($_SESSION['userid'])) {
                     .done(function(response){
                         console.log(response);
                         if(response.status == "success"){
-                            $("#inappropriateLink<?php echo $item['id']; ?>").html("<p class='inappropriateLink btn-xs'><span class='glyphicon glyphicon-ok'></span>  Marked as inappropriate</p>");
+                            $("#inappropriateLink<?php echo $item['id']; ?>").html("<p class='inappropriateLink'><span class='glyphicon glyphicon-ok'></span> Marked as inappropriate</p>");
                             $(".glyphicon-ok").css("color", "green");
                         }
                         if(response.status == "fail"){
                             $("#inappropriateLink<?php echo $item['id']; ?>").css("color", "red");
-                            $("#inappropriateLink<?php echo $item['id']; ?>").html("<p class='alert alert-danger'>You already marked this post as inappropriate</p>").css("text-decoration", "none");
+                            $("#inappropriateLink<?php echo $item['id']; ?>").html("<p>You already marked this post as inappropriate</p>").css("text-decoration", "none");
                         }
                         if(response.status == "delete"){
                             $("#inappropriateLink<?php echo $item['id']; ?>").css("color", "red");

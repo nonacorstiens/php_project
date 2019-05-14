@@ -25,14 +25,14 @@ session_start();
                  <a href="profile.php" class="profile-icon"><span class="glyphicon glyphicon-user"></span></a>  
             </div>
             <form action="" method="post" class="form-search">
-            <div class="form-search-container"> 
-                <div class="back-link">
-                    <a href="index.php"><span class="glyphicon glyphicon-arrow-left"></span></a> 
+                <div class="form-search-container"> 
+                    <div class="back-link">
+                        <a href="index.php"><span class="glyphicon glyphicon-arrow-left"></span></a> 
+                    </div>
+                    <input type='text' name='searchReq' id="searchReq-detail" class="form-search-control" placeholder="<?php echo $_SESSION['searchReq']; ?>">
+                    <input type='submit' name="search" id="search-button" class="btn-default btn-sm" value= "Search">
                 </div>
-                <input type='text' name='searchReq' id="searchReq" class="form-search-control" placeholder="<?php echo $_SESSION['searchReq']; ?>">
-                <input type='submit' name="search" id="search-button" class="btn-default btn-sm" value= "Search">
-            </div>
-        </form>
+             </form>
             <a href="logout.php" class="logout-link">logout</a>
     </nav>
     <div class="upload-link">
@@ -47,8 +47,11 @@ session_start();
                 <a class="post_link" href="detailpage.php?id=<?php echo $result['id']; ?>">
                     <img class="postImage" src="<?php echo $result['imageCrop']; ?>" width="350px">
                 </a>
-                <div class="like-link">
-                                <a><span class="glyphicon glyphicon-heart"></span></a>
+                <div class="action-form">
+                    <a id="like-heart"><span class="glyphicon glyphicon-heart"></span></a>
+                    <div class="inappropriate-form">
+                        <a class="inappropriateLink" id="inappropriateLink<?php echo $result['id']; ?>" href="">Mark as inappropriate</a>
+                    </div>
                 </div>
                 <div class="post-info">
                     <form method="post" action="">
@@ -66,9 +69,6 @@ session_start();
                                 <input type="text" class="comment-input" placeholder="Say something about this picture" id="postComment<?php echo $result['id']; ?>" name="postComment" />
                                 <input type="submit" class= "btn btn-default btn-sm" id="btnSubmit<?php echo $result['id']; ?>" name="postComment" value="Comment" />
                             </div>
-                            <div class="inappropriate-form">
-                                <a class="inappropriateLink btn btn-default btn-xs" id="inappropriateLink<?php echo $result['id']; ?>" href="">Mark as inappropriate</a>
-                            </div>
                         </div>
 
                     </form>
@@ -76,6 +76,59 @@ session_start();
 
                 </div>
             </div>
+            <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+        <script>
+                $("#btnSubmit<?php echo $result['id']; ?>").on("click", function(e){
+                var text = $("#postComment<?php echo $result['id']; ?>").val();
+                var id = '<?php echo $result['id']; ?>';
+                
+                $.ajax({
+                        method: "POST",
+                        url: "ajax/postcomment.php",
+                        data: { text: text, id: id },
+                        dataType: "json" // belangrijk!
+                        })
+                        .done(function( response ) { // dit is de json die je hebt teruggestuurd (success of error)
+                            if(response.status == 'success'){
+                                var li = "<li>" + text + "</li>";
+                                $("#post_comment_updates<?php echo $result['id']; ?>").append(li); 
+                                $("#postComment<?php echo $result['id']; ?>").val("").focus();
+                                $("#post_comment_updates<?php echo $result['id']; ?> li").last().slideDown();
+                            }
+                        });
+                e.preventDefault();
+        });
+
+                $("#inappropriateLink<?php echo $result['id']; ?>").on("click", function(e){
+                var imageId = '<?php echo $result['id']; ?>';         
+                    $.ajax({
+                        method: "POST",
+                        url: "ajax/reportpost.php",
+                        data: {imageId: imageId},
+                        dataType: "json"
+                    })
+                    .done(function(response){
+                        console.log(response);
+                        if(response.status == "success"){
+                            $("#inappropriateLink<?php echo $result['id']; ?>").html("<p class='inappropriateLink'><span class='glyphicon glyphicon-ok'></span> Marked as inappropriate</p>");
+                            $(".glyphicon-ok").css("color", "green");
+                        }
+                        if(response.status == "fail"){
+                            $("#inappropriateLink<?php echo $result['id']; ?>").css("color", "red");
+                            $("#inappropriateLink<?php echo $result['id']; ?>").html("<p>You already marked this post as inappropriate</p>").css("text-decoration", "none");
+                        }
+                        if(response.status == "delete"){
+                            $("#inappropriateLink<?php echo $result['id']; ?>").css("color", "red");
+                            $("#inappropriateLink<?php echo $result['id']; ?>").html("<p>This post will be deleted because it was marked as inappropriate by 3 users</p>").css("text-decoration", "none");
+                        }
+                    });
+                    e.preventDefault();
+                });
+            
+        </script>
             <?php endforeach; ?>
     </div>
 </div>

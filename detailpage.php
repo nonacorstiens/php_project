@@ -25,15 +25,23 @@ $comments = Comment::getAll($id);
                  <a href="profile.php" class="profile-icon"><span class="glyphicon glyphicon-user"></span></a>  
             </div>
             <a href="logout.php" class="logout-link">logout</a>
-            <div class="form-search">
-                <div class="back-link" id="detail-back-link">
-                    <a href="index.php"><span class="glyphicon glyphicon-arrow-left"></span></a> 
+            <form action="" method="post" class="form-search">
+                <div class="form-search-container"> 
+                    <div class="back-link">
+                        <a href="index.php"><span class="glyphicon glyphicon-arrow-left"></span></a> 
+                    </div>
                 </div>
-            </div>
+             </form>
     </nav>
     <div class="detail-grid">
         <img id="post-image" class="postImage" src="<?php echo $post['imageName']; ?>">
         <div class="post-info" id="detail-post-info">
+            <div class="action-form">
+                <a id="like-heart"><span class="glyphicon glyphicon-heart"></span></a>
+                <div class="inappropriate-form">
+                    <a class="inappropriateLink" id="inappropriateLink<?php echo $post['id']; ?>" href="">Mark as inappropriate</a>
+                </div>
+            </div>
             <form class="detail-post-form" method="post" action="">
                 <div class="post-form">
                     <h3 class="postDescription"><?php echo $post['imageDescription']; ?></h3>
@@ -48,9 +56,6 @@ $comments = Comment::getAll($id);
                     <div class="comment-box">
                         <input type="text" class="comment-input" placeholder="Say something about this picture" id="postComment<?php echo $post['id']; ?>" name="postComment" />
                         <input type="submit" class= "btn btn-default btn-sm" id="btnSubmit<?php echo $post['id']; ?>" name="postComment" value="Comment" />
-                    </div>
-                    <div class="inappropriate-form">
-                        <a class="inappropriateLink btn btn-default btn-xs" id="inappropriateLink<?php echo $post['id']; ?>" href="">Mark as inappropriate</a>
                     </div>
                 </div>
 
@@ -93,12 +98,12 @@ $comments = Comment::getAll($id);
                     })
                     .done(function(response){
                         if(response.status == "success"){
-                            $("#inappropriateLink<?php echo $post['id']; ?>").html("<p class='inappropriateLink btn-xs'><span class='glyphicon glyphicon-ok'></span>  Marked as inappropriate</p>");
+                            $("#inappropriateLink<?php echo $post['id']; ?>").html("<p class='inappropriateLink'><span class='glyphicon glyphicon-ok'></span>  Marked as inappropriate</p>");
                             $(".glyphicon-ok").css("color", "green");
                         }
                         if(response.status == "fail"){
                             $("#inappropriateLink<?php echo $post['id']; ?>").css("color", "red");
-                            $("#inappropriateLink<?php echo $post['id']; ?>").html("<p class='alert alert-danger'>You already marked this post as inappropriate</p>").css("text-decoration", "none");
+                            $("#inappropriateLink<?php echo $post['id']; ?>").html("<p>You already marked this post as inappropriate</p>").css("text-decoration", "none");
                         }
                         if(response.status == "delete"){
                             $("#inappropriateLink<?php echo $post['id']; ?>").css("color", "red");

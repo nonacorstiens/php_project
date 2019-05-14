@@ -81,7 +81,7 @@ if (!empty($_POST)) {
             </form>
             <div class="form-switch">
                 <p>Already have an account?</p>
-                <a class ="btn btn-default btn-sm" href="login.php">Register here</a>
+                <a class ="btn btn-default btn-sm" href="login.php">Log in</a>
             </div>
     </div>
 </body>

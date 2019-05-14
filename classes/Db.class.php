@@ -14,7 +14,7 @@
             if (self::$conn != null) {
                 return self::$conn;
             } else {
-                self::$conn = new PDO('mysql:host=localhost;dbname='.$config['db_name'], $config['db_user'], $config['db_password'], null);
+                self::$conn = new PDO('mysql:host=localhost;dbname='.$config['db_name'].';charset=utf8mb4', $config['db_user'], $config['db_password'], null);
 
                 return self::$conn;
             }

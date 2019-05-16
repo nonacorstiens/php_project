@@ -56,7 +56,22 @@ if (isset($_SESSION['userid'])) {
                     <img class="postImage" src="<?php echo $item['imageCrop']; ?>" width="350px">
                 </a>
                 <div class="like-link">
-                                <a><span class="glyphicon glyphicon-heart"></span></a>
+                <?php
+                //if Like::check->isLiked()
+                $userId = $_SESSION['userid'];
+                $postId = $item['id'];
+                if (Like::liked($postId, $userId) == 'yes') {
+                    $bool = true;
+                } else {
+                    $bool = false;
+                }
+
+                ?>
+                                <a href="" id="likeButton<?php echo $item['id']; ?>"><span class='glyphicon glyphicon-heart' style="color:<?php if ($bool == true) {
+                    echo 'red';
+                } else {
+                    echo 'white';
+                }?>"></span></span></a>
                 </div>
                 <div class="post-info">
                     <form method="post" action="">
@@ -129,6 +144,34 @@ if (isset($_SESSION['userid'])) {
                         $("#inappropriateLink<?php echo $item['id']; ?>").css("color", "red");
                         $("#inappropriateLink<?php echo $item['id']; ?>").html("<p>This post will be deleted because it was marked as inappropriate by 3 users</p>").css("text-decoration", "none");
                     }
+                });
+                e.preventDefault();
+            });
+
+            $("#likeButton<?php echo $item['id']; ?>").on("click", function(e){
+            var postId = '<?php echo $item['id']; ?>';
+            var button = $(this);
+            var heart = ''
+
+            //AJAX call maken adhv POST request naar bestand in ajax map
+                $.ajax({
+                    method: "POST", // HOE
+                    url: "ajax/likepost.php", // NAAR WAAR
+                    data: {postId: postId}, // WAT -> geen user-id -> wordt uit session gehaald -> gevaarlijk om in client side code te steken
+                    dataType: "json"
+                })
+                .done(function( res ){
+                    if(res.status === "like"){
+                        
+                        $("#likeButton<?php echo $item['id']; ?>").html("<span class='glyphicon glyphicon-heart' style="+'"'+'color:red'+'"'+"></span>");
+                        
+                } else if(res.status="unlike"){
+                    $("#likeButton<?php echo $item['id']; ?>").html("<span class='glyphicon glyphicon-heart' ></span>");
+                       
+                }
+
+                
+                
                 });
                 e.preventDefault();
             });

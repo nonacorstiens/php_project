@@ -63,6 +63,7 @@ if (isset($_SESSION['userid'])) {
                     <div class="post-info">
                         <form method="post" action="">
                             <div class="post-form">
+                                <p class="locationName"><?php echo $item['location']; ?></p>
                                 <h3 class="postDescription"><?php echo $item['imageDescription']; ?></h3>
                                 <?php
                                 $comments = Comment::getAll($item['id']);

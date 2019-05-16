@@ -9,14 +9,14 @@ if (isset($_POST)) {
     $userId = $_SESSION['userid'];
     try {
         $post = new Post();
-        $boolean = $post->setInappropriate($imageId, $userId);
+        $result = $post->setInappropriate($imageId, $userId);
 
-        if ($boolean == 'ok') {
+        if ($result == 'ok') {
             $result = [
                 'status' => 'success',
                 'message' => 'You marked this post as inappropriate',
             ];
-        } elseif ($boolean == 'deleted') {
+        } elseif ($result == 'deleted') {
             $result = [
                 'status' => 'delete',
                 'message' => 'This post will be deleted because it was marked as inappropriate by 3 users',

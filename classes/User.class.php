@@ -335,7 +335,6 @@ require_once 'functions.inc.php';
                 $statement = $conn->prepare('UPDATE user SET profileImage = :imageCrop WHERE id = :id');
                 $statement->bindParam(':imageCrop', $this->imageCrop);
                 $statement->bindParam(':id', $id);
-                var_dump($userId);
                 $result = $statement->execute();
 
                 return true;

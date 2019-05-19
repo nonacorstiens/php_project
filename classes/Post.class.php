@@ -292,7 +292,7 @@
         {
             $out = ''; // what we will print out
             $now = time(); // current time
-            $diff = $now - $time; // difference between the current and the provided dates
+            $diff = $now - $time + 7200; // difference between the current and the provided dates + 2 uur tijdsverschil -> 1 uur tijdszone en 1 uur zomer/winteruur
 
         if ($diff < 60) { // it happened now
             echo 'Posted just now';

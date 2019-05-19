@@ -54,7 +54,7 @@
         </form>
         <div class="form-switch">
             <p>No account yet?</p>
-            <a class ="btn btn-default btn-sm" href="register.php">Register here</a>
+            <a class ="btn btn-default btn-sm" href="register.php">Register</a>
         </div>
     </div>   
 </body>

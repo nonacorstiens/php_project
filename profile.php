@@ -1,21 +1,13 @@
 <?php
 
-
 include_once 'bootstrap.php';
 
-
 session_start();
-include_once 'classes/Db.class.php';
-include_once 'classes/User.class.php';
-include_once 'classes/Security.class.php';
-
 
 if (!isset($_SESSION['userid'])) {
     header('Location: login.php');
-
 } else {
 }
-
 
 $db = Db::getInstance();
 $user = new User($db);
@@ -23,8 +15,8 @@ $user->setId($_SESSION['userid']);
 
 $userInfo = $user->getValues();
 
-
 if (!empty($_POST['description'])) {
+    unset($_SESSION['errors']);
     $user = new User(); // userklasse aanspreken
     $user->setDescription($_POST['description']); //variabele email naar userklasse doorgeven
     $user->setId($_SESSION['userid']); //id via session id doorgeven aan userklasse
@@ -33,6 +25,7 @@ if (!empty($_POST['description'])) {
 }
 
 if (!empty($_POST['email'])) {
+    unset($_SESSION['errors']);
     $user = new User(); // userklasse aanspreken
     $user->setEmail($_POST['email']); //variabele email naar userklasse doorgeven
     $user->setId($_SESSION['userid']); //id via session id doorgeven aan userklasse
@@ -41,6 +34,7 @@ if (!empty($_POST['email'])) {
 }
 
 if (!empty($_POST['passwordOld']) && !empty($_POST['passwordNew']) && !empty($_POST['passwordConfirmation'])) {
+    unset($_SESSION['errors']);
     $user = new User(); // userklasse aanspreken
     $user->setPassword($_POST['passwordNew']); //variabele email naar userklasse doorgeven
     $user->setPasswordConfirmation($_POST['passwordConfirmation']);
@@ -55,8 +49,8 @@ $result = '';
 
 if (isset($_POST['btnProfilePicture'])) {
     if (!empty($_FILES['image'])) {
+        unset($_SESSION['errors']);
         $post = new User();
-        $post->setDescription($_POST['description']);
         $user->setId($_SESSION['userid']);
         $im = $post->uploadImageImg($_FILES['image']);
         $post->setImage($im);
@@ -86,11 +80,11 @@ if (isset($_POST['btnProfilePicture'])) {
     <link rel="stylesheet" href="css/style.css">
     <title>PHPotato</title>
 </head>
-<body>
+<body class="hero_container">
 
 
-    <main class="main">
-    <h2 class="h2">Profiel bewerken <?php echo $userInfo['firstName']; ?></h2>
+    <main class="main form-container">
+    <h1 class="h2">Profiel bewerken <?php echo $userInfo['firstName']; ?></h1>
         <div class="profile">
 
         <?php if (!empty($_SESSION['errors'])) {
@@ -103,44 +97,45 @@ if (isset($_POST['btnProfilePicture'])) {
         }
     }
 }?>
-            <div>
-                <h3>Profielfoto</h3>
-                <img src="<?php echo $userInfo['profileImage']; ?>" alt="Profile Picture">
-                <form action="" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <h3>Profile Picture</h3>
+                <img src="<?php echo $userInfo['profileImage']; ?>" alt="Profile Picture" >
+                <form class="" action="" method="POST" enctype="multipart/form-data">
         <p class="errorMessage"><?php echo $result; ?></p>
         <input type="file" name="image" >
         <br/>
         
-        <input type="submit" name="btnProfilePicture" id="submit" value="upload">
+        <input type="submit" name="btnProfilePicture"  value="upload" class="btn btn-default">
     </form>
 
                 
             </div>
 
-            <div>
+            <div class="form-group">
 
-                <h3>Bio</h3>
+                <h3>Description</h3>
                 <p ><?php echo $userInfo['description']; ?></p>
                 
                 <div >
-                    <form method="post" name="description">
-                        <input class="profile__form inputfield" type="text" name="description" value="<?php echo $userInfo['description']; ?>"><br>
-                        <input class="profile__form button" type="submit" name="btnDescription" value="Wijzig">
+                    <form class="" method="post" name="description" enctype="multipart/form-data">
+                    <textarea type="text" class="form-control" rows="5" name="description" id="uploadDescription" placeholder="Say something about yourself"></textarea>
+                       
+                        <input class="btn btn-default" type="submit" name="btnDescription" value="Wijzig">
 
                     </form>
                 </div>
                 
             </div>
             
-            <div>
-                <h3>Email</h3>
+            <div class="form-group">
+            <h3>Email</h3>
                 <p ><?php echo $userInfo['email']; ?></p>
                 
 
                 <div id="formEditEmail" >
                     <form method="post" name="emailChange">
-                        <input class="profile__form inputfield" type="text" name="email" value="<?php echo $userInfo['email']; ?>"><br>
-                        <input class="profile__form button" type="submit" name="btnEmail" value="Wijzig">
+                        <input class="form-control" type="text" name="email" value="<?php echo $userInfo['email']; ?>"><br>
+                        <input class="btn btn-default" type="submit" name="btnEmail" value="Wijzig">
 
                     </form>
                 </div>
@@ -150,17 +145,17 @@ if (isset($_POST['btnProfilePicture'])) {
             <div>
             <h3>Wachtwoord</h3>
                 
-                <div id="formEditPassword">
+                <div class="form-group">
                     <form method="post" name="passwordChange">
-                        <label for="password" class="formEdit__label">Huidig wachtwoord</label><br>
-                        <input class="profile__form inputfield" type="password" name="passwordOld"><br>
+                        <label for="password" >Huidig wachtwoord</label><br>
+                        <input class="form-control" type="password" name="passwordOld"><br>
 
-                        <label for="password" class="formEdit__label">Nieuw wachtwoord</label><br>
-                        <input class="profile__form inputfield" type="password" name="passwordNew"><br>
+                        <label for="password" >Nieuw wachtwoord</label><br>
+                        <input class="form-control" type="password" name="passwordNew"><br>
 
-                        <label for="password" class="formEdit__label">Bevestig nieuw wachtwoord</label><br>
-                        <input class="profile__form inputfield" type="password" name="passwordConfirmation" ><br>
-                        <input class="profile__form button" type="submit" name="btnPassword" value="Wijzig">
+                        <label for="password" >Bevestig nieuw wachtwoord</label><br>
+                        <input class="form-control" type="password" name="passwordConfirmation" ><br>
+                        <input class="btn-default btn" type="submit" name="btnPassword" value="Wijzig">
                     </form>
                 </div>
                 

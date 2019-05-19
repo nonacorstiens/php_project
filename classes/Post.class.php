@@ -196,7 +196,7 @@
             $conn = Db::getInstance();
             $statement = $conn->prepare("select * from post where imageDescription LIKE '%$term%'");
             $result = $statement->execute();
-            $searchResults = $statement->fetchAll(PDO::FETCH_CLASS, __CLASS__);
+            $searchResults = $statement->fetchAll();
 
             return $searchResults;
         }
@@ -218,7 +218,7 @@
 
         public static function setInactive($imageId)
         {
-            $conn = new PDO('mysql:host=localhost;dbname=PHPotato;charset=utf8mb4', 'root', 'root');
+            $conn = Db::getInstance();
             $statement = $conn->prepare('UPDATE post SET active = "0" WHERE id = :imageId');
             $statement->bindParam(':imageId', $imageId);
             $statement->execute();
@@ -226,7 +226,7 @@
 
         public static function uploadReportToDB($imageId, $userId)
         {
-            $conn = new PDO('mysql:host=localhost;dbname=PHPotato;charset=utf8mb4', 'root', 'root');
+            $conn = Db::getInstance();
             $statement = $conn->prepare('INSERT INTO reportedPost(imageId, userId) values(:imageId, :userId)');
             $statement->bindParam(':imageId', $imageId);
             $statement->bindParam(':userId', $userId);
@@ -239,7 +239,7 @@
             //$conn = new PDO('mysql:host=localhost;dbname=PHPotato;charset=utf8mb4', 'root', 'root');
             $statement = $conn->prepare('SELECT * from reportedPost where imageId = :imageId');
             $statement->bindParam(':imageId', $imageId);
-            $result = $statement->execute();
+            $statement->execute();
             $reports = $statement->fetchAll(PDO::FETCH_ASSOC);
             $count = $statement->rowCount();
             try {

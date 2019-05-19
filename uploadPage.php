@@ -61,26 +61,28 @@ if (isset($_SESSION['userid'])) {
     echo "<h5 class='alert alert-danger'> $result</h5>";
 }?>
                 <div class="image-preview">
-                    <img src="" id="imagePreview" width="400px">
+                    <img src="" id="imagePreview">
                 </div>
                 <div class="location">
-                    <input type="text" name="location" id="location-field" class="form-control">
+                    <label class="hidden" for="location"></label>
+                    <input type="text" name="location" id="location-field" class="form-control hidden">
                 </div>
                 <div class="form-group">
+                    <label for="image"></label>
                     <input type="file" name="image" id="exampleInputFile" class="form-control">
                 </div>
-
+                <label for="imageDescription"></label>
                 <textarea type="text" class="form-control" rows="5" name="imageDescription" id="uploadDescription" placeholder="Say something about this image"></textarea>
 
                 <input type="submit" class="btn btn-primary" name="submit" id="submit" value="upload">
             </form>
-        </div>
-       
+        </div> 
     </div>
     <script
     src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
 
         $(document).ready(function(){
@@ -104,17 +106,41 @@ if (isset($_SESSION['userid'])) {
             if ("geolocation" in navigator){ //check geolocation available 
             //try to get user current location using getCurrentPosition() method
             navigator.geolocation.getCurrentPosition(function(position){ 
-                    latitude = position.coords.latitude;
-                    longitude = position.coords.longitude;
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
                     console.log(latitude);
                     console.log(longitude);
-                    var position = latitude +  "," + longitude;
+                    var position = latitude + "%2C%" + longitude;
                     console.log(position);
-                    $("#location-field").val(position);
+                    var location = geocode(latitude, longitude);
+                    
                 });
             }else{
                 console.log("Browser doesn't support geolocation!");
             }
+        }
+
+        function geocode(latitude, longitude){
+                $.ajax({
+                    url: 'https://api.opencagedata.com/geocode/v1/json',
+                    method: 'GET',
+                    data: {
+                    'key': '81203b85fb1549d19912e9dcadf4ac3e',
+                    'q': '51.0225751,4.487703'
+                    },
+                    dataType: 'json',
+                    statusCode: {
+                    200: function(response){  // success
+                        var locationName = response.results[0].components['city_district'];
+                        console.log(locationName);
+                        $("#location-field").val(locationName);
+                    },
+                    402: function(){
+                        console.log('hit free-trial daily limit');
+                        console.log('become a customer: https://opencagedata.com/pricing');
+                    }
+                    }
+                });
         }
     </script>
 </body>

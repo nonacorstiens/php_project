@@ -6,6 +6,12 @@
 
         public static function getInstance()
         {
+
+            
+
+
+            //var_dump(__DIR__.'/../');
+            //var_dump($_SERVER['DOCUMENT_ROOT']);
             $config = parse_ini_file(__DIR__.'/../'.'config/config.ini'); //ini file uitlezen en array teruggeven
 
             //var_dump($config);

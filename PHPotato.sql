@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: May 11, 2019 at 09:21 PM
+-- Generation Time: May 12, 2019 at 06:25 PM
 -- Server version: 5.6.38
 -- PHP Version: 7.1.12
 
@@ -11,43 +11,43 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Database: `PHPotato`
+-- Database: PHPotato
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `followUser`
+-- Table structure for table followUser
 --
 
-CREATE TABLE `followUser` (
-  `id` int(11) NOT NULL,
-  `userIdFollower` int(11) NOT NULL,
-  `userIdFollowed` int(11) NOT NULL
+CREATE TABLE followUser (
+  id int(11) NOT NULL,
+  userIdFollower int(11) NOT NULL,
+  userIdFollowed int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `post`
+-- Table structure for table post
 --
 
-CREATE TABLE `post` (
-  `id` int(11) NOT NULL,
-  `imageName` varchar(200) NOT NULL,
-  `imageDescription` varchar(255) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `imageCrop` varchar(200) NOT NULL,
-  `uploadDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `active` int(11) NOT NULL DEFAULT '1',
-  `location` varchar(255) NOT NULL
+CREATE TABLE post (
+  id int(11) NOT NULL,
+  imageName varchar(200) NOT NULL,
+  imageDescription varchar(255) NOT NULL,
+  userId int(11) NOT NULL,
+  imageCrop varchar(200) NOT NULL,
+  uploadDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  active int(11) NOT NULL DEFAULT '1',
+  location varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `post`
+-- Dumping data for table post
 --
 
-INSERT INTO `post` (`id`, `imageName`, `imageDescription`, `userId`, `imageCrop`, `uploadDate`, `active`, `location`) VALUES
+INSERT INTO post (id, imageName, imageDescription, userId, imageCrop, uploadDate, active, location) VALUES
 (134, 'uploads/full/5cc8798295e9b0.14623586.jpg', 'GIRL', 0, 'uploads/cropped/5cc879829b6352.79712737.jpeg', '0000-00-00 00:00:00', 1, ''),
 (135, 'uploads/full/5cc879972762f5.41105183.jpg', 'TIGERS', 0, 'uploads/cropped/5cc879972e2358.17303122.jpeg', '0000-00-00 00:00:00', 1, ''),
 (136, 'uploads/full/5cc879e6ee6031.14526854.jpg', 'BOY', 0, 'uploads/cropped/5cc879e7022103.69549905.jpeg', '0000-00-00 00:00:00', 1, ''),
@@ -77,24 +77,24 @@ INSERT INTO `post` (`id`, `imageName`, `imageDescription`, `userId`, `imageCrop`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `postComment`
+-- Table structure for table postComment
 --
 
-CREATE TABLE `postComment` (
-  `id` int(11) NOT NULL,
-  `comment` varchar(255) NOT NULL,
-  `imageId` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `uploadDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE postComment (
+  id int(11) NOT NULL,
+  comment varchar(255) NOT NULL,
+  imageId int(11) NOT NULL,
+  userId int(11) NOT NULL,
+  uploadDate datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `postComment`
+-- Dumping data for table postComment
 --
 
-INSERT INTO `postComment` (`id`, `comment`, `imageId`, `userId`, `uploadDate`) VALUES
+INSERT INTO postComment (id, comment, imageId, userId, uploadDate) VALUES
 (8, 'wow beautiful design', 155, 6, '2019-05-03 16:18:31'),
-(9, 'in love <3', 155, 6, '2019-05-03 16:18:37'),
+(9, 'in love ❤', 155, 6, '2019-05-03 16:18:37'),
 (10, 'funny', 157, 6, '2019-05-03 16:18:50'),
 (11, 'hehe', 157, 6, '2019-05-03 16:18:55'),
 (12, 'creepy girl...', 158, 6, '2019-05-03 16:19:05'),
@@ -112,32 +112,32 @@ INSERT INTO `postComment` (`id`, `comment`, `imageId`, `userId`, `uploadDate`) V
 -- --------------------------------------------------------
 
 --
--- Table structure for table `postLike`
+-- Table structure for table postLike
 --
 
-CREATE TABLE `postLike` (
-  `id` int(11) NOT NULL,
-  `imageId` int(11) NOT NULL,
-  `userId` int(11) NOT NULL
+CREATE TABLE postLike (
+  id int(11) NOT NULL,
+  imageId int(11) NOT NULL,
+  userId int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reportedPost`
+-- Table structure for table reportedPost
 --
 
-CREATE TABLE `reportedPost` (
-  `id` int(11) NOT NULL,
-  `imageId` int(11) NOT NULL,
-  `userId` int(11) NOT NULL
+CREATE TABLE reportedPost (
+  id int(11) NOT NULL,
+  imageId int(11) NOT NULL,
+  userId int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `reportedPost`
+-- Dumping data for table reportedPost
 --
 
-INSERT INTO `reportedPost` (`id`, `imageId`, `userId`) VALUES
+INSERT INTO reportedPost (id, imageId, userId) VALUES
 (80, 158, 6),
 (81, 157, 6),
 (82, 155, 6),
@@ -151,25 +151,25 @@ INSERT INTO `reportedPost` (`id`, `imageId`, `userId`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Table structure for table user
 --
 
-CREATE TABLE `user` (
-  `id` int(11) UNSIGNED NOT NULL,
-  `firstName` varchar(255) NOT NULL,
-  `lastName` varchar(255) NOT NULL,
-  `userName` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `profileImage` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL
+CREATE TABLE user (
+  id int(11) UNSIGNED NOT NULL,
+  firstName varchar(255) NOT NULL,
+  lastName varchar(255) NOT NULL,
+  userName varchar(255) NOT NULL,
+  email varchar(255) NOT NULL,
+  password varchar(255) NOT NULL,
+  profileImage varchar(255) NOT NULL,
+  description varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table user
 --
 
-INSERT INTO `user` (`id`, `firstName`, `lastName`, `userName`, `email`, `password`, `profileImage`, `description`) VALUES
+INSERT INTO user (id, firstName, lastName, userName, email, password, profileImage, description) VALUES
 (1, 'Nona', 'Corstiens', 'nona_corstiens', 'nonacorstiens@hotmail.com', '$2y$12$hlx5mBoJJIEcqvc0T8SuTOpW5WG.FPLYVukgAAaAmmZ7hIf4DBrl.', '', ''),
 (2, 'Nona', 'Corstiens', 'test', 'test', '$2y$12$tVcMTZfF/RfmLMjF9lV3MOXGhq.Z1qRjta2c3tfC4eSTssEKcx9Ae', '', ''),
 (3, 'nona', 'corstiens', 'nona_corstiens', 'nonacorstiens@hotmail.com', '$2y$12$zFIG0sJf5wlBmBLVF44HFeSPXHE0qIjVcL4eU1F0fw0rmS/DmCHVe', '', ''),
@@ -188,77 +188,77 @@ INSERT INTO `user` (`id`, `firstName`, `lastName`, `userName`, `email`, `passwor
 --
 
 --
--- Indexes for table `followUser`
+-- Indexes for table followUser
 --
-ALTER TABLE `followUser`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE followUser
+  ADD PRIMARY KEY (id);
 
 --
--- Indexes for table `post`
+-- Indexes for table post
 --
-ALTER TABLE `post`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE post
+  ADD PRIMARY KEY (id);
 
 --
--- Indexes for table `postComment`
+-- Indexes for table postComment
 --
-ALTER TABLE `postComment`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE postComment
+  ADD PRIMARY KEY (id);
 
 --
--- Indexes for table `postLike`
+-- Indexes for table postLike
 --
-ALTER TABLE `postLike`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE postLike
+  ADD PRIMARY KEY (id);
 
 --
--- Indexes for table `reportedPost`
+-- Indexes for table reportedPost
 --
-ALTER TABLE `reportedPost`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE reportedPost
+  ADD PRIMARY KEY (id);
 
 --
--- Indexes for table `user`
+-- Indexes for table user
 --
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`) USING BTREE;
+ALTER TABLE user
+  ADD PRIMARY KEY (id) USING BTREE;
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `followUser`
+-- AUTO_INCREMENT for table followUser
 --
-ALTER TABLE `followUser`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE followUser
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `post`
+-- AUTO_INCREMENT for table post
 --
-ALTER TABLE `post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
+ALTER TABLE post
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
 
 --
--- AUTO_INCREMENT for table `postComment`
+-- AUTO_INCREMENT for table postComment
 --
-ALTER TABLE `postComment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+ALTER TABLE postComment
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT for table `postLike`
+-- AUTO_INCREMENT for table postLike
 --
-ALTER TABLE `postLike`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE postLike
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `reportedPost`
+-- AUTO_INCREMENT for table reportedPost
 --
-ALTER TABLE `reportedPost`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+ALTER TABLE reportedPost
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT for table user
 --
-ALTER TABLE `user`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+ALTER TABLE user
+  MODIFY id int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;

@@ -66,13 +66,39 @@ if (isset($_SESSION['userid'])) {
                             $bool = false;
                         }
 
-                        ?>
-                                        <a href="" id="likeButton<?php echo $item['id']; ?>"><span class='glyphicon glyphicon-heart' style="color:<?php if ($bool == true) {
-                            echo 'red';
-                        } else {
-                            echo 'white';
-                        }?>"></span></span></a>
-                        </div>
+
+    <div class="picture-grid">
+            <?php foreach (array_slice($posts, 0, 20) as $post => $item):
+    ?>
+        <div class="picture-row">
+            <div class="post-div">
+        <h5><?php
+        $timestamp = strtotime($item['uploadDate']);
+        Post::time_ago($timestamp);
+
+        ?></h5>
+                <a class="post_link" href="detailpage.php?id=<?php echo $item['id']; ?>">
+                    <img class="postImage" src="<?php echo $item['imageCrop']; ?>" width="350px">
+                </a>
+                <div class="like-link">
+                <?php
+                //if Like::check->isLiked()
+                $userId = $_SESSION['userid'];
+                $postId = $item['id'];
+                if (Like::liked($postId, $userId) == 'yes') {
+                    $bool = true;
+                } else {
+                    $bool = false;
+                }
+
+                ?>
+                                <a href="" id="likeButton<?php echo $item['id']; ?>"><span class='glyphicon glyphicon-heart' style="color:<?php if ($bool == true) {
+                    echo 'red';
+                } else {
+                    echo 'white';
+                }?>"></span></span></a>
+               
+               
                         <div class="inappropriate-form">
                             <a class="inappropriateLink" id="inappropriateLink<?php echo $item['id']; ?>" href="">Mark as inappropriate</a>
                         </div>
@@ -181,11 +207,14 @@ if (isset($_SESSION['userid'])) {
                 });
                 e.preventDefault();
             });
-            
+
+
+           
         </script>
                     <?php
     endforeach; ?>
         </div>
+
     </div>
 </body>
 </html>

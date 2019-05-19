@@ -46,16 +46,21 @@ if (isset($_SESSION['userid'])) {
         <div class="bar-down"></div>
         <div class="space">
         </div>
-        <div class="picture-grid">
-                <?php foreach (array_slice($posts, 0, 20) as $post => $item):
-        ?>
-            <div class="picture-row">
-                <div class="post-div">
-                    <a class="post_link" href="detailpage.php?id=<?php echo $item['id']; ?>">
-                        <img class="postImage" src="<?php echo $item['imageCrop']; ?>" width="350px">
-                    </a>
-                    <div class="action-form">
-                            <div class="like-link">
+        
+
+    <div class="picture-grid">
+            <?php foreach (array_slice($posts, 0, 20) as $post => $item):?>
+        <div class="picture-row">
+            <div class="post-div">
+                <h5><?php
+                    $timestamp = strtotime($item['uploadDate']);
+                    Post::time_ago($timestamp);
+                ?></h5>
+                <a class="post_link" href="detailpage.php?id=<?php echo $item['id']; ?>">
+                    <img class="postImage" src="<?php echo $item['imageCrop']; ?>" width="350px">
+                </a>
+                <div class="action-form">
+                    <div class="like-link">
                         <?php
                         //if Like::check->isLiked()
                         $userId = $_SESSION['userid'];
@@ -66,69 +71,46 @@ if (isset($_SESSION['userid'])) {
                             $bool = false;
                         }
 
-
-    <div class="picture-grid">
-            <?php foreach (array_slice($posts, 0, 20) as $post => $item):
-    ?>
-        <div class="picture-row">
-            <div class="post-div">
-        <h5><?php
-        $timestamp = strtotime($item['uploadDate']);
-        Post::time_ago($timestamp);
-
-        ?></h5>
-                <a class="post_link" href="detailpage.php?id=<?php echo $item['id']; ?>">
-                    <img class="postImage" src="<?php echo $item['imageCrop']; ?>" width="350px">
-                </a>
-                <div class="like-link">
-                <?php
-                //if Like::check->isLiked()
-                $userId = $_SESSION['userid'];
-                $postId = $item['id'];
-                if (Like::liked($postId, $userId) == 'yes') {
-                    $bool = true;
-                } else {
-                    $bool = false;
-                }
-
-                ?>
-                                <a href="" id="likeButton<?php echo $item['id']; ?>"><span class='glyphicon glyphicon-heart' style="color:<?php if ($bool == true) {
-                    echo 'red';
-                } else {
-                    echo 'white';
-                }?>"></span></span></a>
-               
-               
-                        <div class="inappropriate-form">
-                            <a class="inappropriateLink" id="inappropriateLink<?php echo $item['id']; ?>" href="">Mark as inappropriate</a>
-                        </div>
+                        ?>
+                        <a href="" id="likeButton<?php echo $item['id']; ?>"><span class='glyphicon glyphicon-heart' style="color:<?php
+                            if ($bool == true) {
+                                echo 'red';
+                            } else {
+                                echo 'white';
+                            }?>">
+                        </a>
                     </div>
-                    <div class="post-info">
-                        <form method="post" action="">
-                            <div class="post-form">
-                                <p class="locationName"><?php echo $item['location']; ?></p>
-                                <h3 class="postDescription"><?php echo $item['imageDescription']; ?></h3>
-                                <?php
-                                $comments = Comment::getAll($item['id']);
-                                ?>
-                                <ul id="post_comment_updates<?php echo $item['id']; ?>" class="post-comments-list">
-                                <?php foreach ($comments as $comment):?>
-                                <li><?php echo $comment['comment']; ?></li>
-            <?php endforeach; ?>   
-                                </ul>
-                                <div class="comment-box">
-                                    <input type="text" class="comment-input" placeholder="Say something about this picture" id="postComment<?php echo $item['id']; ?>" name="postComment" />
-                                    <input type="submit" class= "btn btn-default btn-sm" id="btnSubmit<?php echo $item['id']; ?>" name="postComment" value="Comment" />
-                                </div>
-                                
-                            </div>
-
-                        </form>
+                    <div class="inappropriate-form">
+                         <a class="inappropriateLink" id="inappropriateLink<?php echo $item['id']; ?>" href="">Mark as inappropriate</a>
                     </div>
-
+                
                 </div>
+                <div class="post-info">
+                     <form method="post" action="">
+                        <div class="post-form">
+                            <p class="locationName"><?php echo $item['location']; ?></p>
+                            <h3 class="postDescription"><?php echo $item['imageDescription']; ?></h3>                
+                            <?php
+                                $comments = Comment::getAll($item['id']);
+                            ?>
+                            <ul id="post_comment_updates<?php echo $item['id']; ?>" class="post-comments-list">
+                                <?php foreach ($comments as $comment):?>
+                                    <li><?php echo $comment['comment']; ?></li>
+                                <?php endforeach; ?>   
+                            </ul>
+                            <div class="comment-box">
+                                <input type="text" class="comment-input" placeholder="Say something about this picture" id="postComment<?php echo $item['id']; ?>" name="postComment" />
+                                <input type="submit" class= "btn btn-default btn-sm" id="btnSubmit<?php echo $item['id']; ?>" name="postComment" value="Comment" />
+                            </div>
+                                
+                        </div>
+
+                    </form>
             </div>
-        <script
+
+        </div>
+     </div>
+    <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>

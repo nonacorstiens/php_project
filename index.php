@@ -21,6 +21,7 @@ if (isset($_SESSION['userid'])) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://cssgram-cssgram.netdna-ssl.com/cssgram.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 </head>
 <body>
@@ -57,7 +58,9 @@ if (isset($_SESSION['userid'])) {
                     Post::time_ago($timestamp);
                 ?></h5>
                 <a class="post_link" href="detailpage.php?id=<?php echo $item['id']; ?>">
+                <div class="<?php echo $item['filter']; ?>">
                     <img class="postImage" src="<?php echo $item['imageCrop']; ?>" width="350px">
+                    </div>
                 </a>
                 <div class="action-form">
                     <div class="like-link">

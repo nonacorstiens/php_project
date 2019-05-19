@@ -92,13 +92,13 @@ if (isset($_SESSION['userid'])) {
                      <form method="post" action="">
                         <div class="post-form">
                             <p class="locationName"><?php echo $item['location']; ?></p>
-                            <h3 class="postDescription"><?php echo $item['imageDescription']; ?></h3>                
+                            <h3 class="postDescription"><?php echo htmlspecialchars($item['imageDescription']); ?></h3>                
                             <?php
                                 $comments = Comment::getAll($item['id']);
                             ?>
                             <ul id="post_comment_updates<?php echo $item['id']; ?>" class="post-comments-list">
                                 <?php foreach ($comments as $comment):?>
-                                    <li><?php echo $comment['comment']; ?></li>
+                                    <li><?php echo htmlspecialchars($comment['comment']); ?></li>
                                 <?php endforeach; ?>   
                             </ul>
                             <div class="comment-box">

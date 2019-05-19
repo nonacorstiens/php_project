@@ -84,7 +84,7 @@ if (isset($_POST['btnProfilePicture'])) {
 
 
     <main class="main form-container">
-    <h1 class="h2">Profiel bewerken <?php echo $userInfo['firstName']; ?></h1>
+    <h1 class="h2">Profiel bewerken <?php echo htmlspecialchars($userInfo['firstName']); ?></h1>
         <div class="profile">
 
         <?php if (!empty($_SESSION['errors'])) {
@@ -114,7 +114,7 @@ if (isset($_POST['btnProfilePicture'])) {
             <div class="form-group">
 
                 <h3>Description</h3>
-                <p ><?php echo $userInfo['description']; ?></p>
+                <p ><?php echo htmlspecialchars($userInfo['description']); ?></p>
                 
                 <div >
                     <form class="" method="post" name="description" enctype="multipart/form-data">
@@ -129,7 +129,7 @@ if (isset($_POST['btnProfilePicture'])) {
             
             <div class="form-group">
             <h3>Email</h3>
-                <p ><?php echo $userInfo['email']; ?></p>
+                <p ><?php echo htmlspecialchars($userInfo['email']); ?></p>
                 
 
                 <div id="formEditEmail" >

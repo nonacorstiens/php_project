@@ -287,4 +287,38 @@
 
             return $this;
         }
+
+        public static function time_ago($time)
+        {
+            $out = ''; // what we will print out
+            $now = time(); // current time
+            $diff = $now - $time; // difference between the current and the provided dates
+
+        if ($diff < 60) { // it happened now
+            echo 'Posted just now';
+        } elseif ($diff < 3600) { // it happened X minutes ago
+            $out = round($diff / 60);
+            if ($out == 1) {
+                echo 'Posted '.$out.' minute ago';
+            } else {
+                echo 'Posted '.$out.' minutes ago';
+            }
+        } elseif ($diff < 3600 * 24) { // it happened X hours ago
+            $out = round($diff / 3600);
+            if ($out == 1) {
+                echo 'Posted '.$out.' hour ago';
+            } else {
+                echo 'Posted '.$out.' hours ago';
+            }
+        } elseif ($diff < 3600 * 24 * 2) { // it happened yesterday
+            echo 'Posted yesterday';
+        } elseif ($diff > 3600 * 24 * 2 && $diff < 3600 * 24 * 7) {
+            $out = round($diff / (3600 * 24));
+            echo 'Posted '.$out.' days ago';
+        } elseif ($diff > 3600 * 24 * 7 && $diff < 3600 * 24 * 14) {
+            echo 'Posted more than a week ago';
+        } else {
+            echo 'Posted on '.gmdate('Y-m-d H:i:s', $time);
+        }
+        }
     }

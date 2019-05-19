@@ -52,6 +52,11 @@ if (isset($_SESSION['userid'])) {
     ?>
         <div class="picture-row">
             <div class="post-div">
+        <h5><?php
+        $timestamp = strtotime($item['uploadDate']);
+        Post::time_ago($timestamp);
+
+        ?></h5>
                 <a class="post_link" href="detailpage.php?id=<?php echo $item['id']; ?>">
                     <img class="postImage" src="<?php echo $item['imageCrop']; ?>" width="350px">
                 </a>

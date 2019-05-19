@@ -9,6 +9,7 @@ if (isset($_SESSION['userid'])) {
             $post = new Post();
             $post->setImageDescription($_POST['imageDescription']);
             $post->setLocation($_POST['location']);
+            $post->setFilter($_POST['filters']);
             $im = $post->uploadImage($_FILES['image']);
             $post->setImage($im);
             $post->setUserId($_SESSION['userid']);
@@ -70,6 +71,16 @@ if (isset($_SESSION['userid'])) {
                 <div class="form-group">
                     <label for="image"></label>
                     <input type="file" name="image" id="exampleInputFile" class="form-control">
+                </div>
+                <div>
+                    <select name="filters">
+                    <?php
+                                $filters = Post::getAllFilters();
+                            ?>
+                        <?php foreach ($filters as $filter):?>
+                                    <option value="<?php echo $filter['name']; ?>"><?php echo $filter['displayName']; ?></option>
+                                <?php endforeach; ?> 
+                    </select>
                 </div>
                 <label for="imageDescription"></label>
                 <textarea type="text" class="form-control" rows="5" name="imageDescription" id="uploadDescription" placeholder="Say something about this image"></textarea>

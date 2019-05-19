@@ -6,6 +6,7 @@
         private $imageCrop;
         private $userId;
         private $location;
+        private $filter;
 
         public function getImageDescription()
         {
@@ -81,6 +82,26 @@
             return $this;
         }
 
+        /**
+         * Get the value of filter.
+         */
+        public function getFilter()
+        {
+            return $this->filter;
+        }
+
+        /**
+         * Set the value of filter.
+         *
+         * @return self
+         */
+        public function setFilter($filter)
+        {
+            $this->filter = $filter;
+
+            return $this;
+        }
+
         public function uploadImage($imageFile)
         {
             try {
@@ -124,12 +145,13 @@
         {
             if (!empty($this->image && $this->imageDescription)) {
                 $conn = Db::getInstance();
-                $statement = $conn->prepare('INSERT INTO post(imageName,imageDescription, imageCrop, userId, location) values(:image, :imageDescription, :imageCrop, :userId, :location)');
+                $statement = $conn->prepare('INSERT INTO post(imageName,imageDescription, imageCrop, userId, location, filter) values(:image, :imageDescription, :imageCrop, :userId, :location, :filter)');
                 $statement->bindParam(':image', $this->image);
                 $statement->bindParam(':imageCrop', $this->imageCrop);
                 $statement->bindParam(':imageDescription', $this->imageDescription);
                 $statement->bindParam(':userId', $this->userId);
                 $statement->bindParam(':location', $this->location);
+                $statement->bindParam(':filter', $this->filter);
                 $result = $statement->execute();
 
                 return true;
@@ -286,6 +308,17 @@
             $this->location = $location;
 
             return $this;
+        }
+
+        public static function getAllFilters()
+        {
+            $conn = Db::getInstance();
+            $statement = $conn->prepare('select * from filter');
+            $result = $statement->execute();
+
+            // fetch all records from the database and return them as objects of this __CLASS__ (Post)
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+            var_dump($result);
         }
 
         public static function time_ago($time)

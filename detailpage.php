@@ -34,7 +34,10 @@ $comments = Comment::getAll($id);
              </form>
     </nav>
     <div class="detail-grid">
+    <div class="<?php echo $post['filter']; ?>">
+    <?php echo $post['filter']; ?>
         <img id="post-image" class="postImage" src="<?php echo $post['imageName']; ?>">
+</div>
         <div class="post-info" id="detail-post-info">
             <div class="action-form">
             <div class="like-link">
@@ -63,13 +66,13 @@ $comments = Comment::getAll($id);
             </div>
             <form class="detail-post-form" method="post" action="">
                 <div class="post-form">
-                    <h3 class="postDescription"><?php echo $post['imageDescription']; ?></h3>
+                    <h3 class="postDescription"><?php echo htmlspecialchars($post['imageDescription']); ?></h3>
                     <?php
                     $comments = Comment::getAll($post['id']);
                     ?>
                     <ul id="post_comment_updates<?php echo $post['id']; ?>" class="post-comments-list">
                     <?php foreach ($comments as $comment):?>
-                    <li><?php echo $comment['comment']; ?></li>
+                    <li><?php echo htmlspecialchars($comment['comment']); ?></li>
                 <?php endforeach; ?>   
                     </ul>
                     <div class="comment-box">

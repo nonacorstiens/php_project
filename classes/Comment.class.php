@@ -79,7 +79,7 @@ class Comment
 
     public function uploadComment()
     {
-        $conn = new PDO('mysql:host=localhost;dbname=PHPotato;charset=utf8mb4', 'root', 'root');
+        $conn = Db::getInstance();
         $statement = $conn->prepare('insert into postComment(comment, imageId, userId) values(:description, :imageId, :userId)');
         $statement->bindValue(':description', $this->getDescription());
         $statement->bindValue(':userId', $this->getUserId());

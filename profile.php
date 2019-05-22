@@ -76,12 +76,37 @@ if (isset($_POST['btnProfilePicture'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://cssgram-cssgram.netdna-ssl.com/cssgram.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <title>PHPotato</title>
 </head>
 <body class="hero_container">
 
+<div class="index-container"> 
+        <nav class="nav">
+            <a href="index.php" class="nav-logo"><h2>GRAFFITIC</h2></a>
+            <div class="profile-link">
+                 <p class="profile-name"><?php echo 'Hi, '.$_SESSION['username']; ?></p>
+                 <a href="profile.php" class="profile-icon"><span class="glyphicon glyphicon-user"></span></a>  
+            </div>
+            <a href="logout.php" class="logout-link">logout</a>
+    
+        </nav>
+        <form action="" method="post" class="form-search">
+            <div class="form-search-container">  
+            <div class="back-link">
+                        <a href="index.php"><span class="glyphicon glyphicon-arrow-left"></span></a> 
+                    </div>
+            </div>
+        </form>
+        <div class="upload-link">
+             <a href="uploadpage.php"><span class="glyphicon glyphicon-camera"></span></a>
+        </div>
+        <div class="bar-down"></div>
+        <div class="space">
+        </div>
 
     <main class="main form-container">
     <h1 class="h2">Profiel bewerken <?php echo htmlspecialchars($userInfo['firstName']); ?></h1>

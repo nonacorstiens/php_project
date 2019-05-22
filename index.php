@@ -27,7 +27,7 @@ if (isset($_SESSION['userid'])) {
 <body>
     <div class="index-container"> 
         <nav class="nav">
-            <a class="nav-logo"><h2>GRAFFITIC</h2></a>
+            <a href="index.php" class="nav-logo"><h2>GRAFFITIC</h2></a>
             <div class="profile-link">
                  <p class="profile-name"><?php echo 'Hi, '.$_SESSION['username']; ?></p>
                  <a href="profile.php" class="profile-icon"><span class="glyphicon glyphicon-user"></span></a>  

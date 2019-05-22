@@ -124,13 +124,13 @@ if (isset($_POST['btnProfilePicture'])) {
 }?>
             <div class="form-group">
                 <h3>Profile Picture</h3>
-                <img src="<?php echo $userInfo['profileImage']; ?>" alt="Profile Picture" >
+                <img src="<?php echo $userInfo['profileImage']; ?>" alt="Profile Picture" id="profile_image" >
                 <form class="" action="" method="POST" enctype="multipart/form-data">
         <p class="errorMessage"><?php echo $result; ?></p>
         <input type="file" name="image" >
         <br/>
         
-        <input type="submit" name="btnProfilePicture"  value="upload" class="btn btn-default">
+        <input type="submit" name="btnProfilePicture"  value="upload" class="btn btn-default btn-sm">
     </form>
 
                 
@@ -145,7 +145,7 @@ if (isset($_POST['btnProfilePicture'])) {
                     <form class="" method="post" name="description" enctype="multipart/form-data">
                     <textarea type="text" class="form-control" rows="5" name="description" id="uploadDescription" placeholder="Say something about yourself"></textarea>
                        
-                        <input class="btn btn-default" type="submit" name="btnDescription" value="Wijzig">
+                        <input type="submit" name="btnDescription" value="Wijzig" class="btn btn-default btn-sm">
 
                     </form>
                 </div>
@@ -160,7 +160,7 @@ if (isset($_POST['btnProfilePicture'])) {
                 <div id="formEditEmail" >
                     <form method="post" name="emailChange">
                         <input class="form-control" type="text" name="email" value="<?php echo $userInfo['email']; ?>"><br>
-                        <input class="btn btn-default" type="submit" name="btnEmail" value="Wijzig">
+                        <input  type="submit" name="btnEmail" value="Wijzig" class="btn btn-default btn-sm">
 
                     </form>
                 </div>
@@ -180,7 +180,7 @@ if (isset($_POST['btnProfilePicture'])) {
 
                         <label for="password" >Bevestig nieuw wachtwoord</label><br>
                         <input class="form-control" type="password" name="passwordConfirmation" ><br>
-                        <input class="btn-default btn" type="submit" name="btnPassword" value="Wijzig">
+                        <input type="submit" name="btnPassword" value="Wijzig" class="btn btn-default btn-sm">
                     </form>
                 </div>
                 

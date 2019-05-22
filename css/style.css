@@ -438,6 +438,10 @@ p.inappropriateLink:hover{
     width: 100%;
 }
 
+#profile_image{
+    width: 300px;
+}
+
 @media(min-width: 1024px){
 
     .hero_container{
@@ -502,6 +506,15 @@ p.inappropriateLink:hover{
 
     .form-search{
         padding: 0 30em;
+    }
+
+    .hero_container{
+        height: 100%;
+        background-size: 1700px;
+    }
+
+    .form-container{
+        margin-bottom: 10em;
     }
 }
 

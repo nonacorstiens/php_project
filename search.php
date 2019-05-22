@@ -13,6 +13,7 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://cssgram-cssgram.netdna-ssl.com/cssgram.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <title>Search</title>
 </head>
@@ -45,12 +46,15 @@ session_start();
             <div class="picture-row">
                 <div class="post-div">
                 <a class="post_link" href="detailpage.php?id=<?php echo $result['id']; ?>">
+                <div class="<?php echo $result['filter']; ?>">
                     <img class="postImage" src="<?php echo $result['imageCrop']; ?>" width="350px">
+                    </div>
                 </a>
                 <div class="action-form">
                 <div class="like-link">
                         <?php
                         //if Like::check->isLiked()
+
                         $userId = $_SESSION['userid'];
                         $postId = $result['id'];
                         if (Like::liked($postId, $userId) == 'yes') {
@@ -75,13 +79,13 @@ session_start();
                 <div class="post-info">
                     <form method="post" action="">
                         <div class="post-form">
-                            <h3 class="postDescription"><?php echo $result['imageDescription']; ?></h3>
+                            <h3 class="postDescription"><?php echo htmlspecialchars($result['imageDescription']); ?></h3>
                             <?php
                             $comments = Comment::getAll($result['id']);
                             ?>
                             <ul id="post_comment_updates<?php echo $result['id']; ?>" class="post-comments-list">
                             <?php foreach ($comments as $comment):?>
-                            <li><?php echo $comment['comment']; ?></li>
+                            <li><?php echo htmlspecialchars($comment['comment']); ?></li>
         <?php endforeach; ?>   
                             </ul>
                             <div class="comment-box">

@@ -14,6 +14,7 @@ $comments = Comment::getAll($id);
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://cssgram-cssgram.netdna-ssl.com/cssgram.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <title>Detailpage</title>
 </head>
@@ -34,23 +35,45 @@ $comments = Comment::getAll($id);
              </form>
     </nav>
     <div class="detail-grid">
+    <div class="<?php echo $post['filter']; ?>">
+    <?php echo $post['filter']; ?>
         <img id="post-image" class="postImage" src="<?php echo $post['imageName']; ?>">
+</div>
         <div class="post-info" id="detail-post-info">
             <div class="action-form">
-                <a id="like-heart"><span class="glyphicon glyphicon-heart"></span></a>
+            <div class="like-link">
+                        <?php
+                        //if Like::check->isLiked()
+                        $userId = $_SESSION['userid'];
+                        $postId = $post['id'];
+                        if (Like::liked($postId, $userId) == 'yes') {
+                            $bool = true;
+                        } else {
+                            $bool = false;
+                        }
+
+                        ?>
+                        <a href="" id="likeButton<?php echo $post['id']; ?>"><span class='glyphicon glyphicon-heart' style="color:<?php
+                            if ($bool == true) {
+                                echo 'red';
+                            } else {
+                                echo 'white';
+                            }?>">
+                        </a>
+                    </div>
                 <div class="inappropriate-form">
                     <a class="inappropriateLink" id="inappropriateLink<?php echo $post['id']; ?>" href="">Mark as inappropriate</a>
                 </div>
             </div>
             <form class="detail-post-form" method="post" action="">
                 <div class="post-form">
-                    <h3 class="postDescription"><?php echo $post['imageDescription']; ?></h3>
+                    <h3 class="postDescription"><?php echo htmlspecialchars($post['imageDescription']); ?></h3>
                     <?php
                     $comments = Comment::getAll($post['id']);
                     ?>
                     <ul id="post_comment_updates<?php echo $post['id']; ?>" class="post-comments-list">
                     <?php foreach ($comments as $comment):?>
-                    <li><?php echo $comment['comment']; ?></li>
+                    <li><?php echo htmlspecialchars($comment['comment']); ?></li>
                 <?php endforeach; ?>   
                     </ul>
                     <div class="comment-box">
@@ -112,6 +135,35 @@ $comments = Comment::getAll($id);
                     });
                     e.preventDefault();
                 });
+
+                $("#likeButton<?php echo $post['id']; ?>").on("click", function(e){
+            var postId = '<?php echo $post['id']; ?>';
+            var button = $(this);
+            var heart = ''
+
+            //AJAX call maken adhv POST request naar bestand in ajax map
+                $.ajax({
+                    method: "POST", // HOE
+                    url: "ajax/likepost.php", // NAAR WAAR
+                    data: {postId: postId}, // WAT -> geen user-id -> wordt uit session gehaald -> gevaarlijk om in client side code te steken
+                    dataType: "json"
+                })
+                .done(function( res ){
+                    if(res.status === "like"){
+                        
+                        $("#likeButton<?php echo $post['id']; ?>").html("<span class='glyphicon glyphicon-heart' style="+'"'+'color:red'+'"'+"></span>");
+                        
+                } else if(res.status="unlike"){
+                    $("#likeButton<?php echo $post['id']; ?>").html("<span class='glyphicon glyphicon-heart' ></span>");
+                       
+                }
+
+                
+                
+                });
+                e.preventDefault();
+            });
+
             
         </script>
     

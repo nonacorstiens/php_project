@@ -37,7 +37,26 @@ $comments = Comment::getAll($id);
         <img id="post-image" class="postImage" src="<?php echo $post['imageName']; ?>">
         <div class="post-info" id="detail-post-info">
             <div class="action-form">
-                <a id="like-heart"><span class="glyphicon glyphicon-heart"></span></a>
+            <div class="like-link">
+                        <?php
+                        //if Like::check->isLiked()
+                        $userId = $_SESSION['userid'];
+                        $postId = $post['id'];
+                        if (Like::liked($postId, $userId) == 'yes') {
+                            $bool = true;
+                        } else {
+                            $bool = false;
+                        }
+
+                        ?>
+                        <a href="" id="likeButton<?php echo $post['id']; ?>"><span class='glyphicon glyphicon-heart' style="color:<?php
+                            if ($bool == true) {
+                                echo 'red';
+                            } else {
+                                echo 'white';
+                            }?>">
+                        </a>
+                    </div>
                 <div class="inappropriate-form">
                     <a class="inappropriateLink" id="inappropriateLink<?php echo $post['id']; ?>" href="">Mark as inappropriate</a>
                 </div>
@@ -112,6 +131,35 @@ $comments = Comment::getAll($id);
                     });
                     e.preventDefault();
                 });
+
+                $("#likeButton<?php echo $post['id']; ?>").on("click", function(e){
+            var postId = '<?php echo $post['id']; ?>';
+            var button = $(this);
+            var heart = ''
+
+            //AJAX call maken adhv POST request naar bestand in ajax map
+                $.ajax({
+                    method: "POST", // HOE
+                    url: "ajax/likepost.php", // NAAR WAAR
+                    data: {postId: postId}, // WAT -> geen user-id -> wordt uit session gehaald -> gevaarlijk om in client side code te steken
+                    dataType: "json"
+                })
+                .done(function( res ){
+                    if(res.status === "like"){
+                        
+                        $("#likeButton<?php echo $post['id']; ?>").html("<span class='glyphicon glyphicon-heart' style="+'"'+'color:red'+'"'+"></span>");
+                        
+                } else if(res.status="unlike"){
+                    $("#likeButton<?php echo $post['id']; ?>").html("<span class='glyphicon glyphicon-heart' ></span>");
+                       
+                }
+
+                
+                
+                });
+                e.preventDefault();
+            });
+
             
         </script>
     
